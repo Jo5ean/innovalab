@@ -1,0 +1,28 @@
+# Usa una imagen base de Node.js
+FROM node:lts
+
+# Instalar pnpm
+RUN npm install -g pnpm
+
+# Establece el directorio de trabajo en /usr/src/app
+WORKDIR /usr/src/app
+
+# Copia solo los archivos de package.json y package-lock.json para cachear las dependencias
+COPY package*.json ./
+COPY pnpm-lock.yaml ./
+
+# Instala las dependencias
+RUN pnpm i
+
+# Copia el resto del código fuente (el resto del proyecto)
+COPY . .
+
+# Establece la variable de entorno para el puerto
+ENV PORT=80
+ENV NODE_ENV=development
+
+# Expone el puerto 80
+EXPOSE 80
+
+# Comando para ejecutar la aplicación en modo desarrollo
+CMD ["pnpm", "run", "start"]

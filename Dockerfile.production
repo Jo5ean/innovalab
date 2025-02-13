@@ -1,0 +1,60 @@
+# Usa una imagen base de Node.js
+FROM node:lts
+
+# Instalar pnpm
+RUN npm install -g pnpm
+
+# Establece el directorio de trabajo en /usr/src/app
+WORKDIR /usr/src/app
+
+# Copia solo los archivos de package.json y package-lock.json para cachear las dependencias
+COPY package*.json ./
+COPY pnpm-lock.yaml ./
+
+# Instala las dependencias
+# RUN npm cache clean --force && rm -rf node_modules package-lock.json && npm install
+RUN pnpm i
+
+# Copia los archivos del proyecto
+COPY . .
+
+# Establece la variable de entorno para el puerto
+ENV PORT=80
+ENV NODE_ENV=production
+
+RUN pnpm run build
+
+# Deshabilitar la barra de herramientas de desarrollo de Astro
+RUN npx astro preferences disable --global devToolbar
+# Expone el puerto 80
+EXPOSE 80
+
+# Comando para ejecutar la aplicación Astro
+CMD ["pnpm", "run", "start"]
+
+
+# FROM node:lts AS base
+# WORKDIR /app
+
+# # By copying only the package.json and package-lock.json here, we ensure that the following `-deps` steps are independent of the source code.
+# # Therefore, the `-deps` steps will be skipped if only the source code changes.
+# COPY package.json package-lock.json ./
+
+# FROM base AS prod-deps
+# RUN npm install --omit=dev
+
+# FROM base AS build-deps
+# RUN npm install
+
+# FROM build-deps AS build
+# COPY . .
+# RUN npm run build
+
+# FROM base AS runtime
+# COPY --from=prod-deps /app/node_modules ./node_modules
+# COPY --from=build /app/dist ./dist
+
+# ENV HOST=0.0.0.0
+# ENV PORT=80
+# EXPOSE 80
+# CMD node ./dist/server/entry.mjs
