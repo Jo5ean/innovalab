@@ -1,22 +1,138 @@
+---
+interface Props {
+	image?: string;
+}
+
+const { description, image: imageConfig } = config;
+const {  image = imageConfig } = Astro.props;
+
+import config from "@/config/config";
+import Header from "./partials/Header.astro";
+
+const { pathname } = Astro.url;
+const url = Astro.url.toString().replace("http://", "https://");
+const canonicalURL = new URL(pathname, url);
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+		/>
+		<title>{config.title}</title>
+
+		<meta charset="UTF-8" />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+		<meta
+			name="viewport"
+			content="width=device-width,initial-scale=1,shrink-to-fit=no"
+		/>
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+
+		<meta name="theme-color" content={config.theme_color} />
+		<meta name="keywords" content={config.keywords} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:site" content={config.author} />
+		<meta name="twitter:creator" content={config.author} />
+		<meta name="twitter:title" content={config.title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={new URL(image, url)} />
+
+		<meta name="og:image" content={new URL(image, url)} />
+		<meta name="og:title" content={config.title} />
+		<meta name="og:description" content={description} />
+		<meta name="og:url" content={url} />
+		<meta name="og:site_name" content={config.site_name} />
+		<meta name="og:type" content="website" />
+		<meta name="og:locale" content="es_ES" />
+
+		<meta itemprop="image" content={new URL(image, url)} />
+
+		<meta name="robots" content="index, follow" />
+		<meta name="googlebot" content="index, follow" />
+
+		<meta name="msapplication-config" content="/browserconfig.xml" />
+
+		<link rel="manifest" href="/manifest.webmanifest" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+			rel="stylesheet"
+		/>
+		{config.IS_PRODUCTION && <></>}
 	</head>
-	<body>
-		<slot />
+	<body class="max-w-full overflow-x-hidden font-body">
+		<Header />
+		<main class="flex flex-col items-stretch justify-between">
+			<slot />
+		</main>
+		<script>
+			let currentSection = 0;
+			function isMobile() {
+				return window.innerWidth < 1024;
+			}
+			const sections = document.querySelectorAll('section') as NodeListOf<HTMLElement>;
+			
+			const updateSection = () => {
+				if (!isMobile()) {
+					let isScrolling = false;
+					currentSection=0;
+					sections[0].scrollIntoView({ behavior: 'smooth' });
+
+					function scrollToSection(index:number) {
+						if (isScrolling) return;
+						isScrolling = true;
+						currentSection = index;
+						if(!sections[index]) return;
+						sections[index].scrollIntoView({ behavior: 'smooth' });
+						setTimeout(() => {
+							isScrolling = false;
+						}, 500);
+					}
+
+					window.addEventListener('wheel', (e) => {
+						e.preventDefault();
+						if (isScrolling) return;
+
+						const delta = e.deltaY;
+						const direction = delta > 0 ? 1 : -1;
+
+						if ((direction > 0 && currentSection < sections.length - 1) || (direction < 0 && currentSection > 0)) {
+							scrollToSection(currentSection + direction);
+						}
+					}, { passive: false });
+				}
+			}
+			document.addEventListener('DOMContentLoaded', () => {
+				updateSection();
+					
+				window.addEventListener('resize', () => {
+					updateSection();
+				});
+			});
+		  </script>
 	</body>
 </html>
+<style is:global>
+	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+	:root {
+		font-family: "Montserrat", sans-serif;
+	}
+
+	html, body {
+		scroll-behavior: smooth;
+	}
+	.snap-start {
+		@apply transition-opacity duration-500;
 	}
 </style>

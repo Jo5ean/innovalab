@@ -1,0 +1,41 @@
+---
+import { steps } from "@/enum/data";
+---
+
+<section
+    class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-center md:min-h-screen gap-y-10"
+>
+    <h2 class="text-5xl md:text-6xl">
+        How <b class="font-bold italic">it works.</b>
+    </h2>
+    <p class="text-xl md:text-2xl">
+        Influencer Funds simplifies mass payments to influencers and agencies
+        with a platform that's easy for both you and your vendors.
+    </p>
+    <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-start gap-x-5"
+    >
+        {
+            steps.map((item, index) => (
+                <div class="flex flex-col items-start justify-start gap-y-5 w-full">
+                    <div class="flex flex-row items-center justify-center w-full h-full">
+                        <div class="w-36 h-24 bg-primary text-white flex flex-col items-start justify-center text-7xl font-bold px-6 rounded-tl-3xl rounded-tr-3xl">
+                            {index + 1}
+                        </div>
+                        <img
+                            class="w-52 h-52 -ml-20"
+                            src={item.image}
+                            alt={item.title}
+                        />
+                    </div>
+                    <div class="w-full">
+                        <h5 class="text-base md:text-lg font-bold italic">
+                            {item.title}
+                        </h5>
+                        <p class="text-sm md:text-base">{item.description}</p>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</section>

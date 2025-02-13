@@ -1,0 +1,111 @@
+---
+import { cards } from "@/enum/data";
+---
+
+<section
+    class="snap-start flex flex-col items-start md:items-stretch justify-center md:min-h-screen gap-y-10 my-40 md:my-0"
+>
+    <h2 class="text-5xl md:text-6xl w-full md:container mx-auto px-10 md:px-24">
+        Reduce your financial workload <b class="font-bold">And stress.</b>
+    </h2>
+    <div class="relative w-full px-5 md:px-16 max-w-full">
+        <!-- Carousel container -->
+        <div class="overflow-hidden">
+            <div
+                id="carousel-content"
+                class="flex transition-transform duration-300 ease-in-out h-full"
+            >
+                {
+                    cards.map((item) => {
+                        const titleComplete = item.title.split("|");
+                        const title =
+                            titleComplete.length > 0
+                                ? titleComplete[0]
+                                : item.title;
+                        const subtitle =
+                            titleComplete.length > 1 ? titleComplete[1] : null;
+                        return (
+                            <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 h-full">
+                                <div class="card flex flex-col items-start justify-start px-5 py-8 bg-gradient-to-tr from-secondary to-primary text-black rounded-tl-3xl rounded-br-3xl border w-full h-full gap-y-5">
+                                    <div class="flex flex-row gap-x-1 max-w-full items-stretch justify-between w-full">
+                                        <h3 class="text-xl italic">
+                                            <b>{title}</b> {subtitle}
+                                        </h3>
+                                        <img
+                                            class="w-12 h-12 flex-shrink-0"
+                                            src={item.image}
+                                            alt={item.title}
+                                        />
+                                    </div>
+                                    <p class="text-lg flex-grow">
+                                        {item.description}
+                                    </p>
+                                </div>
+                            </div>
+                        );
+                    })
+                }
+            </div>
+        </div>
+
+        <!-- Navigation buttons -->
+        <button
+            id="prevBtn"
+            class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 19l-7-7 7-7"></path>
+            </svg>
+        </button>
+        <button
+            id="nextBtn"
+            class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 p-2 rounded-full shadow-lg"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"></path>
+            </svg>
+        </button>
+    </div>
+</section>
+
+<script>
+    import { initCarrousel } from "@/utils/helpers";
+
+    const carousel = document.getElementById("carousel-content") as HTMLElement;
+    const prevBtn = document.getElementById("prevBtn") as HTMLElement;
+    const nextBtn = document.getElementById("nextBtn") as HTMLElement;
+    let currentIndex = 0;
+    const rows = { fullhd: 4, hd: 3, tablet: 2, mobile: 1 };
+    currentIndex = initCarrousel({
+        carousel,
+        prevBtn,
+        nextBtn,
+        currentIndex,
+        rows,
+    });
+</script>
+<style>
+    .card {
+        box-shadow: 8px 8px 1px #000000;
+    }
+</style>
