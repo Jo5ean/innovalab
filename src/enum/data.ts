@@ -9,7 +9,7 @@ export const cards = [{
     title: 'Vendor|dashboard',
     image: '/images/icons/0010.webp',
     description: `Self-serve onboarding
-    Generate invoices rack payment status in real-time`
+    Generate invoices track payment status in real-time`
 },
 {
     title: 'Instant payment|advances',
