@@ -13,7 +13,7 @@ import { cards } from "@/enum/data";
         <div class="overflow-hidden">
             <div
                 id="carousel-content"
-                class="flex transition-transform duration-300 ease-in-out h-full"
+                class="flex transition-transform duration-300 ease-in-out h-full mt-10"
             >
                 {
                     cards.map((item) => {
@@ -27,15 +27,15 @@ import { cards } from "@/enum/data";
                         return (
                             <div class="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 xl:w-1/4 p-4 h-full">
                                 <div class="card flex flex-col items-start justify-start px-5 py-8 bg-gradient-to-tr from-secondary to-primary text-black rounded-tl-3xl rounded-br-3xl border w-full h-full gap-y-5">
-                                    <div class="flex flex-row gap-x-1 max-w-full items-stretch justify-between w-full">
-                                        <h3 class="text-xl italic">
-                                            <b>{title}</b> {subtitle}
-                                        </h3>
+                                    <div class="flex flex-col gap-x-1 max-w-full items-stretch justify-between w-full">
                                         <img
-                                            class="w-12 h-12 flex-shrink-0"
+                                            class="w-28 h-28 object-contain mx-auto -mt-16"
                                             src={item.image}
                                             alt={item.title}
                                         />
+                                        <h3 class="text-xl italic">
+                                            <b>{title}</b> {subtitle}
+                                        </h3>
                                     </div>
                                     <p class="text-lg flex-grow">
                                         {item.description}
