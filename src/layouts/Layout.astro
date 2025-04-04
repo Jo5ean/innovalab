@@ -151,12 +151,13 @@ const canonicalURL = new URL(pathname, url);
 				});
 			});
 		</script>
-		<script is:inline src="https://unpkg.com/split-type"></script>
-		<script is:inline>
+		<script>
+			import SplitType from 'split-type'
 			document.addEventListener('DOMContentLoaded', () => {
 				// Configurar animación de texto letra por letra
+
 				document.querySelectorAll('.split-text').forEach(element => {
-					new SplitType(element, { types: 'chars' });
+					new SplitType(element as HTMLElement, { types: 'chars' });
 				});
 				
 				// Crear observer para animar elementos al verlos
@@ -189,87 +190,6 @@ const canonicalURL = new URL(pathname, url);
 				document.querySelectorAll('.split-text, .fade-in').forEach(el => {
 					observer.observe(el);
 				});
-			});
-		</script>
-		<script is:inline>
-			// Función para animar contadores numéricos
-			function animateCounters() {
-				const counterElements = document.querySelectorAll('.counter-value');
-				
-				counterElements.forEach(el => {
-					// Obtener el texto original
-					const originalText = el.textContent;
-					
-					// Extraer prefijo (caracteres no numéricos al inicio)
-					let prefixMatch = originalText.match(/^[^\d]*/);
-					let prefix = prefixMatch ? prefixMatch[0] : '';
-					
-					// Obtener la parte numérica y el sufijo
-					let valueWithSuffix = originalText.substring(prefix.length);
-					let suffixMatch = valueWithSuffix.match(/[^\d.,]+$/);
-					let suffix = suffixMatch ? suffixMatch[0] : '';
-					
-					// Obtener solo el número limpio
-					let cleanNumber = valueWithSuffix.replace(suffix, '').replace(/,/g, '');
-					let targetNumber = parseFloat(cleanNumber);
-					
-					// Crear una copia para la animación
-					const originalSpan = document.createElement('span');
-					originalSpan.className = 'count-number-original';
-					originalSpan.style.display = 'none';
-					originalSpan.textContent = originalText;
-					
-					const animatedSpan = document.createElement('span');
-					animatedSpan.className = 'count-number-animated';
-					
-					// Reemplazar el contenido
-					el.textContent = '';
-					el.appendChild(originalSpan);
-					el.appendChild(animatedSpan);
-					
-					// Crear observador
-					const observer = new IntersectionObserver((entries) => {
-						if (entries[0].isIntersecting) {
-							let currentNumber = 0;
-							const duration = 2000;
-							const steps = 60;
-							const increment = targetNumber / steps;
-							const interval = duration / steps;
-							
-							function count() {
-								currentNumber += increment;
-								if (currentNumber >= targetNumber) {
-									el.textContent = originalText; // Restaurar texto original al finalizar
-									return;
-								}
-								
-								// Formatear número
-								let formattedNumber;
-								if (targetNumber > 999) {
-									formattedNumber = Math.floor(currentNumber).toLocaleString();
-								} else {
-									formattedNumber = Math.floor(currentNumber);
-								}
-								
-								// Combinar todo correctamente
-								animatedSpan.textContent = prefix + formattedNumber + suffix;
-								setTimeout(count, interval);
-							}
-							
-							// Iniciar conteo
-							count();
-							observer.disconnect();
-						}
-					}, { threshold: 0.2 });
-					
-					observer.observe(el);
-				});
-			}
-			
-			// Ejecutar cuando el DOM esté listo
-			document.addEventListener('DOMContentLoaded', () => {
-				// ... código existente ...
-				animateCounters();
 			});
 		</script>
 		<script is:inline>

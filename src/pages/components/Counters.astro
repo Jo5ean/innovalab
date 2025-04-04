@@ -4,17 +4,39 @@
     <h2
         class="text-5xl md:text-6xl font-extralight italic mt-32 md:mt-0 leading-tight md:leading-snug w-full split-text"
     >
-        <font class="block md:inline">
-            <b class="font-extrabold counter-value">$38M</b> in payments /
+        <font class="flex gap-y-2 gap-x-1 content">
+            <b class="font-extrabold">$38M</b>
+            <div class="counter-description">in payments /</div>
         </font>
-        <font class="block md:inline">
-            <b class="font-extrabold counter-value">4,660+</b> vendors /
+        <font class="flex flex-col md:flex-row gap-y-2 gap-x-1">
+            <b class="font-extrabold">4,660+</b>
+            <div class="counter-description">vendors /</div>
         </font>
-        <font class="block md:inline">
-            <b class="font-extrabold counter-value">20+</b> currencies /
+        <font class="flex flex-col md:flex-row gap-y-2 gap-x-1">
+            <b class="font-extrabold">20+</b>
+            <div class="counter-description">currencies /</div>
         </font>
-        <font class="block md:inline">
-            <b class="font-extrabold counter-value">20+</b> Countries
+        <font class="flex flex-col md:flex-row gap-y-2 gap-x-1">
+            <b class="font-extrabold">20+</b>
+            <div class="counter-description">Countries</div>
         </font>
     </h2>
 </section>
+
+<style>
+    @media (max-width: 768px) {
+        .content {
+            flex-direction: column!important;
+        }
+        .counter-description {
+            display: block !important;
+        }
+    }
+    .content {
+        flex-direction: row;
+    }
+
+    .counter-description {
+        display: inline-block;
+    }
+</style>
