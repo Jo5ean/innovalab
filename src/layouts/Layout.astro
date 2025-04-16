@@ -12,6 +12,7 @@ import Header from "./partials/Header.astro";
 const { pathname } = Astro.url;
 const url = Astro.url.toString().replace("http://", "https://");
 const canonicalURL = new URL(pathname, url);
+const isContactPage = pathname === "/contact" || pathname === "/contact/";
 ---
 
 <!doctype html>
@@ -116,116 +117,119 @@ const canonicalURL = new URL(pathname, url);
 		<main class="flex flex-col items-stretch justify-between">
 			<slot />
 		</main>
-		<script>
-			let currentSection = 0;
-			let isScrolling = false;
-			let lastScrollTime = 0;
-			
-			function isMobile() {
-				return window.innerWidth < 1024;
-			}
-			
-			const sections = document.querySelectorAll('section') as NodeListOf<HTMLElement>;
-			
-			function scrollToSection(index: number) {
-				if (isScrolling) return;
+		<script define:vars={{ isContactPage }}>
+			if (!isContactPage) {
+				let currentSection = 0;
+				let isScrolling = false;
+				let lastScrollTime = 0;
 				
-				// Asegurarse de que el índice está dentro del rango
-				if (index < 0) index = 0;
-				if (index >= sections.length) index = sections.length - 1;
-				
-				isScrolling = true;
-				currentSection = index;
-				
-				if (!sections[index]) {
-					isScrolling = false;
-					return;
+				function isMobile() {
+					return window.innerWidth < 1024;
 				}
 				
-				sections[index].scrollIntoView({ behavior: 'smooth' });
+				const sections = document.querySelectorAll('section');
 				
-				// Tiempo suficiente para la animación, pero no demasiado largo
-				setTimeout(() => {
-					isScrolling = false;
-				}, 600);
-			}
-
-			const updateSection = () => {
-				if (!isMobile()) {
-					// Reiniciar a la primera sección al cargar
-					currentSection = 0;
+				function scrollToSection(index) {
+					if (isScrolling) return;
 					
-					// Remover el event listener anterior si existe
-					window.removeEventListener('wheel', handleWheel);
+					// Asegurarse de que el índice está dentro del rango
+					if (index < 0) index = 0;
+					if (index >= sections.length) index = sections.length - 1;
 					
-					// Añadir el event listener con la nueva implementación
-					window.addEventListener('wheel', handleWheel, { passive: false });
-				} else {
-					// En dispositivos móviles, remover el listener
-					window.removeEventListener('wheel', handleWheel);
-				}
-			};
-			
-			function handleWheel(e: WheelEvent) {
-				e.preventDefault();
-				
-				if (isScrolling) return;
-				
-				// Comprobar si ha pasado suficiente tiempo desde el último scroll
-				const now = Date.now();
-				if (now - lastScrollTime < 50) return; // Pequeño debounce para evitar scrolls accidentales
-				
-				lastScrollTime = now;
-				
-				// Detectar dirección inmediatamente
-				const direction = e.deltaY > 0 ? 1 : -1;
-				
-				// Moverse sólo si hay una sección disponible en esa dirección
-				if ((direction > 0 && currentSection < sections.length - 1) || 
-					(direction < 0 && currentSection > 0)) {
-					scrollToSection(currentSection + direction);
-				}
-			}
-			
-			document.addEventListener('DOMContentLoaded', () => {
-				// Inicialmente, desplazarse a la primera sección
-				if (!isMobile()) {
-					sections[0].scrollIntoView({ behavior: 'auto' });
-				}
-				
-				updateSection();
+					isScrolling = true;
+					currentSection = index;
 					
-				window.addEventListener('resize', () => {
-					updateSection();
-				});
-				
-				// Habilitar navegación con teclado
-				document.addEventListener('keydown', (e) => {
-					if (isScrolling || isMobile()) return;
-					
-					if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-						if (currentSection < sections.length - 1) {
-							scrollToSection(currentSection + 1);
-						}
-					} else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-						if (currentSection > 0) {
-							scrollToSection(currentSection - 1);
-						}
-					} else if (e.key === 'Home') {
-						scrollToSection(0);
-					} else if (e.key === 'End') {
-						scrollToSection(sections.length - 1);
+					if (!sections[index]) {
+						isScrolling = false;
+						return;
 					}
+					
+					sections[index].scrollIntoView({ behavior: 'smooth' });
+					
+					// Tiempo suficiente para la animación, pero no demasiado largo
+					setTimeout(() => {
+						isScrolling = false;
+					}, 600);
+				}
+
+				const updateSection = () => {
+					if (!isMobile()) {
+						// Reiniciar a la primera sección al cargar
+						currentSection = 0;
+						
+						// Remover el event listener anterior si existe
+						window.removeEventListener('wheel', handleWheel);
+						
+						// Añadir el event listener con la nueva implementación
+						window.addEventListener('wheel', handleWheel, { passive: false });
+					} else {
+						// En dispositivos móviles, remover el listener
+						window.removeEventListener('wheel', handleWheel);
+					}
+				};
+				
+				function handleWheel(e) {
+					e.preventDefault();
+					
+					if (isScrolling) return;
+					
+					// Comprobar si ha pasado suficiente tiempo desde el último scroll
+					const now = Date.now();
+					if (now - lastScrollTime < 50) return; // Pequeño debounce para evitar scrolls accidentales
+					
+					lastScrollTime = now;
+					
+					// Detectar dirección inmediatamente
+					const direction = e.deltaY > 0 ? 1 : -1;
+					
+					// Moverse sólo si hay una sección disponible en esa dirección
+					if ((direction > 0 && currentSection < sections.length - 1) || 
+						(direction < 0 && currentSection > 0)) {
+						scrollToSection(currentSection + direction);
+					}
+				}
+				
+				document.addEventListener('DOMContentLoaded', () => {
+					// Inicialmente, desplazarse a la primera sección
+					if (!isMobile()) {
+						sections[0].scrollIntoView({ behavior: 'auto' });
+					}
+					
+					updateSection();
+						
+					window.addEventListener('resize', () => {
+						updateSection();
+					});
+					
+					// Habilitar navegación con teclado
+					document.addEventListener('keydown', (e) => {
+						if (isScrolling || isMobile()) return;
+						
+						if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+							if (currentSection < sections.length - 1) {
+								scrollToSection(currentSection + 1);
+							}
+						} else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+							if (currentSection > 0) {
+								scrollToSection(currentSection - 1);
+							}
+						} else if (e.key === 'Home') {
+							scrollToSection(0);
+						} else if (e.key === 'End') {
+							scrollToSection(sections.length - 1);
+						}
+					});
 				});
-			});
+			}
 		</script>
 		<script>
 			import SplitType from 'split-type'
 			document.addEventListener('DOMContentLoaded', () => {
 				// Configurar animación de texto letra por letra
-
 				document.querySelectorAll('.split-text').forEach(element => {
-					new SplitType(element as HTMLElement, { types: 'chars' });
+					if (element instanceof HTMLElement) {
+						new SplitType(element, { types: 'chars' });
+					}
 				});
 				
 				// Crear observer para animar elementos al verlos
