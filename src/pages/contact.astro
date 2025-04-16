@@ -1,0 +1,145 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import config from "@/config/config";
+---
+
+<Layout image="/images/cover.webp">
+    <section class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-center md:min-h-screen md:mt-12 gap-y-10 mb-0">
+        <h1 class="text-4xl sm:text-5xl md:text-6xl split-text pt-8 md:pt-16 w-full">
+            Contáctanos <b class="font-bold italic"
+            >hoy mismo.</b>
+        </h1>
+        
+        <div class="space-y-6 md:space-y-8 w-full fade-in">
+            <p class="leading-8 md:leading-normal text-lg md:text-xl lg:text-2xl">
+                Estamos aquí para ayudarte con tus pagos a influencers y agencias. Completa el formulario a continuación y nos pondremos en contacto contigo lo antes posible.
+            </p>
+            
+            <div class="bg-white rounded-tl-3xl rounded-br-3xl border border-black shadow-[8px_8px_1px_#000000] p-4 sm:p-6 md:p-8 w-full">
+                <form id="contactForm" class="space-y-4 md:space-y-6">
+                    <div class="space-y-2">
+                        <label for="name" class="block text-base md:text-lg font-medium">Name</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            placeholder="Full name" 
+                            required 
+                            class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                    </div>
+                    
+                    <div class="space-y-2">
+                        <label for="email" class="block text-base md:text-lg font-medium">Work Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="name@company.com" 
+                            required 
+                            class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                        >
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                        <div class="space-y-2">
+                            <label for="jobTitle" class="block text-base md:text-lg font-medium">Job Title</label>
+                            <input 
+                                type="text" 
+                                id="jobTitle" 
+                                name="jobTitle" 
+                                placeholder="Your position" 
+                                class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                        </div>
+                        <div class="space-y-2">
+                            <label for="company" class="block text-base md:text-lg font-medium">Company</label>
+                            <input 
+                                type="text" 
+                                id="company" 
+                                name="company" 
+                                placeholder="Your company" 
+                                class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                            >
+                        </div>
+                    </div>
+                    
+                    <button 
+                        type="submit" 
+                        class="flex flex-row items-center gap-x-3 md:gap-x-5 text-base md:text-xl justify-between bg-gradient-to-r from-primary to-secondary text-black py-2 md:py-3 px-6 md:px-8 rounded-l-full rounded-br-full border border-black w-max hover:shadow-[5px_5px_0px_#000000] transition-all"
+                    >
+                        Send Request
+                        <svg
+                            class="w-5 h-5 md:w-6 md:h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 12h14m-7-7l7 7-7 7"
+                            ></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
+    <section class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-center md:min-h-screen gap-y-10 my-20 md:my-0">
+        <h2 class="text-4xl sm:text-5xl md:text-6xl italic mt-16 md:mt-0 split-text w-full break-words">
+            <b class="font-bold">Información</b><br />de contacto
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 w-full fade-in">
+            <div class="bg-gradient-to-tr from-secondary to-primary text-black rounded-tl-3xl rounded-br-3xl border border-black shadow-[8px_8px_1px_#000000] p-6 md:p-8">
+                <h3 class="text-xl md:text-2xl font-bold mb-4">Email</h3>
+                <a href={`mailto:${config.email}`} class="text-base md:text-xl break-all hover:underline">
+                    {config.email}
+                </a>
+            </div>
+            
+            <div class="bg-gradient-to-tr from-secondary to-primary text-black rounded-tl-3xl rounded-br-3xl border border-black shadow-[8px_8px_1px_#000000] p-6 md:p-8">
+                <h3 class="text-xl md:text-2xl font-bold mb-4">Horario de atención</h3>
+                <p class="text-base md:text-xl">
+                    Lunes a Viernes<br>
+                    9:00 AM - 6:00 PM (EST)
+                </p>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    @media screen and (max-width: 400px) {
+        h1, h2 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const contactForm = document.getElementById('contactForm') as HTMLFormElement;
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Recopilar datos del formulario
+                const formData = new FormData(contactForm);
+                const formValues = Object.fromEntries(formData.entries());
+                
+                console.log('Form data:', formValues);
+                
+                // Aquí irá la lógica para enviar el formulario
+                // Por ahora, simplemente mostramos un mensaje de éxito
+                alert('Thank you for your request. We will contact you shortly.');
+                contactForm.reset();
+            });
+        }
+    });
+</script> 

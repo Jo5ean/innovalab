@@ -5,7 +5,7 @@ import { cards } from "@/enum/data";
 <section
     class="snap-start flex flex-col items-start md:items-stretch justify-center md:min-h-screen gap-y-10 my-40 md:my-0"
 >
-    <h2 class="text-5xl md:text-6xl w-full md:container mx-auto px-10 md:px-24 split-text">
+    <h2 class="text-4xl sm:text-5xl md:text-6xl w-full md:container mx-auto px-10 md:px-24 split-text font-light leading-tight">
         Reduce your financial workload <b class="font-bold">And stress.</b>
     </h2>
     <div class="relative w-full px-5 md:px-16 max-w-full fade-in">
@@ -29,15 +29,15 @@ import { cards } from "@/enum/data";
                                 <div class="card flex flex-col items-start justify-start px-5 py-8 bg-gradient-to-tr from-secondary to-primary text-black rounded-tl-3xl rounded-br-3xl border w-full h-full gap-y-5">
                                     <div class="flex flex-col gap-x-1 max-w-full items-stretch justify-between w-full">
                                         <img
-                                            class="w-28 h-28 object-contain mx-auto -mt-16"
+                                            class="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 object-contain mx-auto -mt-12 sm:-mt-14 md:-mt-16"
                                             src={item.image}
                                             alt={item.title}
                                         />
-                                        <h3 class="text-xl italic">
+                                        <h3 class="text-base sm:text-lg md:text-xl italic truncate whitespace-nowrap overflow-hidden">
                                             <b>{title}</b> {subtitle}
                                         </h3>
                                     </div>
-                                    <p class="text-lg flex-grow">
+                                    <p class="text-sm sm:text-base md:text-lg flex-grow line-clamp-4 md:line-clamp-none">
                                         {item.description}
                                     </p>
                                 </div>
