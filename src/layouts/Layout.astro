@@ -19,12 +19,7 @@ const canonicalURL = new URL(pathname, url);
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-		/>
+		<link rel="icon" type="image/x-icon" href="/logos/logo.webp" />
 		<title>{config.title}</title>
 
 		<meta charset="UTF-8" />
@@ -337,35 +332,12 @@ const canonicalURL = new URL(pathname, url);
 
 	:root {
 		font-family: "Montserrat", sans-serif;
-		scroll-behavior: smooth;
 	}
 
 	html, body {
 		scroll-behavior: smooth;
-		height: 100%;
-		overflow-x: hidden;
 	}
-	
-	body {
-		scroll-snap-type: y mandatory;
-		overflow-y: scroll;
-	}
-	
 	.snap-start {
-		scroll-snap-align: start;
-		min-height: 100vh;
 		@apply transition-opacity duration-500;
-	}
-	
-	@media (max-width: 768px) {
-		section.snap-start {
-			min-height: 100vh;
-			scroll-snap-align: start;
-			padding-top: 80px;
-			padding-bottom: 40px;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-start;
-		}
 	}
 </style>
