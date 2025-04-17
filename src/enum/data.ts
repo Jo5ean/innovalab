@@ -14,13 +14,13 @@ export const cards = [{
 {
     title: 'Instant payment|advances',
     image: '/images/icons/0005.webp',
-    description: `Only 2% fee per advancepayment`
+    description: `Only 2% fee per advance payment`
 },
 {
     title: 'Locally|compliant',
     image: '/images/icons/0013.webp',
     description: `Generate W9 and W8s
-    Tax & regulatory compliance in X countries`
+    Tax & regulatory compliance across key local markets`
 },
 {
     title: 'Minimized|risk',
