@@ -3,15 +3,13 @@ interface Props {
 	image?: string;
 }
 
-const { description, image: imageConfig } = config;
-const { image = imageConfig } = Astro.props;
-
 import config from "@/config/config";
 import Header from "./partials/Header.astro";
 
+const { description, image } = config;
+
 const { pathname } = Astro.url;
-const url = Astro.url.toString().replace("http://", "https://");
-const canonicalURL = new URL(pathname, url);
+const canonicalURL = new URL(pathname, Astro.url);
 const isContactPage = pathname === "/contact" || pathname === "/contact/";
 ---
 
@@ -39,17 +37,17 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 		<meta name="twitter:creator" content={config.author} />
 		<meta name="twitter:title" content={config.title} />
 		<meta name="twitter:description" content={description} />
-		<meta name="twitter:image" content={new URL(image, url)} />
+		<meta name="twitter:image" content={new URL(image, Astro.url)} />
 
-		<meta name="og:image" content={new URL(image, url)} />
+		<meta name="og:image" content={new URL(image, Astro.url)} />
 		<meta name="og:title" content={config.title} />
 		<meta name="og:description" content={description} />
-		<meta name="og:url" content={url} />
+		<meta name="og:url" content={Astro.url} />
 		<meta name="og:site_name" content={config.site_name} />
 		<meta name="og:type" content="website" />
 		<meta name="og:locale" content="es_ES" />
 
-		<meta itemprop="image" content={new URL(image, url)} />
+		<meta itemprop="image" content={new URL(image, Astro.url)} />
 
 		<meta name="robots" content="index, follow" />
 		<meta name="googlebot" content="index, follow" />
