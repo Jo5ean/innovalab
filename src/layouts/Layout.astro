@@ -4,7 +4,7 @@ interface Props {
 }
 
 const { description, image: imageConfig } = config;
-const {  image = imageConfig } = Astro.props;
+const { image = imageConfig } = Astro.props;
 
 import config from "@/config/config";
 import Header from "./partials/Header.astro";
@@ -12,6 +12,7 @@ import Header from "./partials/Header.astro";
 const { pathname } = Astro.url;
 const url = Astro.url.toString().replace("http://", "https://");
 const canonicalURL = new URL(pathname, url);
+const isContactPage = pathname === "/contact" || pathname === "/contact/";
 ---
 
 <!doctype html>
@@ -19,12 +20,7 @@ const canonicalURL = new URL(pathname, url);
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-		/>
+		<link rel="icon" type="image/x-icon" href="/logos/logo.webp" />
 		<title>{config.title}</title>
 
 		<meta charset="UTF-8" />
@@ -62,211 +58,358 @@ const canonicalURL = new URL(pathname, url);
 
 		<link rel="manifest" href="/manifest.webmanifest" />
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
 			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
 		/>
-		{config.IS_PRODUCTION && <></>}
+		<script type="text/javascript">
+			(function (c, l, a, r, i, t, y) {
+				c[a] =
+					c[a] ||
+					function () {
+						(c[a].q = c[a].q || []).push(arguments);
+					};
+				t = l.createElement(r);
+				t.async = 1;
+				t.src = "https://www.clarity.ms/tag/" + i;
+				y = l.getElementsByTagName(r)[0];
+				y.parentNode.insertBefore(t, y);
+			})(window, document, "clarity", "script", "r5bd74tgww");
+		</script>
+		<!-- Google tag (gtag.js) -->
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-B5NFM9KCSC"
+		></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+
+			gtag("config", "G-B5NFM9KCSC");
+		</script>
+
 		<style is:global>
+			/* Fuentes para toda la página */
+			body {
+				font-family: "Montserrat", sans-serif;
+			}
+
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				font-family: "Montserrat", sans-serif;
+				font-weight: 300;
+				line-height: 1.2;
+			}
+
+			b,
+			strong {
+				font-weight: 700;
+			}
+
 			/* Animación para letras individuales */
 			.split-text .char {
 				display: inline-block;
 				opacity: 0;
 				transform: translateY(30px);
-				transition: opacity 0.3s ease, transform 0.3s ease;
+				transition:
+					opacity 0.3s ease,
+					transform 0.3s ease;
 			}
-			
+
 			.split-text .char.visible {
 				opacity: 1;
 				transform: translateY(0);
 			}
-			
+
 			/* Animación para contenedores */
 			.fade-in {
 				opacity: 0;
 				transform: translateY(20px);
-				transition: opacity 0.6s ease, transform 0.6s ease;
+				transition:
+					opacity 0.6s ease,
+					transform 0.6s ease;
 			}
-			
+
 			.fade-in.visible {
 				opacity: 1;
 				transform: translateY(0);
 			}
-			
+
 			/* Estilo para ocultar los valores originales mientras se animan */
 			.count-number-original {
 				display: none;
 			}
 		</style>
 	</head>
-	<body class="max-w-full overflow-x-hidden font-body">
+	<body class="max-w-full overflow-x-hidden font-['Montserrat']">
 		<Header />
 		<main class="flex flex-col items-stretch justify-between">
 			<slot />
 		</main>
-		<script>
-			let currentSection = 0;
-			function isMobile() {
-				return window.innerWidth < 1024;
-			}
-			const sections = document.querySelectorAll('section') as NodeListOf<HTMLElement>;
-			
-			const updateSection = () => {
-				if (!isMobile()) {
-					let isScrolling = false;
-					currentSection=0;
-					sections[0].scrollIntoView({ behavior: 'smooth' });
+		<script define:vars={{ isContactPage }}>
+			if (!isContactPage) {
+				let currentSection = 0;
+				let isScrolling = false;
+				let lastScrollTime = 0;
 
-					function scrollToSection(index:number) {
-						if (isScrolling) return;
-						isScrolling = true;
-						currentSection = index;
-						if(!sections[index]) return;
-						sections[index].scrollIntoView({ behavior: 'smooth' });
-						setTimeout(() => {
-							isScrolling = false;
-						}, 500);
+				function isMobile() {
+					return window.innerWidth < 1024;
+				}
+
+				const sections = document.querySelectorAll("section");
+
+				function scrollToSection(index) {
+					if (isScrolling) return;
+
+					// Asegurarse de que el índice está dentro del rango
+					if (index < 0) index = 0;
+					if (index >= sections.length) index = sections.length - 1;
+
+					isScrolling = true;
+					currentSection = index;
+
+					if (!sections[index]) {
+						isScrolling = false;
+						return;
 					}
 
-					window.addEventListener('wheel', (e) => {
-						e.preventDefault();
-						if (isScrolling) return;
+					sections[index].scrollIntoView({ behavior: "smooth" });
 
-						const delta = e.deltaY;
-						const direction = delta > 0 ? 1 : -1;
-
-						if ((direction > 0 && currentSection < sections.length - 1) || (direction < 0 && currentSection > 0)) {
-							scrollToSection(currentSection + direction);
-						}
-					}, { passive: false });
+					// Tiempo suficiente para la animación, pero no demasiado largo
+					setTimeout(() => {
+						isScrolling = false;
+					}, 600);
 				}
-			}
-			document.addEventListener('DOMContentLoaded', () => {
-				updateSection();
-					
-				window.addEventListener('resize', () => {
-					updateSection();
-				});
-			});
-		</script>
-		<script>
-			import SplitType from 'split-type'
-			document.addEventListener('DOMContentLoaded', () => {
-				// Configurar animación de texto letra por letra
 
-				document.querySelectorAll('.split-text').forEach(element => {
-					new SplitType(element as HTMLElement, { types: 'chars' });
-				});
-				
-				// Crear observer para animar elementos al verlos
-				const observer = new IntersectionObserver(entries => {
-					entries.forEach(entry => {
-						if (entry.isIntersecting) {
-							// Si es un título con animación letra por letra
-							if (entry.target.classList.contains('split-text')) {
-								const chars = entry.target.querySelectorAll('.char');
-								chars.forEach((char, index) => {
-									setTimeout(() => {
-										char.classList.add('visible');
-									}, 30 * index);
-								});
-							} 
-							// Si es un contenedor con fade
-							else if (entry.target.classList.contains('fade-in')) {
-								entry.target.classList.add('visible');
+				const updateSection = () => {
+					if (!isMobile()) {
+						// Reiniciar a la primera sección al cargar
+						currentSection = 0;
+
+						// Remover el event listener anterior si existe
+						window.removeEventListener("wheel", handleWheel);
+
+						// Añadir el event listener con la nueva implementación
+						window.addEventListener("wheel", handleWheel, {
+							passive: false,
+						});
+					} else {
+						// En dispositivos móviles, remover el listener
+						window.removeEventListener("wheel", handleWheel);
+					}
+				};
+
+				function handleWheel(e) {
+					e.preventDefault();
+
+					if (isScrolling) return;
+
+					// Comprobar si ha pasado suficiente tiempo desde el último scroll
+					const now = Date.now();
+					if (now - lastScrollTime < 50) return; // Pequeño debounce para evitar scrolls accidentales
+
+					lastScrollTime = now;
+
+					// Detectar dirección inmediatamente
+					const direction = e.deltaY > 0 ? 1 : -1;
+
+					// Moverse sólo si hay una sección disponible en esa dirección
+					if (
+						(direction > 0 &&
+							currentSection < sections.length - 1) ||
+						(direction < 0 && currentSection > 0)
+					) {
+						scrollToSection(currentSection + direction);
+					}
+				}
+
+				document.addEventListener("DOMContentLoaded", () => {
+					// Inicialmente, desplazarse a la primera sección
+					if (!isMobile()) {
+						sections[0].scrollIntoView({ behavior: "auto" });
+					}
+
+					updateSection();
+
+					window.addEventListener("resize", () => {
+						updateSection();
+					});
+
+					// Habilitar navegación con teclado
+					document.addEventListener("keydown", (e) => {
+						if (isScrolling || isMobile()) return;
+
+						if (e.key === "ArrowDown" || e.key === "PageDown") {
+							if (currentSection < sections.length - 1) {
+								scrollToSection(currentSection + 1);
 							}
-							
-							// Dejar de observar después de animar
-							observer.unobserve(entry.target);
+						} else if (e.key === "ArrowUp" || e.key === "PageUp") {
+							if (currentSection > 0) {
+								scrollToSection(currentSection - 1);
+							}
+						} else if (e.key === "Home") {
+							scrollToSection(0);
+						} else if (e.key === "End") {
+							scrollToSection(sections.length - 1);
 						}
 					});
-				}, {
-					threshold: 0.2
 				});
-				
+			}
+		</script>
+		<script>
+			import SplitType from "split-type";
+			document.addEventListener("DOMContentLoaded", () => {
+				// Configurar animación de texto letra por letra
+				document.querySelectorAll(".split-text").forEach((element) => {
+					if (element instanceof HTMLElement) {
+						new SplitType(element, { types: "chars" });
+					}
+				});
+
+				// Crear observer para animar elementos al verlos
+				const observer = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								// Si es un título con animación letra por letra
+								if (
+									entry.target.classList.contains(
+										"split-text",
+									)
+								) {
+									const chars =
+										entry.target.querySelectorAll(".char");
+									chars.forEach((char, index) => {
+										setTimeout(() => {
+											char.classList.add("visible");
+										}, 30 * index);
+									});
+								}
+								// Si es un contenedor con fade
+								else if (
+									entry.target.classList.contains("fade-in")
+								) {
+									entry.target.classList.add("visible");
+								}
+
+								// Dejar de observar después de animar
+								observer.unobserve(entry.target);
+							}
+						});
+					},
+					{
+						threshold: 0.2,
+					},
+				);
+
 				// Observar todos los elementos que necesitan animación
-				document.querySelectorAll('.split-text, .fade-in').forEach(el => {
-					observer.observe(el);
-				});
+				document
+					.querySelectorAll(".split-text, .fade-in")
+					.forEach((el) => {
+						observer.observe(el);
+					});
 			});
 		</script>
 		<script is:inline>
 			// Animación de contadores de manera no invasiva
-			const counterSection = document.querySelector('section:has(b[class*="font-extrabold"])');
+			const counterSection = document.querySelector(
+				'section:has(b[class*="font-extrabold"])',
+			);
 			if (counterSection) {
-				const numberElements = counterSection.querySelectorAll('b[class*="font-extrabold"]');
-				
+				const numberElements = counterSection.querySelectorAll(
+					'b[class*="font-extrabold"]',
+				);
+
 				// Crear observador
-				const observer = new IntersectionObserver((entries) => {
-					if (entries[0].isIntersecting) {
-						// Animar cada número
-						numberElements.forEach(el => {
-							// Guardar texto original
-							const originalText = el.textContent;
-							
-							// Extraer el número y separar prefijo/sufijo
-							let prefixMatch = originalText.match(/^[^\d]*/);
-							let prefix = prefixMatch ? prefixMatch[0] : '';
-							
-							let numberStr = originalText.replace(prefix, '');
-							let suffixMatch = numberStr.match(/[^\d.,]+$/);
-							let suffix = suffixMatch ? suffixMatch[0] : '';
-							
-							// Obtener solo el número limpio
-							let cleanNumber = numberStr.replace(suffix, '').replace(/,/g, '');
-							let targetNumber = parseFloat(cleanNumber);
-							
-							// Valores para la animación
-							let currentNumber = 0;
-							const duration = 2000;
-							const steps = 60;
-							const increment = targetNumber / steps;
-							const interval = duration / steps;
-							
-							// Función de conteo
-							function count() {
-								currentNumber += increment;
-								if (currentNumber >= targetNumber) {
-									el.textContent = originalText; // Restaurar texto original al finalizar
-									return;
+				const observer = new IntersectionObserver(
+					(entries) => {
+						if (entries[0].isIntersecting) {
+							// Animar cada número
+							numberElements.forEach((el) => {
+								// Guardar texto original
+								const originalText = el.textContent;
+
+								// Extraer el número y separar prefijo/sufijo
+								let prefixMatch = originalText.match(/^[^\d]*/);
+								let prefix = prefixMatch ? prefixMatch[0] : "";
+
+								let numberStr = originalText.replace(
+									prefix,
+									"",
+								);
+								let suffixMatch = numberStr.match(/[^\d.,]+$/);
+								let suffix = suffixMatch ? suffixMatch[0] : "";
+
+								// Obtener solo el número limpio
+								let cleanNumber = numberStr
+									.replace(suffix, "")
+									.replace(/,/g, "");
+								let targetNumber = parseFloat(cleanNumber);
+
+								// Valores para la animación
+								let currentNumber = 0;
+								const duration = 2000;
+								const steps = 60;
+								const increment = targetNumber / steps;
+								const interval = duration / steps;
+
+								// Función de conteo
+								function count() {
+									currentNumber += increment;
+									if (currentNumber >= targetNumber) {
+										el.textContent = originalText; // Restaurar texto original al finalizar
+										return;
+									}
+
+									// Formatear número
+									let formattedNumber;
+									if (targetNumber > 999) {
+										formattedNumber =
+											Math.floor(
+												currentNumber,
+											).toLocaleString();
+									} else {
+										formattedNumber =
+											Math.floor(currentNumber);
+									}
+
+									// Combinar prefijo, número formateado y sufijo
+									el.textContent =
+										prefix + formattedNumber + suffix;
+									setTimeout(count, interval);
 								}
-								
-								// Formatear número
-								let formattedNumber;
-								if (targetNumber > 999) {
-									formattedNumber = Math.floor(currentNumber).toLocaleString();
-								} else {
-									formattedNumber = Math.floor(currentNumber);
-								}
-								
-								// Combinar prefijo, número formateado y sufijo
-								el.textContent = prefix + formattedNumber + suffix;
-								setTimeout(count, interval);
-							}
-							
-							// Iniciar conteo
-							count();
-						});
-						
-						observer.disconnect();
-					}
-				}, { threshold: 0.2 });
-				
+
+								// Iniciar conteo
+								count();
+							});
+
+							observer.disconnect();
+						}
+					},
+					{ threshold: 0.2 },
+				);
+
 				observer.observe(counterSection);
 			}
 		</script>
 	</body>
 </html>
 <style is:global>
-	@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+	@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 	:root {
 		font-family: "Montserrat", sans-serif;
 	}
 
-	html, body {
+	html,
+	body {
 		scroll-behavior: smooth;
 	}
 	.snap-start {

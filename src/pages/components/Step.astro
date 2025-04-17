@@ -3,36 +3,36 @@ import { steps } from "@/enum/data";
 ---
 
 <section
-    class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-center md:min-h-screen gap-y-10"
+    class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-start md:justify-center pt-24 md:pt-36 pb-16 md:pb-36 gap-y-6 md:gap-y-8 md:min-h-screen"
 >
-    <h2 class="text-5xl md:text-6xl split-text">
+    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl split-text font-light leading-tight">
         How <b class="font-bold italic">it works.</b>
     </h2>
-    <p class="text-xl md:text-2xl fade-in">
+    <p class="text-lg md:text-xl fade-in">
         Influencer Funds simplifies mass payments to influencers and agencies
         with a platform that's easy for both you and your vendors.
     </p>
     <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-start gap-x-5 fade-in"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-start justify-start gap-5 md:gap-x-5 fade-in"
     >
         {
             steps.map((item, index) => (
-                <div class="flex flex-col items-start justify-start gap-y-5 w-full">
+                <div class="flex flex-col items-start justify-start gap-y-3 md:gap-y-5 w-full">
                     <div class="flex flex-row items-center justify-center w-full h-full">
-                        <div class="w-36 h-24 bg-primary text-white flex flex-col items-start justify-center text-7xl font-bold px-6 rounded-tl-3xl rounded-tr-3xl">
+                        <div class="w-28 md:w-36 h-20 md:h-24 bg-primary text-white flex flex-col items-start justify-center text-5xl md:text-7xl font-bold px-4 md:px-6 rounded-tl-3xl rounded-tr-3xl">
                             {index + 1}
                         </div>
                         <img
-                            class="w-52 h-52 -ml-20"
+                            class="w-40 h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 -ml-16 md:-ml-20"
                             src={item.image}
                             alt={item.title}
                         />
                     </div>
                     <div class="w-full">
-                        <h3 class="text-base md:text-lg font-bold italic">
+                        <h3 class="text-sm sm:text-base md:text-lg font-bold italic">
                             {item.title}
                         </h3>
-                        <p class="text-sm md:text-base">{item.description}</p>
+                        <p class="text-xs sm:text-sm md:text-base">{item.description}</p>
                     </div>
                 </div>
             ))

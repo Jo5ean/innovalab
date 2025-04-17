@@ -1,3 +1,4 @@
+import { Notyf } from 'notyf';
 interface Rows {
     fullhd: number
     hd: number
@@ -60,4 +61,44 @@ export const initCarrousel = ({ carousel, prevBtn, nextBtn, currentIndex, rows }
     window.addEventListener("load", equalizeHeights);
     window.addEventListener("resize", equalizeHeights);
     return currentIndex;
+}
+
+// Definimos los tipos permitidos para el tipo de mensaje
+type MessageType = 'success' | 'error';
+
+/**
+ * Función para mostrar un mensaje utilizando Toastr.
+ * @param message - El mensaje que se mostrará.
+ * @param type - El tipo de mensaje: 'success', 'error'.
+ */
+export function message({ message, type }: { message: string, type: MessageType }): void {
+    const notyf = new Notyf({
+        position: { x: 'center', y: 'bottom' },
+        duration: 3000,
+        dismissible: true,
+        ripple: true,
+        types: [
+            {
+                type: 'error',
+                background: '#EF4444',
+                dismissible: true
+            },
+            {
+                type: 'success',
+                background: '#10B981',
+                dismissible: true
+            }
+        ]
+    });
+
+    switch (type) {
+        case 'success':
+            notyf.success(message);
+            break;
+        case 'error':
+            notyf.error(message);
+            break;
+        default:
+            throw new Error(`Tipo de mensaje no válido: ${type}`);
+    }
 }
