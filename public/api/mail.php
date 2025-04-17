@@ -5,8 +5,8 @@ require $_SERVER['DOCUMENT_ROOT'] . '/api/views/contact.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
-        // $email_send = 'info@tatam.digital';
-        $email_send = 'luiscruzz.salta@gmail.com';
+        $email_send = 'info@tatam.digital';
+        // $email_send = 'luiscruzz.salta@gmail.com';
         $subject = 'Influencerfunds Demo Request';
         $mailer = array(
             'email' => $_POST['email'],
