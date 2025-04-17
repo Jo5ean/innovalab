@@ -3,62 +3,70 @@ require $_SERVER['DOCUMENT_ROOT'] . '/tools/PHPMailer/PHPMailerAutoload.php';
 
 function send_mail($sender, $receiver, $subject, $content)
 {
-    if (isset($sender) && !empty($sender)) {
-        if (isset($receiver) && !empty($receiver)) {
-            if (isset($subject) && !empty($subject)) {
-                if (isset($content) && !empty($content)) {
-                    $mail = new PHPMailer;
-                    $mail->isSMTP();
-                    $mail->SMTPDebug = 0;
-                    $mail->Host = 'smtp.hostinger.com';
-                    $mail->Port = 587;
-                    $mail->SMTPAuth = true;
-                    $mail->Username = 'no-reply@luiscruz.com.ar';
-                    $mail->Password = '@UZ8sU%hn47?_i5T+';
-                    $mail->setFrom('no-reply@luiscruz.com.ar', $sender);
-                    $mail->addReplyTo($sender, $sender);
-                    $mail->addAddress($receiver, $receiver);
-                    $mail->CharSet = 'UTF-8';
-                    $mail->isHTML(true);
-                    $mail->Subject = utf8_decode($subject);
-
-                    $mail->Body = $content;
-                    if ($mail->send()) {
-
-                        $response = array(
-                            'success' => true,
-                            'message' => 'El mail se envio correctamente'
-                        );
-                    } else {
-
-                        $response = array(
-                            'success' => false,
-                            'message' => 'El mail no se pudo enviar'
-                        );
-                    }
-                } else {
-                    $response = array(
-                        'success' => false,
-                        'message' => 'Debes indicar el texto del mail'
-                    );
-                }
-            } else {
-                $response = array(
-                    'success' => false,
-                    'message' => 'Debes indicar el asunto del mail'
-                );
-            }
-        } else {
-            $response = array(
-                'success' => false,
-                'message' => 'Debes indicar el asunto del mail'
-            );
-        }
-    } else {
-        $response = array(
+    // Validación de email
+    if (!filter_var($sender, FILTER_VALIDATE_EMAIL) || !filter_var($receiver, FILTER_VALIDATE_EMAIL)) {
+        return [
             'success' => false,
-            'message' => 'Debes indicar el remitente del mail'
-        );
+            'message' => 'Invalid email format'
+        ];
     }
-    return $response;
+
+    // Cargar configuración desde archivo o variables de entorno
+    $smtp_config = [
+        'host' =>  'smtp.hostinger.com',
+        'port' =>  587,
+        'username' =>  'no-reply@luiscruz.com.ar',
+        'password' =>  '@UZ8sU%hn47?_i5T+',
+        'from_name' =>  'Influencer Funds'
+    ];
+
+    try {
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->SMTPDebug = 0;
+        $mail->Host = $smtp_config['host'];
+        $mail->Port = $smtp_config['port'];
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'tls'; // Usar TLS explícito
+        $mail->Username = $smtp_config['username'];
+        $mail->Password = $smtp_config['password'];
+
+        // Configuración de remitente fijo institucional (mejor para entregabilidad)
+        $mail->setFrom($smtp_config['username'], $smtp_config['from_name']);
+        $mail->addReplyTo($sender, $sender); // El usuario puede responder al remitente original
+        $mail->addAddress($receiver);
+
+        // Configuración de caracteres y formato
+        $mail->CharSet = 'UTF-8';
+        $mail->Encoding = 'base64'; // Mejor codificación para contenido internacional
+        $mail->isHTML(true);
+        $mail->Subject = $subject; // No usar utf8_decode
+        $mail->Body = $content;
+
+        // Versión plain text alternativa (importante para entregabilidad)
+        $mail->AltBody = strip_tags(str_replace(['<br>', '<br/>', '<br />'], "\n", $content));
+
+        // Añadir headers para mejor entregabilidad
+        $mail->addCustomHeader('X-Mailer', 'Influencer Funds Mailer');
+        $mail->addCustomHeader('X-Priority', '1');
+        $mail->addCustomHeader('X-MSMail-Priority', 'High');
+        $mail->addCustomHeader('Importance', 'high');
+
+        if ($mail->send()) {
+            return [
+                'success' => true,
+                'message' => 'Email sent successfully'
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Failed to send email: ' . $mail->ErrorInfo
+            ];
+        }
+    } catch (Exception $e) {
+        return [
+            'success' => false,
+            'message' => 'Email exception: ' . $e->getMessage()
+        ];
+    }
 }

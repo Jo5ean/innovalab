@@ -1,4 +1,4 @@
-<?
+<?php
 require $_SERVER['DOCUMENT_ROOT'] . '/api/helpers/response.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/api/helpers/mail.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/api/views/contact.php';
