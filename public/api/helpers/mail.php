@@ -32,7 +32,7 @@ function send_mail($sender, $receiver, $subject, $content)
                         $mail->SMTPAuth = true;
                         $mail->Username = $smtp_config['username'];
                         $mail->Password = $smtp_config['password'];
-                        $mail->setFrom($smtp_config['from_name'], $sender);
+                        $mail->setFrom($smtp_config['username'], $smtp_config['from_name']);
                         $mail->addReplyTo($sender, $sender);
                         $mail->addAddress($receiver, $receiver);
                         $mail->CharSet = 'UTF-8';
@@ -56,7 +56,8 @@ function send_mail($sender, $receiver, $subject, $content)
                         } else {
                             $response = array(
                                 'success' => false,
-                                'message' => 'Failed to send email'
+                                'message' => 'Failed to send email',
+                                'error' => $mail->ErrorInfo
                             );
                         }
                     } catch (Exception $e) {
