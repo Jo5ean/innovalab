@@ -1,71 +1,94 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import config from "@/config/config";
 ---
 
 <Layout image="/images/cover.webp">
-    <section class="flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-start pt-24 md:pt-32 pb-16 gap-y-6 md:gap-y-8 mb-0">
-        <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl split-text w-full">
-            Contact us <b class="font-bold italic"
-            >today.</b>
+    <section
+        class="flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-start mt-8 md:mt-12 g pb-16 gap-y-6 md:gap-y-8 mb-0"
+    >
+        <h1
+            class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl split-text w-full"
+        >
+            Contact us <b class="font-bold italic">today.</b>
         </h1>
-        
+
         <div class="space-y-4 md:space-y-6 w-full fade-in">
-            <p class="leading-7 md:leading-normal text-base md:text-lg lg:text-xl">
-                Ready to streamline your influencer payments? Fill out the form below and we'll get back to you shortly.
+            <p
+                class="leading-7 md:leading-normal text-base md:text-lg lg:text-xl"
+            >
+                Ready to streamline your influencer payments? Fill out the form
+                below and we'll get back to you shortly.
             </p>
-            
-            <div class="bg-white rounded-tl-3xl rounded-br-3xl border border-black shadow-[8px_8px_1px_#000000] p-4 sm:p-6 md:p-8 w-full">
+
+            <div
+                class="bg-white rounded-tl-3xl rounded-br-3xl border border-black shadow-[8px_8px_1px_#000000] p-4 sm:p-6 md:p-8 w-full"
+            >
                 <form id="contactForm" class="space-y-4 md:space-y-6">
                     <div class="space-y-2">
-                        <label for="name" class="block text-base md:text-lg font-medium">Name</label>
-                        <input 
-                            type="text" 
-                            id="name" 
-                            name="name" 
-                            placeholder="Full name" 
-                            required 
-                            class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                        <label
+                            for="name"
+                            class="block text-base md:text-lg font-medium"
+                            >Name</label
                         >
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Full name"
+                            required
+                            class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
                     </div>
-                    
+
                     <div class="space-y-2">
-                        <label for="email" class="block text-base md:text-lg font-medium">Work Email</label>
-                        <input 
-                            type="email" 
-                            id="email" 
-                            name="email" 
-                            placeholder="name@company.com" 
-                            required 
-                            class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                        <label
+                            for="email"
+                            class="block text-base md:text-lg font-medium"
+                            >Work Email</label
                         >
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="name@company.com"
+                            required
+                            class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                        />
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div class="space-y-2">
-                            <label for="jobTitle" class="block text-base md:text-lg font-medium">Job Title</label>
-                            <input 
-                                type="text" 
-                                id="jobTitle" 
-                                name="jobTitle" 
-                                placeholder="Your position" 
-                                class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                            <label
+                                for="job_title"
+                                class="block text-base md:text-lg font-medium"
+                                >Job Title</label
                             >
+                            <input
+                                type="text"
+                                id="job_title"
+                                name="job_title"
+                                placeholder="Your position"
+                                class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                            />
                         </div>
                         <div class="space-y-2">
-                            <label for="company" class="block text-base md:text-lg font-medium">Company</label>
-                            <input 
-                                type="text" 
-                                id="company" 
-                                name="company" 
-                                placeholder="Your company" 
-                                class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                            <label
+                                for="company"
+                                class="block text-base md:text-lg font-medium"
+                                >Company</label
                             >
+                            <input
+                                type="text"
+                                id="company"
+                                name="company"
+                                placeholder="Your company"
+                                class="w-full p-2 md:p-3 border border-black rounded-tl-xl rounded-br-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                            />
                         </div>
                     </div>
-                    
-                    <button 
-                        type="submit" 
+
+                    <button
+                        type="submit"
                         class="flex flex-row items-center gap-x-3 md:gap-x-5 text-base md:text-xl justify-between bg-gradient-to-r from-primary to-secondary text-black py-2 md:py-3 px-6 md:px-8 rounded-l-full rounded-br-full border border-black w-max hover:shadow-[5px_5px_0px_#000000] transition-all"
                     >
                         Send Request
@@ -80,8 +103,7 @@ import config from "@/config/config";
                                 stroke-linecap="round"
                                 stroke-linejoin="round"
                                 stroke-width="2"
-                                d="M5 12h14m-7-7l7 7-7 7"
-                            ></path>
+                                d="M5 12h14m-7-7l7 7-7 7"></path>
                         </svg>
                     </button>
                 </form>
@@ -92,31 +114,76 @@ import config from "@/config/config";
 
 <style>
     @media screen and (max-width: 400px) {
-        h1, h2 {
+        h1,
+        h2 {
             font-size: 2rem;
         }
     }
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const contactForm = document.getElementById('contactForm') as HTMLFormElement;
-        
+    import { message } from "@/utils/helpers";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const contactForm = document.getElementById(
+            "contactForm",
+        ) as HTMLFormElement;
+
         if (contactForm) {
-            contactForm.addEventListener('submit', async (e) => {
+            contactForm.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                
+
                 // Recopilar datos del formulario
                 const formData = new FormData(contactForm);
                 const formValues = Object.fromEntries(formData.entries());
-                
-                console.log('Form data:', formValues);
-                
-                // Aquí irá la lógica para enviar el formulario
-                // Por ahora, simplemente mostramos un mensaje de éxito
-                alert('Thank you for your request. We will contact you shortly.');
+
+                if (!formValues.name) {
+                    message({
+                        message: "Please fill in your name.",
+                        type: "error",
+                    });
+                    return;
+                }
+                if (!formValues.email) {
+                    message({
+                        message: "Please fill in your email.",
+                        type: "error",
+                    });
+                    return;
+                }
+                // Validar el formato del correo electrónico
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(formValues.email.toString())) {
+                    message({
+                        message: "Please enter a valid email address.",
+                        type: "error",
+                    });
+                    return;
+                }
+                // Aquí puedes agregar la lógica para enviar el formulario
+                // Por ejemplo, puedes usar fetch para enviar los datos a un servidor
+                const response = await fetch("/api/mail.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formValues),
+                });
+                if (!response.ok) {
+                    message({
+                        message: "There was an error sending your request.",
+                        type: "error",
+                    });
+                    return;
+                }
+                // Si la respuesta es exitosa, puedes mostrar un mensaje de éxito
+                message({
+                    message: "Your request has been sent successfully.",
+                    type: "success",
+                });
+                // Limpiar el formulario
                 contactForm.reset();
             });
         }
     });
-</script> 
+</script>

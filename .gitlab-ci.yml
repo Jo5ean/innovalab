@@ -29,8 +29,8 @@ deploy:
   script:
     - lftp -u $FTP_USERNAME,$FTP_PASSWORD $FTP_HOST -e "
       set ssl:verify-certificate no;
-      rm -rf /public_html/*;
-      mirror -R -P 5 ./dist/ /public_html/;
+      rm -rf /public_html/influencers-funds/*;
+      mirror -R -P 5 ./dist/ /public_html/influencers-funds/;
       quit"
   only:
     - main
