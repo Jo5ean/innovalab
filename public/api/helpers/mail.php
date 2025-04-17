@@ -13,9 +13,9 @@ function send_mail($sender, $receiver, $subject, $content)
                     $mail->Host = 'smtp.hostinger.com';
                     $mail->Port = 587;
                     $mail->SMTPAuth = true;
-                    $mail->Username = 'no-reply@novah.com.ar';
-                    $mail->Password = 'NW6BtSj{chhy';
-                    $mail->setFrom('no-reply@novah.com.ar', $sender);
+                    $mail->Username = 'no-reply@luiscruz.com.ar';
+                    $mail->Password = '@UZ8sU%hn47?_i5T+';
+                    $mail->setFrom('no-reply@luiscruz.com.ar', $sender);
                     $mail->addReplyTo($sender, $sender);
                     $mail->addAddress($receiver, $receiver);
                     $mail->CharSet = 'UTF-8';
