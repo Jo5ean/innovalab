@@ -28,7 +28,7 @@ function get_mail_contact($send)
                     border-radius: 5px;
                 }
                 .header {
-                    background-color: #007bff;
+                    background-color: #74f3d1;
                     color: #ffffff;
                     padding: 10px;
                     text-align: center;
@@ -64,8 +64,8 @@ function get_mail_contact($send)
                     <h2>Message Details</h2>
                     <p><strong>Name:</strong> ' . $name_template . '</p> 
                     <p><strong>Email:</strong> ' . $email_template . '</p>
-                    <p><strong>Phone:</strong> ' . $job_title_template . '</p>
-                    <p><strong>Subject:</strong> ' . $company_template . '</p>
+                    <p><strong>Job Title:</strong> ' . $job_title_template . '</p>
+                    <p><strong>Company:</strong> ' . $company_template . '</p>
                 </div>
                 <div class="footer">
                     <p>This email is an automatic notification. Please do not reply to this message.</p>
