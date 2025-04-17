@@ -1,19 +1,29 @@
 <?
-require $_SERVER['DOCUMENT_ROOT'] . '/api/helpers/response.helper.php';
-require $_SERVER['DOCUMENT_ROOT'] . '/api/controllers/contact.controller.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/api/helpers/response.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/api/helpers/mail.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/api/views/contact.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email_send = 'luiscruzz.salta@gmail.com';
-    $subject = 'Gracias por tu consulta';
-    $mailer = array(
-        'email' => $_POST['email'],
-        'name' => $_POST['name'],
-        'job_title' => $_POST['job_title'],
-        'company' => $_POST['company']
-    );
-    $content = get_mail_contact($mailer);
+    try {
+        $email_send = 'luiscruzz.salta@gmail.com';
+        $subject = 'Gracias por tu consulta';
+        $mailer = array(
+            'email' => $_POST['email'],
+            'name' => $_POST['name'],
+            'job_title' => $_POST['job_title'],
+            'company' => $_POST['company']
+        );
+        $content = get_mail_contact($mailer);
 
-    $response = send_mail($email_send, $email, $subject, $content);
+        $response = send_mail($_POST['email'], $email_send, $subject, $content);
+    } catch (Exception $e) {
+        $response = array(
+            'success' => false,
+            'message' => 'Error: ' . $e->getMessage()
+        );
+        print_all($response);
+        exit;
+    }
 } else {
     $response = array(
         'success' => false,

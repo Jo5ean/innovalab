@@ -23,7 +23,12 @@ import Layout from "@/layouts/Layout.astro";
             <div
                 class="bg-white rounded-tl-3xl rounded-br-3xl border border-black shadow-[8px_8px_1px_#000000] p-4 sm:p-6 md:p-8 w-full"
             >
-                <form id="contactForm" class="space-y-4 md:space-y-6">
+                <form
+                    id="contactForm"
+                    action="javascript:void(0)"
+                    method="POST"
+                    class="space-y-4 md:space-y-6"
+                >
                     <div class="space-y-2">
                         <label
                             for="name"
@@ -123,6 +128,7 @@ import Layout from "@/layouts/Layout.astro";
 
 <script>
     import { message } from "@/utils/helpers";
+    import connection from "@/utils/connection";
 
     document.addEventListener("DOMContentLoaded", () => {
         const contactForm = document.getElementById(
@@ -160,29 +166,53 @@ import Layout from "@/layouts/Layout.astro";
                     });
                     return;
                 }
-                // Aquí puedes agregar la lógica para enviar el formulario
-                // Por ejemplo, puedes usar fetch para enviar los datos a un servidor
-                const response = await fetch("/api/mail.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formValues),
-                });
-                if (!response.ok) {
+                const button = contactForm.querySelector(
+                    "button[type='submit']",
+                ) as HTMLButtonElement;
+                button.setAttribute("disabled", "true");
+                button.classList.add("opacity-50", "cursor-not-allowed");
+                button.innerHTML = "Sending...";
+                try {
+                    const response = await connection({
+                        method: "POST",
+                        url: "/api/mail.php",
+                        params: formValues,
+                    });
+                    if (response.success) {
+                        message({
+                            message: "Your request has been sent successfully.",
+                            type: "success",
+                        });
+                        button.removeAttribute("disabled");
+                        button.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed",
+                        );
+                        button.innerHTML = "Send Request";
+                        contactForm.reset();
+                    } else {
+                        message({
+                            message: "There was an error sending your request.",
+                            type: "error",
+                        });
+                        button.removeAttribute("disabled");
+                        button.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed",
+                        );
+                        button.innerHTML = "Send Request";
+                        return;
+                    }
+                } catch (e) {
                     message({
                         message: "There was an error sending your request.",
                         type: "error",
                     });
+                    button.removeAttribute("disabled");
+                    button.classList.remove("opacity-50", "cursor-not-allowed");
+                    button.innerHTML = "Send Request";
                     return;
                 }
-                // Si la respuesta es exitosa, puedes mostrar un mensaje de éxito
-                message({
-                    message: "Your request has been sent successfully.",
-                    type: "success",
-                });
-                // Limpiar el formulario
-                contactForm.reset();
             });
         }
     });
