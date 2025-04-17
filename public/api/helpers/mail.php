@@ -13,11 +13,11 @@ function send_mail($sender, $receiver, $subject, $content)
 
     // Cargar configuración desde archivo o variables de entorno
     $smtp_config = [
-        'host' =>  'smtp.hostinger.com',
-        'port' =>  587,
-        'username' =>  'no-reply@luiscruz.com.ar',
-        'password' =>  '@UZ8sU%hn47?_i5T+',
-        'from_name' =>  'Influencer Funds'
+        'host' => 'smtp.hostinger.com',
+        'port' => 587,
+        'username' => 'no-reply@luiscruz.com.ar',
+        'password' => '@UZ8sU%hn47?_i5T+',
+        'from_name' => 'Influencer Funds'
     ];
 
     try {
@@ -27,14 +27,15 @@ function send_mail($sender, $receiver, $subject, $content)
         $mail->Host = $smtp_config['host'];
         $mail->Port = $smtp_config['port'];
         $mail->SMTPAuth = true;
-        $mail->SMTPSecure = 'tls'; // Usar TLS explícito
+
+
         $mail->Username = $smtp_config['username'];
         $mail->Password = $smtp_config['password'];
 
         // Configuración de remitente fijo institucional (mejor para entregabilidad)
         $mail->setFrom($smtp_config['username'], $smtp_config['from_name']);
         $mail->addReplyTo($sender, $sender); // El usuario puede responder al remitente original
-        $mail->addAddress($receiver);
+        $mail->addAddress($receiver, $receiver);
 
         // Configuración de caracteres y formato
         $mail->CharSet = 'UTF-8';
@@ -55,7 +56,8 @@ function send_mail($sender, $receiver, $subject, $content)
         if ($mail->send()) {
             return [
                 'success' => true,
-                'message' => 'Email sent successfully'
+                'message' => 'Email sent successfully',
+                'mail' => $mail
             ];
         } else {
             return [
