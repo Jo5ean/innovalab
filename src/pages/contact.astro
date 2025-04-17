@@ -184,7 +184,10 @@ import Layout from "@/layouts/Layout.astro";
                             type: "success",
                         });
                         button.removeAttribute("disabled");
-                        button.classList.remove("opacity-50", "cursor-not-allowed");
+                        button.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed",
+                        );
                         button.innerHTML = "Send Request";
                         contactForm.reset();
                     } else {
@@ -193,7 +196,10 @@ import Layout from "@/layouts/Layout.astro";
                             type: "error",
                         });
                         button.removeAttribute("disabled");
-                        button.classList.remove("opacity-50", "cursor-not-allowed");
+                        button.classList.remove(
+                            "opacity-50",
+                            "cursor-not-allowed",
+                        );
                         button.innerHTML = "Send Request";
                         return;
                     }
@@ -202,9 +208,9 @@ import Layout from "@/layouts/Layout.astro";
                         message: "There was an error sending your request.",
                         type: "error",
                     });
-                        button.removeAttribute("disabled");
-                        button.classList.remove("opacity-50", "cursor-not-allowed");
-                        button.innerHTML = "Send Request";
+                    button.removeAttribute("disabled");
+                    button.classList.remove("opacity-50", "cursor-not-allowed");
+                    button.innerHTML = "Send Request";
                     return;
                 }
             });
