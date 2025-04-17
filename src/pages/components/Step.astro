@@ -3,7 +3,7 @@ import { steps } from "@/enum/data";
 ---
 
 <section
-    class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-start md:justify-center pt-24 md:pt-36 pb-16 md:pb-36 gap-y-6 md:gap-y-8 md:min-h-screen"
+    class="snap-start flex flex-col w-full md:container mx-auto px-10 md:px-24 items-start md:items-stretch justify-start md:justify-center pt-20 md:pt-32 pb-16 md:pb-36 gap-y-6 md:gap-y-8 md:min-h-screen"
 >
     <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl split-text font-light leading-tight">
         How <b class="font-bold italic">it works.</b>
@@ -23,16 +23,16 @@ import { steps } from "@/enum/data";
                             {index + 1}
                         </div>
                         <img
-                            class="w-40 h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 -ml-16 md:-ml-20"
+                            class="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-48 xl:h-48 2xl:w-52 2xl:h-52 -ml-14 sm:-ml-16 md:-ml-18 lg:-ml-20"
                             src={item.image}
                             alt={item.title}
                         />
                     </div>
                     <div class="w-full">
-                        <h3 class="text-sm sm:text-base md:text-lg font-bold italic">
+                        <h3 class="text-xs sm:text-sm md:text-base lg:text-lg 2xl:text-xl font-bold italic">
                             {item.title}
                         </h3>
-                        <p class="text-xs sm:text-sm md:text-base">{item.description}</p>
+                        <p class="text-xs sm:text-xs md:text-sm 2xl:text-base">{item.description}</p>
                     </div>
                 </div>
             ))
