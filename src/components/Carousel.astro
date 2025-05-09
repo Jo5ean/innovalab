@@ -1,0 +1,550 @@
+---
+// Importar los slides individuales
+import VideoSlide from './slides/VideoSlide.astro';
+import ButtonsSlide from './slides/ButtonsSlide.astro';
+import InfoSlide from './slides/InfoSlide.astro';
+
+// Define las propiedades del carrusel
+const { id = 'main-carousel' } = Astro.props;
+---
+
+<div class="carousel-container">
+  <div class="carousel" id={id}>
+    <div class="slides">
+      <div class="slide" id="slide1">
+        <VideoSlide />
+      </div>
+      <div class="slide" id="slide2">
+        <ButtonsSlide />
+      </div>
+      <div class="slide" id="slide3">
+        <InfoSlide />
+      </div>
+    </div>
+    
+    <!-- Flechas de navegación -->
+    <button class="nav-arrow prev-arrow" aria-label="Slide anterior">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 19L8 12L15 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="nav-arrow next-arrow" aria-label="Siguiente slide">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    
+    <!-- Botón de hamburguesa en esquina inferior derecha -->
+    <button class="menu-button" aria-label="Menú de navegación" aria-expanded="false">
+      <span class="hamburger"></span>
+    </button>
+  </div>
+  
+  <!-- Panel de navegación con miniaturas -->
+  <div class="navigation-panel">
+    <div class="navigation-header">
+      <h3>Navegación</h3>
+      <button class="close-button" aria-label="Cerrar navegación">×</button>
+    </div>
+    <div class="slide-thumbnails">
+      <button class="thumbnail-item active" data-slide="slide1" aria-label="Ir a slide 1">
+        <div class="thumbnail-preview">
+          <!-- Miniatura del primer slide -->
+          <div class="thumbnail-video">
+            <div class="thumb-overlay">Video</div>
+          </div>
+          <span class="thumbnail-title">Video Presentación</span>
+        </div>
+      </button>
+      <button class="thumbnail-item" data-slide="slide2" aria-label="Ir a slide 2">
+        <div class="thumbnail-preview">
+          <!-- Miniatura del segundo slide -->
+          <div class="thumbnail-buttons">
+            <div class="thumb-overlay">Menú</div>
+          </div>
+          <span class="thumbnail-title">Navegación Principal</span>
+        </div>
+      </button>
+      <button class="thumbnail-item" data-slide="slide3" aria-label="Ir a slide 3">
+        <div class="thumbnail-preview">
+          <!-- Miniatura del tercer slide -->
+          <div class="thumbnail-info">
+            <div class="thumb-overlay">Pautas</div>
+          </div>
+          <span class="thumbnail-title">Pautas de Exámenes</span>
+        </div>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Overlay que oscurece el fondo cuando se abre el panel -->
+  <div class="panel-overlay"></div>
+</div>
+
+<style>
+  .carousel-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .slides {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+  }
+  
+  .slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Botón de hamburguesa */
+  .menu-button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--ucasal-red);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
+  
+  .menu-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .hamburger {
+    position: relative;
+    width: 24px;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background-color: white;
+    border-radius: 2px;
+    left: 0;
+    transition: all 0.3s ease;
+  }
+  
+  .hamburger::before {
+    top: -7px;
+  }
+  
+  .hamburger::after {
+    bottom: -7px;
+  }
+  
+  /* Cuando el menú está abierto */
+  .menu-button.active .hamburger {
+    background-color: transparent;
+  }
+  
+  .menu-button.active .hamburger::before {
+    top: 0;
+    transform: rotate(45deg);
+  }
+  
+  .menu-button.active .hamburger::after {
+    bottom: 0;
+    transform: rotate(-45deg);
+  }
+  
+  /* Panel de navegación con miniaturas */
+  .navigation-panel {
+    position: fixed;
+    right: -320px;
+    bottom: 0;
+    width: 320px;
+    height: 100%;
+    background-color: white;
+    z-index: 1500;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease, transform 0.3s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    border-left: 4px solid var(--ucasal-red);
+  }
+  
+  .navigation-panel.active {
+    right: 0;
+    transform: translateX(0);
+  }
+  
+  .navigation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background-color: #f9f9f9;
+  }
+  
+  .navigation-header h3 {
+    margin: 0;
+    color: #333;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 16px;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+  
+  .close-button:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
+  }
+  
+  .slide-thumbnails {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .thumbnail-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  .thumbnail-item.active .thumbnail-preview {
+    border-color: var(--ucasal-red);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+  
+  .thumbnail-preview {
+    border: 2px solid #eee;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .thumbnail-item:hover .thumbnail-preview:not(.active) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .thumbnail-title {
+    display: block;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  /* Estilos para las miniaturas */
+  .thumbnail-video,
+  .thumbnail-buttons,
+  .thumbnail-info {
+    width: 100%;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  
+  .thumbnail-video {
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .thumbnail-buttons {
+    background: linear-gradient(135deg, rgba(109, 0, 128, 0.7), rgba(159, 0, 0, 0.7));
+  }
+  
+  .thumbnail-info {
+    background: linear-gradient(135deg, rgba(32, 44, 99, 0.7), rgba(225, 62, 62, 0.5));
+  }
+  
+  .thumb-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+  }
+  
+  /* Overlay para oscurecer el fondo cuando el panel está abierto */
+  .panel-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .panel-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Estilos para flechas de navegación */
+  .nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    color: white;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .prev-arrow {
+    left: 20px;
+  }
+  
+  .next-arrow {
+    right: 20px;
+  }
+  
+  .nav-arrow:hover, .nav-arrow:active {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Estilos responsive para flechas */
+  @media (max-width: 768px) {
+    .menu-button {
+      width: 50px;
+      height: 50px;
+      bottom: 20px;
+      right: 20px;
+    }
+    
+    .hamburger,
+    .hamburger::before,
+    .hamburger::after {
+      width: 20px;
+    }
+    
+    .hamburger::before {
+      top: -6px;
+    }
+    
+    .hamburger::after {
+      bottom: -6px;
+    }
+    
+    .navigation-panel {
+      width: 280px;
+    }
+    
+    .nav-arrow {
+      width: 40px;
+      height: 40px;
+    }
+    
+    .prev-arrow {
+      left: 10px;
+    }
+    
+    .next-arrow {
+      right: 10px;
+    }
+  }
+</style>
+
+<script>
+  // JavaScript para controlar el funcionamiento del carrusel
+  document.addEventListener('DOMContentLoaded', () => {
+    const slides = document.querySelector('.slides') as HTMLElement;
+    const menuButton = document.querySelector('.menu-button');
+    const navPanel = document.querySelector('.navigation-panel');
+    const panelOverlay = document.querySelector('.panel-overlay');
+    const closeButton = document.querySelector('.close-button');
+    const thumbnailItems = document.querySelectorAll('.thumbnail-item');
+    const prevArrow = document.querySelector('.prev-arrow') as HTMLElement;
+    const nextArrow = document.querySelector('.next-arrow') as HTMLElement;
+    
+    let currentIndex = 0;
+    const totalSlides = document.querySelectorAll('.slide').length;
+    
+    // Función para actualizar la posición del carrusel
+    function updateCarousel() {
+      if (slides) {
+        slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+        
+        // Actualizar las miniaturas activas
+        thumbnailItems.forEach((thumb, index) => {
+          if (index === currentIndex) {
+            thumb.classList.add('active');
+          } else {
+            thumb.classList.remove('active');
+          }
+        });
+        
+        // Actualizar visibilidad de flechas
+        if (prevArrow && nextArrow) {
+          prevArrow.style.visibility = currentIndex === 0 ? 'hidden' : 'visible';
+          nextArrow.style.visibility = currentIndex === totalSlides - 1 ? 'hidden' : 'visible';
+        }
+      }
+    }
+    
+    // Navegación con flechas
+    if (prevArrow) {
+      prevArrow.addEventListener('click', () => {
+        if (currentIndex > 0) {
+          currentIndex--;
+          updateCarousel();
+        }
+      });
+    }
+    
+    if (nextArrow) {
+      nextArrow.addEventListener('click', () => {
+        if (currentIndex < totalSlides - 1) {
+          currentIndex++;
+          updateCarousel();
+        }
+      });
+    }
+    
+    // Toggle menu de navegación
+    if (menuButton) {
+      menuButton.addEventListener('click', () => {
+        menuButton.classList.toggle('active');
+        menuButton.setAttribute(
+          'aria-expanded', 
+          menuButton.classList.contains('active') ? 'true' : 'false'
+        );
+        navPanel?.classList.toggle('active');
+        panelOverlay?.classList.toggle('active');
+        document.body.style.overflow = navPanel?.classList.contains('active') ? 'hidden' : '';
+      });
+    }
+    
+    // Cerrar panel con el botón de cerrar
+    if (closeButton) {
+      closeButton.addEventListener('click', () => {
+        menuButton?.classList.remove('active');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        navPanel?.classList.remove('active');
+        panelOverlay?.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+    
+    // Cerrar panel al hacer clic en el overlay
+    if (panelOverlay) {
+      panelOverlay.addEventListener('click', () => {
+        menuButton?.classList.remove('active');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        navPanel?.classList.remove('active');
+        panelOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+    
+    // Eventos para las miniaturas
+    thumbnailItems.forEach((thumb, index) => {
+      thumb.addEventListener('click', () => {
+        currentIndex = index;
+        updateCarousel();
+        
+        // Cerrar el panel después de seleccionar un slide
+        menuButton?.classList.remove('active');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        navPanel?.classList.remove('active');
+        panelOverlay?.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    });
+    
+    // Añadir navegación con teclado
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+        updateCarousel();
+      } else if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % totalSlides;
+        updateCarousel();
+      }
+    });
+    
+    // Inicializar el carrusel
+    updateCarousel();
+  });
+</script> 

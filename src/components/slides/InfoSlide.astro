@@ -1,0 +1,232 @@
+<div class="info-slide">
+  <div class="background-image"></div>
+  <div class="content-overlay">
+    <div class="info-container">
+      <h2 class="info-title">PAUTAS A TENER EN CUENTA:</h2>
+      
+      <div class="info-text">
+        <p>Debes presentarte en la Sede con tu DNI y tu notebook personal o habiendo reservado una computadora de la Sede a alguna de las siguientes direcciones de correo electrónico o teléfono:</p>
+        
+        <ul class="info-list">
+          <li>Mentor8@ucasal.edu.ar - (387) 4266511 - Sofía Martínez Merello.</li>
+          <li>Mentor10@ucasal.edu.ar - (387) 4266510 - Carolina Murillo.</li>
+          <li>Mentor15@ucasal.edu.ar - (387) 4266512 - Alejandro Schmidt.</li>
+        </ul>
+        
+        <p>La reserva debe realizarse con 48hs hábiles antes del examen.<br>
+        Debes estar en el aula 30 minutos antes del inicio del examen para la toma de asistencia y conexión a internet.<br>
+        Una vez iniciado el examen, no se permitirá el ingreso de ningún alumno al aula, sin excepción.</p>
+        
+        <div class="important-section">
+          <h3>IMPORTANTE:</h3>
+          <p>- Los plazos para inscribirse a exámenes finales son los siguientes:</p>
+          <ul class="important-list">
+            <li>o Regulares: 3 hábiles antes del examen.</li>
+            <li>o Libres: 6 días hábiles antes del examen.</li>
+            <li>o Eleva nota: 6 días hábiles antes del examen.</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="action-button">TURNOS</button>
+        <button class="action-button">CRONOGRAMA</button>
+        <button class="action-button">REQUISITOS</button>
+        <button class="action-button">MODALIDAD</button>
+      </div>
+    </div>
+  </div>
+  
+  <a href="#" class="home-button" aria-label="Volver al inicio">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </a>
+</div>
+
+<style>
+  .info-slide {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
+  
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    filter: brightness(0.3);
+  }
+  
+  .content-overlay {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  
+  .content-overlay::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .content-overlay::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+  
+  .info-container {
+    width: 100%;
+    max-width: 900px;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: clamp(20px, 4vh, 40px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    animation: fadeIn 1s ease-out;
+  }
+  
+  .info-title {
+    color: white;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin: 0 0 10px 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .info-text {
+    color: white;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    line-height: 1.5;
+  }
+  
+  .info-list, .important-list {
+    margin: 15px 0;
+    padding-left: 20px;
+  }
+  
+  .info-list li, .important-list li {
+    margin-bottom: 8px;
+  }
+  
+  .important-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgba(32, 44, 99, 0.5);
+    border-left: 4px solid #e13e3e;
+    border-radius: 5px;
+  }
+  
+  .important-section h3 {
+    color: white;
+    margin: 0 0 10px 0;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+  }
+  
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(10px, 2vh, 20px);
+    margin-top: 30px;
+    width: 100%;
+  }
+  
+  .action-button {
+    background-color: #e13e3e; /* Rojo UCASAL */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: clamp(12px, 2vh, 16px);
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+  
+  .action-button:hover, .action-button:active {
+    background-color: #ee5e58; /* Rojo claro */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.4);
+  }
+  
+  .home-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(32, 44, 99, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .home-button:hover, .home-button:active {
+    background-color: #202c63;
+    transform: scale(1.1);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .info-container {
+      padding: 20px;
+    }
+    
+    .action-buttons {
+      grid-template-columns: 1fr;
+    }
+    
+    .home-button {
+      width: 40px;
+      height: 40px;
+      top: 15px;
+      right: 15px;
+    }
+  }
+</style> 
