@@ -1,9 +1,9 @@
 {
-    "name": "Influencer Funds | Fast and Secure Payments for Creators and Agencies",
-    "short_name": "influencerfunds",
-    "description": "Influencer Funds helps you send fast, secure, and trackable payments to influencers and marketing agencies in over 80 countries and 20+ currencies, simplifying financial management.",
-    "theme_color": "#00FFFF",
-    "background_color": "#00FFFF",
+    "name": "Innova Web | Proyecto de desarrollo web",
+    "short_name": "innovaweb",
+    "description": "Aplicación web desarrollada con Astro y Tailwind CSS para un nuevo proyecto innovador.",
+    "theme_color": "#0284c7",
+    "background_color": "#0284c7",
     "display": "fullscreen"
   }
   

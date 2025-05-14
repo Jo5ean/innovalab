@@ -18,7 +18,7 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/x-icon" href="/logos/logo.webp" />
+		<link rel="icon" type="image/x-icon" href="/logos/favicon.png" />
 		<title>{config.title}</title>
 
 		<meta charset="UTF-8" />
@@ -63,10 +63,9 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 			rel="stylesheet"
 		/>
 
-		<link
-			rel="stylesheet"
-			href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css"
-		/>
+		<!-- Swiper CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
 		<script type="text/javascript">
 			(function (c, l, a, r, i, t, y) {
 				c[a] =
@@ -96,6 +95,9 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 			gtag("config", "G-B5NFM9KCSC");
 		</script>
 
+		<!-- Swiper JS -->
+		<script is:inline src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
 		<style is:global>
 			/* Fuentes para toda la página */
 			body {
@@ -118,21 +120,6 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 				font-weight: 700;
 			}
 
-			/* Animación para letras individuales */
-			.split-text .char {
-				display: inline-block;
-				opacity: 0;
-				transform: translateY(30px);
-				transition:
-					opacity 0.3s ease,
-					transform 0.3s ease;
-			}
-
-			.split-text .char.visible {
-				opacity: 1;
-				transform: translateY(0);
-			}
-
 			/* Animación para contenedores */
 			.fade-in {
 				opacity: 0;
@@ -151,11 +138,40 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 			.count-number-original {
 				display: none;
 			}
+
+			/* Estilos para el Swiper */
+			.swiper-container {
+				width: 100%;
+				height: 100vh;
+				overflow: hidden;
+			}
+
+			.swiper-slide {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				overflow: hidden;
+			}
+
+			/* Navegación personalizada */
+			.swiper-pagination-bullet {
+				width: 12px;
+				height: 12px;
+				background: #fff;
+				opacity: 0.6;
+			}
+
+			.swiper-pagination-bullet-active {
+				opacity: 1;
+				background: #E53935;
+			}
 		</style>
 	</head>
 	<body class="max-w-full overflow-x-hidden font-['Montserrat']">
 		<Header />
-		<main class="flex flex-col items-stretch justify-between">
+		<main class="flex flex-col items-stretch justify-between h-screen">
 			<slot />
 		</main>
 		<script define:vars={{ isContactPage }}>
@@ -268,60 +284,7 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 				});
 			}
 		</script>
-		<script>
-			import SplitType from "split-type";
-			document.addEventListener("DOMContentLoaded", () => {
-				// Configurar animación de texto letra por letra
-				document.querySelectorAll(".split-text").forEach((element) => {
-					if (element instanceof HTMLElement) {
-						new SplitType(element, { types: "chars" });
-					}
-				});
-
-				// Crear observer para animar elementos al verlos
-				const observer = new IntersectionObserver(
-					(entries) => {
-						entries.forEach((entry) => {
-							if (entry.isIntersecting) {
-								// Si es un título con animación letra por letra
-								if (
-									entry.target.classList.contains(
-										"split-text",
-									)
-								) {
-									const chars =
-										entry.target.querySelectorAll(".char");
-									chars.forEach((char, index) => {
-										setTimeout(() => {
-											char.classList.add("visible");
-										}, 30 * index);
-									});
-								}
-								// Si es un contenedor con fade
-								else if (
-									entry.target.classList.contains("fade-in")
-								) {
-									entry.target.classList.add("visible");
-								}
-
-								// Dejar de observar después de animar
-								observer.unobserve(entry.target);
-							}
-						});
-					},
-					{
-						threshold: 0.2,
-					},
-				);
-
-				// Observar todos los elementos que necesitan animación
-				document
-					.querySelectorAll(".split-text, .fade-in")
-					.forEach((el) => {
-						observer.observe(el);
-					});
-			});
-		</script>
+	
 		<script is:inline>
 			// Animación de contadores de manera no invasiva
 			const counterSection = document.querySelector(

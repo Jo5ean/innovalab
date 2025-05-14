@@ -1,0 +1,653 @@
+<div class="buttons-slide">
+  <div class="background-image"></div>
+  <div class="content-overlay">
+    <!-- Consulta de aula por DNI -->
+    <div class="search-section">
+      <div class="search-container">
+        <h2 class="search-title">Consulta tu aula de examen</h2>
+        <div class="search-box">
+          <input type="text" id="dni-input" placeholder="Ingresa tu DNI" inputmode="numeric" maxlength="10" />
+          <button id="search-button">
+            <span class="search-icon">🔍</span>
+          </button>
+        </div>
+        <div class="search-result" id="search-result">
+          <!-- Aquí se mostrarán los resultados -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="cards-container">
+      <button class="card-button">
+        <div class="card-icon">👨‍🎓</div>
+        <div class="card-content">
+          <h3>INGRESANTES</h3>
+          <p>Información para alumnos de primer año</p>
+        </div>
+      </button>
+      <button class="card-button">
+        <div class="card-icon">📚</div>
+        <div class="card-content">
+          <h3>ALUMNOS</h3>
+          <p>Recursos y servicios para estudiantes</p>
+        </div>
+      </button>
+      <button class="card-button">
+        <div class="card-icon">📝</div>
+        <div class="card-content">
+          <h3>EXÁMENES FINALES</h3>
+          <p>Fechas y requisitos para exámenes</p>
+        </div>
+      </button>
+      <button class="card-button" id="equivalencias-btn">
+        <div class="card-icon">🔄</div>
+        <div class="card-content">
+          <h3>EQUIVALENCIAS</h3>
+          <p>Trámites y procedimientos</p>
+        </div>
+      </button>
+      <button class="card-button">
+        <div class="card-icon">🗺️</div>
+        <div class="card-content">
+          <h3>MAPA UCASAL</h3>
+          <p>Ubicaciones y puntos de interés</p>
+        </div>
+      </button>
+      <button class="card-button faq-card">
+        <div class="card-icon">❓</div>
+        <div class="card-content">
+          <h3>PREGUNTAS FRECUENTES</h3>
+          <p>Consultas y soluciones comunes</p>
+        </div>
+      </button>
+    </div>
+  </div>
+  
+  <div class="bottom-area">
+    <div class="ucasal-logo">
+      <img src="/logos/ucasalx.svg" alt="Logo UCASAL" />
+    </div>
+  </div>
+</div>
+
+<!-- Modal de equivalencias -->
+<div id="equivalencias-modal" class="equivalencias-modal">
+  <div class="modal-content">
+    <h2>Selecciona el tipo de equivalencia</h2>
+    <div class="modal-buttons">
+      <button class="modal-btn">Equivalencias Internas</button>
+      <button class="modal-btn">Equivalencias Externas</button>
+    </div>
+    <button class="close-modal" id="close-modal">✕</button>
+  </div>
+</div>
+
+<style>
+  .buttons-slide {
+    width: 100%;
+    height: 100vh; /* Usar viewport height para ocupar toda la altura */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    touch-action: manipulation; /* Mejorar comportamiento táctil */
+  }
+  
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    filter: brightness(0.4);
+  }
+  
+  .content-overlay {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3vh 20px;
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    gap: 3vh; /* Espaciado entre sección de búsqueda y tarjetas */
+  }
+  
+  /* Ocultar scrollbar pero mantener funcionalidad */
+  .content-overlay::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .content-overlay::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+  }
+  
+  /* Estilos para la sección de búsqueda */
+  .search-section {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 0; /* Quitamos margen porque ya tenemos gap en content-overlay */
+    animation: fadeInDown 0.8s ease-out;
+  }
+  
+  .search-container {
+    background-color: rgba(32, 44, 99, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: clamp(20px, 4vh, 30px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+  }
+  
+  .search-title {
+    color: white;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    margin: 0 0 clamp(15px, 2vh, 20px) 0;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  .search-box {
+    display: flex;
+    margin: 0 auto;
+    max-width: 500px;
+    position: relative;
+  }
+  
+  #dni-input {
+    flex: 1;
+    padding: clamp(12px, 2vh, 15px) clamp(15px, 3vw, 20px);
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    border: none;
+    border-radius: 50px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    -webkit-appearance: none; /* Eliminar estilos del navegador */
+  }
+  
+  #dni-input:focus {
+    outline: none;
+    box-shadow: 0 4px 12px rgba(238, 94, 88, 0.4), inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  #search-button {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #e13e3e;
+    border: none;
+    color: white;
+    width: clamp(38px, 5vh, 45px);
+    height: clamp(38px, 5vh, 45px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    -webkit-tap-highlight-color: transparent; /* Eliminar highlight al tocar */
+  }
+  
+  #search-button:hover, #search-button:active {
+    background-color: #ee5e58;
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .search-icon {
+    font-size: clamp(16px, 2vh, 20px);
+  }
+  
+  .search-result {
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-top: clamp(15px, 2vh, 20px);
+    padding: 15px;
+    border-radius: 10px;
+    display: none;
+    animation: fadeIn 0.5s ease-out;
+    text-align: left;
+  }
+  
+  .search-result.active {
+    display: block;
+  }
+  
+  .cards-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Siempre 2 columnas */
+    gap: clamp(15px, 2vh, 25px);
+    width: 100%;
+    max-width: 800px; /* Mismo ancho que el cuadro de consulta */
+    margin: 0 auto;
+    padding: 0;
+    /* Asegurar que siempre haya 3 filas */
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: row;
+  }
+  
+  .card-button {
+    background-color: rgba(32, 44, 99, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: none;
+    border-radius: 15px;
+    padding: clamp(15px, 2vh, 25px) clamp(15px, 2vw, 20px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    height: clamp(80px, 10vh, 100px); /* Altura fija para todas las tarjetas */
+    color: white;
+    transform-origin: center;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    -webkit-tap-highlight-color: transparent; /* Eliminar highlight al tocar */
+  }
+  
+  .card-content {
+    flex: 1;
+  }
+  
+  .card-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #e13e3e;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s ease;
+  }
+  
+  .card-button:hover, .card-button:active {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    background-color: rgba(32, 44, 99, 0.9);
+    border-color: rgba(238, 94, 88, 0.5);
+  }
+  
+  .card-button:hover::before, .card-button:active::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  .card-icon {
+    font-size: clamp(30px, 4vh, 40px);
+    margin-right: 15px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    flex-shrink: 0;
+  }
+  
+  .card-button h3 {
+    margin: 0 0 5px 0;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 700;
+    color: white;
+    transition: all 0.3s ease;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .card-button p {
+    margin: 0;
+    font-size: clamp(12px, 1.5vw, 14px);
+    opacity: 0.9;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  .faq-card {
+    background-color: rgba(98, 83, 139, 0.8);
+  }
+  
+  .faq-card:hover, .faq-card:active {
+    background-color: rgba(98, 83, 139, 0.9);
+    border-color: rgba(238, 94, 88, 0.5);
+  }
+  
+  .bottom-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: clamp(10px, 2vh, 20px);
+    z-index: 2;
+    position: relative;
+  }
+  
+  .ucasal-logo img {
+    height: clamp(30px, 5vh, 50px);
+    margin-left: clamp(10px, 2vw, 20px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Media queries para diferentes tamaños de pantalla */
+  @media (max-width: 1200px) {
+    .cards-container {
+      gap: clamp(15px, 2vw, 20px);
+    }
+  }
+  
+  /* Tablet y dispositivos pequeños */
+  @media (max-width: 900px) {
+    .content-overlay {
+      padding: 2vh 15px;
+    }
+  }
+  
+  /* Móvil */
+  @media (max-width: 640px) {
+    .cards-container {
+      grid-template-columns: 1fr; /* 1 columna en móvil - formato de lista */
+      gap: 12px;
+      /* No necesitamos filas fijas en móvil */
+      grid-template-rows: unset;
+    }
+    
+    .card-button {
+      width: 100%;
+      text-align: left;
+      height: auto; /* Altura automática en móvil */
+      min-height: 60px; /* Pero con un mínimo */
+      padding: 12px 15px;
+    }
+    
+    .search-container {
+      padding: 15px;
+    }
+    
+    .content-overlay {
+      padding: 2vh 10px;
+      gap: 2vh; /* Menor espaciado en móvil */
+    }
+  }
+  
+  /* Asegurarse de manejar orientaciones de dispositivo */
+  @media (max-height: 700px) and (orientation: landscape) {
+    .search-section {
+      margin-bottom: 2vh;
+    }
+    
+    .cards-container {
+      gap: 10px;
+    }
+    
+    .card-button {
+      min-height: 60px;
+      padding: 10px 15px;
+    }
+    
+    .card-icon {
+      font-size: 24px;
+    }
+  }
+  
+  /* Pantallas táctiles grandes */
+  @media (pointer: coarse) and (min-width: 768px) {
+    .card-button, #search-button {
+      /* Targets especially touch devices like iPads */
+      cursor: pointer;
+      transition: all 0.2s ease; /* Faster transition for touch devices */
+    }
+    
+    .card-button:active {
+      transform: scale(0.98);
+    }
+    
+    #dni-input {
+      font-size: 16px; /* Evitar zoom en iOS */
+    }
+  }
+  
+  .equivalencias-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30, 40, 60, 0.45);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s;
+  }
+  .equivalencias-modal.active {
+    display: flex;
+  }
+  .modal-content {
+    background: rgba(255,255,255,0.97);
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    padding: 38px 32px 28px 32px;
+    min-width: 320px;
+    max-width: 90vw;
+    text-align: center;
+    position: relative;
+    animation: modalIn 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+  }
+  @keyframes modalIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .modal-content h2 {
+    font-size: 1.4rem;
+    color: #1e283c;
+    margin-bottom: 22px;
+    font-weight: 700;
+  }
+  .modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .modal-btn {
+    background: #e13e3e;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 16px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+    text-transform: uppercase;
+  }
+  .modal-btn:hover {
+    background: #ee5e58;
+    transform: translateY(-2px);
+  }
+  .close-modal {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #e13e3e;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s;
+  }
+  .close-modal:hover {
+    color: #b71c1c;
+  }
+  /* Blur al fondo cuando el modal está activo */
+  body.modal-open .buttons-slide, body.modal-open .background-image, body.modal-open .content-overlay, body.modal-open .bottom-area {
+    filter: blur(7px) grayscale(0.1);
+    pointer-events: none;
+    user-select: none;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const dniInput = document.getElementById('dni-input') as HTMLInputElement;
+    const searchButton = document.getElementById('search-button') as HTMLButtonElement;
+    const searchResult = document.getElementById('search-result') as HTMLDivElement;
+    
+    // Datos de ejemplo - en un caso real, estos vendrían de una API o base de datos
+    const examenPorDni: Record<string, {materia: string, aula: string, fecha: string, hora: string}> = {
+      '12345678': { materia: 'Matemáticas', aula: 'A101', fecha: '10/12/2023', hora: '10:00' },
+      '23456789': { materia: 'Física', aula: 'B205', fecha: '11/12/2023', hora: '14:30' },
+      '34567890': { materia: 'Química', aula: 'C310', fecha: '12/12/2023', hora: '09:15' },
+    };
+    
+    // Función para manejar la búsqueda
+    function buscarAula() {
+      if (!dniInput || !searchResult) return;
+      
+      const dni = dniInput.value.trim();
+      
+      if (dni.length < 7) {
+        mostrarResultado(`<div class="error-message">Por favor, ingresa un DNI válido</div>`);
+        return;
+      }
+      
+      const resultado = examenPorDni[dni];
+      
+      if (resultado) {
+        mostrarResultado(`
+          <div class="success-message">
+            <h3>Información de Examen</h3>
+            <div class="result-item"><strong>Materia:</strong> ${resultado.materia}</div>
+            <div class="result-item"><strong>Aula:</strong> ${resultado.aula}</div>
+            <div class="result-item"><strong>Fecha:</strong> ${resultado.fecha}</div>
+            <div class="result-item"><strong>Hora:</strong> ${resultado.hora}</div>
+          </div>
+        `);
+      } else {
+        mostrarResultado(`
+          <div class="error-message">
+            No se encontraron exámenes programados para el DNI: ${dni}
+          </div>
+        `);
+      }
+    }
+    
+    // Función para mostrar el resultado
+    function mostrarResultado(html: string) {
+      if (!searchResult) return;
+      
+      searchResult.innerHTML = html;
+      searchResult.classList.add('active');
+      
+      // Aplicar estilos adicionales según el contenido
+      if (html.includes('error-message')) {
+        searchResult.style.backgroundColor = 'rgba(255, 220, 220, 0.9)';
+      } else {
+        searchResult.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+      }
+    }
+    
+    // Event listeners
+    if (searchButton) {
+      searchButton.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevenir que se propague a los botones de navegación
+        buscarAula();
+      });
+    }
+    
+    if (dniInput) {
+      dniInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.stopPropagation(); // Prevenir propagación
+          buscarAula();
+        }
+      });
+      
+      // Solo permitir números en el input
+      dniInput.addEventListener('input', (e) => {
+        e.stopPropagation(); // Prevenir propagación
+        const input = e.target as HTMLInputElement;
+        input.value = input.value.replace(/[^0-9]/g, '');
+      });
+    }
+    
+    // Agregar stopPropagation a todos los botones de tarjeta
+    const cardButtons = document.querySelectorAll('.card-button');
+    cardButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevenir que se propague a los botones de navegación
+        // Aquí va la lógica de la tarjeta (si hay alguna)
+        console.log('Tarjeta clickeada:', (e.currentTarget as HTMLElement).textContent?.trim());
+      });
+    });
+    
+    // Detectar y adaptar a pantallas táctiles
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) {
+      document.body.classList.add('touch-device');
+    }
+
+    const equivalenciasBtn = document.getElementById('equivalencias-btn');
+    const equivalenciasModal = document.getElementById('equivalencias-modal');
+    const closeModal = document.getElementById('close-modal');
+
+    if (equivalenciasBtn && equivalenciasModal && closeModal) {
+      equivalenciasBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        equivalenciasModal.classList.add('active');
+        document.body.classList.add('modal-open');
+      });
+      closeModal.addEventListener('click', (e) => {
+        e.stopPropagation();
+        equivalenciasModal.classList.remove('active');
+        document.body.classList.remove('modal-open');
+      });
+      equivalenciasModal.addEventListener('click', (e) => {
+        if (e.target === equivalenciasModal) {
+          equivalenciasModal.classList.remove('active');
+          document.body.classList.remove('modal-open');
+        }
+      });
+    }
+  });
+</script>

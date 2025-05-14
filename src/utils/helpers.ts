@@ -1,4 +1,3 @@
-import { Notyf } from 'notyf';
 interface Rows {
     fullhd: number
     hd: number
@@ -67,38 +66,48 @@ export const initCarrousel = ({ carousel, prevBtn, nextBtn, currentIndex, rows }
 type MessageType = 'success' | 'error';
 
 /**
- * Función para mostrar un mensaje utilizando Toastr.
+ * Función para mostrar un mensaje de notificación simple.
  * @param message - El mensaje que se mostrará.
  * @param type - El tipo de mensaje: 'success', 'error'.
  */
 export function message({ message, type }: { message: string, type: MessageType }): void {
-    const notyf = new Notyf({
-        position: { x: 'center', y: 'bottom' },
-        duration: 3000,
-        dismissible: true,
-        ripple: true,
-        types: [
-            {
-                type: 'error',
-                background: '#EF4444',
-                dismissible: true
-            },
-            {
-                type: 'success',
-                background: '#10B981',
-                dismissible: true
-            }
-        ]
-    });
-
-    switch (type) {
-        case 'success':
-            notyf.success(message);
-            break;
-        case 'error':
-            notyf.error(message);
-            break;
-        default:
-            throw new Error(`Tipo de mensaje no válido: ${type}`);
+    // Crear elemento de notificación
+    const notification = document.createElement('div');
+    notification.textContent = message;
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.left = '50%';
+    notification.style.transform = 'translateX(-50%)';
+    notification.style.padding = '12px 24px';
+    notification.style.borderRadius = '4px';
+    notification.style.fontFamily = 'Montserrat, sans-serif';
+    notification.style.fontWeight = '500';
+    notification.style.color = 'white';
+    notification.style.zIndex = '9999';
+    notification.style.opacity = '0';
+    notification.style.transition = 'opacity 0.3s ease';
+    notification.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+    
+    // Aplicar estilos según el tipo
+    if (type === 'success') {
+        notification.style.backgroundColor = '#10B981';
+    } else if (type === 'error') {
+        notification.style.backgroundColor = '#EF4444';
     }
+
+    // Añadir al DOM
+    document.body.appendChild(notification);
+    
+    // Mostrar con animación
+    setTimeout(() => {
+        notification.style.opacity = '1';
+    }, 10);
+
+    // Eliminar después de 3 segundos
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
 }

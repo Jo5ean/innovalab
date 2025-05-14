@@ -1,18 +1,156 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Hero from "./components/Hero.astro";
-import Relief from "./components/Relief.astro";
-import Step from "./components/Step.astro";
-import Pricing from "./components/Pricing.astro";
-import Final from "./components/Final.astro";
-import Counters from "./components/Counters.astro";
+import Slide1 from "./components/Slide1.astro";
+import Slide2 from "./components/Slide2.astro";
+import Slide3 from "./components/Slide3.astro";
+import Slide4 from "./components/Slide4.astro";
+import Slide5 from "./components/Slide5.astro";
+import Slide6 from "./components/Slide6.astro"; 
+import Slide8 from "./components/Slide8.astro";
 ---
 
 <Layout>
-    <Hero />
-    <Relief />
-    <Step />
-    <Counters />
-    <Pricing />
-    <Final />
+    <div class="swiper-container main-swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1: Video Introductorio -->
+            <div class="swiper-slide" data-slide-name="video">
+                <Slide1 />
+            </div>
+            
+            <!-- Slide 2: Botones con consulta de DNI -->
+            <div class="swiper-slide" data-slide-name="buttons">
+                <Slide2 />
+            </div>
+            
+            <!-- Slide 3: Información -->
+            <div class="swiper-slide" data-slide-name="info">
+                <Slide3 />
+            </div>
+
+            <!-- Slide 4: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide4 />
+            </div>
+
+            <!-- Slide 5: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide5 />
+            </div>
+
+            <!-- Slide 6: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide6 />
+            </div>
+            
+            <!-- Slide 7: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide8 />
+            </div>
+        </div>
+        
+        <!-- Paginación -->
+        <div class="swiper-pagination"></div>
+        
+        <!-- Botones de navegación -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
 </Layout>
+
+<script>
+    // Inicializar Swiper cuando se cargue el DOM
+    document.addEventListener('DOMContentLoaded', function() {
+        // @ts-ignore - Importamos Swiper desde la ventana global
+        const swiper = new window.Swiper('.main-swiper', {
+            direction: 'horizontal',
+            loop: false,
+            slidesPerView: 1,
+            spaceBetween: 0,
+            speed: 800,
+            allowTouchMove: true, // Permitir navegación táctil
+            
+            // Efecto de transición
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            
+            // Paginación
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true
+            },
+            
+            // Botones de navegación
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            },
+            
+            // Eventos
+            on: {
+                init: function() {
+                    console.log('Swiper inicializado');
+                }
+            }
+        });
+        
+        // Manejador para el botón "COMENZAR" en VideoSlide
+        const startButton = document.querySelector('.start-button');
+        if (startButton) {
+            startButton.addEventListener('click', () => {
+                swiper.slideNext();
+            });
+        }
+        
+        // Manejadores para los botones del menú
+        const menuButtons = document.querySelectorAll('.menu-button[data-action]');
+        menuButtons.forEach(button => {
+            button.addEventListener('click', function(this: HTMLButtonElement) {
+                const action = this.getAttribute('data-action');
+                
+                // Navegar según la acción seleccionada
+                if (action === 'inscripcion') {
+                    swiper.slideTo(1); // ButtonsSlide con consulta de DNI
+                } else if (action === 'legajo-digital') {
+                    swiper.slideTo(2); // ButtonsSlide con consulta de DNI
+                } else if (action === 'ingreso-art7') {
+                    swiper.slideTo(3); // InfoSlide
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    /* Estilos adicionales para la navegación del Swiper */
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #fff;
+        background-color: rgba(0, 0, 0, 0.3);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
+        font-size: 18px;
+    }
+    
+    .swiper-button-next {
+        right: 20px;
+    }
+    
+    .swiper-button-prev {
+        left: 20px;
+    }
+    
+    /* Posicionamiento de la paginación */
+    .swiper-pagination {
+        bottom: 30px !important;
+    }
+</style>

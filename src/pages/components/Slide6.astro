@@ -1,0 +1,127 @@
+<div class="slide6-container">
+  <div class="background-image"></div>
+  <div class="slide6-content">
+    <div class="slide6-buttons-row">
+      <button class="slide6-btn">GESTIONES<br>ACADÉMICAS</button>
+      <button class="slide6-btn">GESTIONES<br>ADMINISTRATIVAS</button>
+      <button class="slide6-btn">EMISIÓN<br>BOLETAS DE PAGO</button>
+      <button class="slide6-btn">CONSULTAS<br>ACADÉMICAS</button>
+      <button class="slide6-btn">CONSULTAS<br>Y RECLAMOS</button>
+    </div>
+  </div>
+</div>
+
+<style>
+.slide6-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  filter: brightness(0.6);
+}
+.slide6-content {
+  position: relative;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.slide6-buttons-row {
+  display: flex;
+  gap: 38px;
+  justify-content: center;
+  align-items: center;
+}
+.slide6-btn {
+  background-color: #e13e3e;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 38px 32px;
+  min-width: 210px;
+  min-height: 170px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: background 0.2s, transform 0.2s;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.slide6-btn:hover, .slide6-btn:active {
+  background-color: #ee5e58;
+  transform: translateY(-3px);
+}
+.slide6-home-btn {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  z-index: 2;
+}
+.home-circle {
+  width: 48px;
+  height: 48px;
+  background: rgba(30,40,60,0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  border: 2px solid #fff;
+}
+@media (max-width: 1200px) {
+  .slide6-btn {
+    min-width: 160px;
+    min-height: 120px;
+    font-size: 1rem;
+    padding: 24px 10px;
+  }
+  .slide6-buttons-row {
+    gap: 18px;
+  }
+}
+@media (max-width: 900px) {
+  .slide6-btn {
+    min-width: 120px;
+    min-height: 90px;
+    font-size: 0.95rem;
+    padding: 14px 6px;
+  }
+  .slide6-home-btn {
+    top: 18px;
+    right: 18px;
+  }
+}
+@media (max-width: 700px) {
+  .slide6-buttons-row {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .slide6-content {
+    justify-content: flex-start;
+    padding-top: 60px;
+  }
+}
+</style> 
