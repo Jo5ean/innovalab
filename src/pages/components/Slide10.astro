@@ -1,0 +1,199 @@
+<div class="slide8-container">
+  <div class="background-image"></div>
+  <div class="slide8-content">
+    <div class="slide8-row">
+      <div class="slide8-step-text">
+        <div class="slide8-step-number">5</div>
+        <div class="slide8-step-desc">
+          Habiendo ingresado al SAG, deberás dirigirte a la sección <b>Gestiones Académicas</b>, elegir <b>Mis carreras/Cursos</b> y seleccionar tu carrera en el botón <b>Elegir</b>.
+        </div>
+      </div>
+      <div class="slide8-step-imgs">
+        <img src="/images/slides/slide101.jpg" alt="Paso 5 UCASAL 1" />
+      </div>
+    </div>
+    <div class="center-img">
+      <img src="/images/slides/slide102.jpg" alt="Paso 5 UCASAL 2" />
+    </div>
+    <div class="slide8-row">
+      <div class="slide8-step-text">
+        <div class="slide8-step-number">6</div>
+        <div class="slide8-step-desc">
+          A continuación, ingresar a la sección <b>Gestiones Académicas</b> y dar click en el botón <b>Completar Inscripción</b>.<br>
+          Por último, deberás hacer click en completar tus datos personales y cargar tu legajo digital.
+        </div>
+      </div>
+      <div class="slide8-step-img">
+        <img src="/images/slides/slide103.jpg" alt="Paso 6 UCASAL" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.slide8-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  filter: brightness(0.7);
+}
+.slide8-content {
+  position: relative;
+  z-index: 1;
+  width: 96vw;
+  max-width: 950px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin: 0 auto;
+  padding: 12px 0;
+}
+.slide8-row {
+  display: flex;
+  flex-direction: row;
+  background: rgba(23, 21, 21, 0.5);
+  border-radius: 12px;
+  padding: 12px 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  align-items: flex-start;
+  gap: 10px;
+}
+.slide8-step-text {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
+  flex: 1.2;
+  min-width: 160px;
+  max-width: 320px;
+}
+.slide8-step-number {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #e13e3e;
+  line-height: 1;
+  margin-right: 8px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+.slide8-step-desc {
+  font-size: 1.05rem;
+  color: #ffffff;
+  font-weight: 400;
+  line-height: 1.3;
+  font-family: 'Montserrat', Arial, sans-serif;
+  margin-top: 4px;
+}
+.slide8-step-imgs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 2;
+  align-items: flex-end;
+  justify-content: center;
+}
+.slide8-step-imgs img {
+  max-width: 280px;
+  width: 80%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+  padding: 3px;
+}
+.slide8-step-img {
+  flex: 2;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.slide8-step-img img {
+  max-width: 250px;
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  background: #fff;
+  padding: 3px;
+}
+.center-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 8px 0;
+}
+.center-img img {
+  width: 80%;
+  max-width: 700px;
+}
+@media (max-width: 900px) {
+  .slide8-content {
+    width: 99vw;
+    padding: 6px 0;
+    gap: 10px;
+  }
+  .slide8-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px 2px;
+  }
+  .slide8-step-imgs {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .slide8-step-imgs img,
+  .slide8-step-img img {
+    max-width: 48vw;
+    min-width: 120px;
+  }
+  .slide8-step-text {     
+    max-width: 100%;
+    min-width: unset;
+  }
+  .slide8-step-number {
+    font-size: 1.3rem;
+  }
+  .slide8-step-desc {
+    font-size: 0.92rem;
+  }
+}
+@media (max-width: 600px) {
+  .slide8-content {
+    padding: 2px 0;
+    gap: 6px;
+  }
+  .slide8-row {
+    padding: 4px 1px;
+  }
+  .slide8-step-imgs {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .slide8-step-imgs img,
+  .slide8-step-img img {
+    max-width: 98vw;
+    min-width: 80px;
+  }
+  .slide8-step-number {
+    font-size: 1.1rem;
+  }
+  .slide8-step-desc {
+    font-size: 0.82rem;
+  }
+}
+</style>

@@ -48,6 +48,8 @@
   gap: 38px;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
 }
 .slide6-btn {
   background-color: #e13e3e;
@@ -116,12 +118,24 @@
 }
 @media (max-width: 700px) {
   .slide6-buttons-row {
-    flex-direction: column;
-    gap: 18px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 0 12px;
+  }
+  .slide6-buttons-row button:nth-child(4),
+  .slide6-buttons-row button:nth-child(5) {
+    grid-column: span 2;
   }
   .slide6-content {
     justify-content: flex-start;
     padding-top: 60px;
+  }
+  .slide6-btn {
+    min-width: 100%;
+    min-height: 80px;
+    font-size: 0.85rem;
+    padding: 10px 4px;
   }
 }
 </style> 

@@ -18,7 +18,7 @@
     </div>
     
     <div class="cards-container">
-      <button class="card-button">
+      <button class="card-button" id="ingresantes-btn">
         <div class="card-icon">👨‍🎓</div>
         <div class="card-content">
           <h3>INGRESANTES</h3>
@@ -32,7 +32,7 @@
           <p>Recursos y servicios para estudiantes</p>
         </div>
       </button>
-      <button class="card-button">
+      <button class="card-button" id="examenes-btn">
         <div class="card-icon">📝</div>
         <div class="card-content">
           <h3>EXÁMENES FINALES</h3>
@@ -89,7 +89,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center; /* Cambiado de space-between a center */
     position: relative;
     overflow: hidden;
     touch-action: manipulation; /* Mejorar comportamiento táctil */
@@ -115,6 +115,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center; /* Añadir centrado vertical */
     padding: 3vh 20px;
     flex: 1;
     overflow-y: auto;
@@ -333,7 +334,8 @@
     width: 100%;
     padding: clamp(10px, 2vh, 20px);
     z-index: 2;
-    position: relative;
+    position: absolute; /* Cambiado de relative a absolute */
+    bottom: 0; /* Posicionarlo en la parte inferior */
   }
   
   .ucasal-logo img {
@@ -525,6 +527,69 @@
     pointer-events: none;
     user-select: none;
   }
+  
+  /* Estilos para las tarjetas de exámenes */
+  .examenes-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+  }
+  
+  .examen-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .examen-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  }
+  
+  .examen-header {
+    background-color: #e13e3e;
+    color: white;
+    padding: 12px 15px;
+  }
+  
+  .examen-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .examen-details {
+    padding: 15px;
+  }
+  
+  .examen-detail {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+  
+  .examen-detail:last-child {
+    margin-bottom: 0;
+  }
+  
+  .error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    padding: 12px 15px;
+    border-radius: 6px;
+    border-left: 4px solid #f5c6cb;
+  }
+  
+  @media (max-width: 640px) {
+    .examen-header h3 {
+      font-size: 1rem;
+    }
+    
+    .examen-detail {
+      font-size: 0.9rem;
+    }
+  }
 </style>
 
 <script>
@@ -534,10 +599,19 @@
     const searchResult = document.getElementById('search-result') as HTMLDivElement;
     
     // Datos de ejemplo - en un caso real, estos vendrían de una API o base de datos
-    const examenPorDni: Record<string, {materia: string, aula: string, fecha: string, hora: string}> = {
-      '12345678': { materia: 'Matemáticas', aula: 'A101', fecha: '10/12/2023', hora: '10:00' },
-      '23456789': { materia: 'Física', aula: 'B205', fecha: '11/12/2023', hora: '14:30' },
-      '34567890': { materia: 'Química', aula: 'C310', fecha: '12/12/2023', hora: '09:15' },
+    const examenPorDni: Record<string, Array<{materia: string, aula: string, fecha: string, hora: string}>> = {
+      '12345678': [
+        { materia: 'Matemáticas', aula: 'A101', fecha: '10/12/2023', hora: '10:00' },
+        { materia: 'Física', aula: 'B205', fecha: '11/12/2023', hora: '14:30' },
+        { materia: 'Programación', aula: 'C310', fecha: '12/12/2023', hora: '09:15' }
+      ],
+      '23456789': [
+        { materia: 'Química', aula: 'B201', fecha: '10/12/2023', hora: '12:00' },
+        { materia: 'Historia', aula: 'A305', fecha: '15/12/2023', hora: '16:30' }
+      ],
+      '34567890': [
+        { materia: 'Literatura', aula: 'D105', fecha: '14/12/2023', hora: '08:30' }
+      ]
     };
     
     // Función para manejar la búsqueda
@@ -551,18 +625,27 @@
         return;
       }
       
-      const resultado = examenPorDni[dni];
+      const examenes = examenPorDni[dni];
       
-      if (resultado) {
-        mostrarResultado(`
-          <div class="success-message">
-            <h3>Información de Examen</h3>
-            <div class="result-item"><strong>Materia:</strong> ${resultado.materia}</div>
-            <div class="result-item"><strong>Aula:</strong> ${resultado.aula}</div>
-            <div class="result-item"><strong>Fecha:</strong> ${resultado.fecha}</div>
-            <div class="result-item"><strong>Hora:</strong> ${resultado.hora}</div>
-          </div>
-        `);
+      if (examenes && examenes.length > 0) {
+        // En lugar de mostrar los resultados en esta slide, mostrarlos en SlideResults
+        if (typeof window !== 'undefined' && 'showResultsSlide' in window) {
+          try {
+            // Limpiar el campo de búsqueda y ocultar los resultados
+            searchResult.innerHTML = '';
+            searchResult.classList.remove('active');
+            
+            // Mostrar la slide de resultados
+            (window as any).showResultsSlide(dni, examenes);
+          } catch (error) {
+            console.error("Error al mostrar la slide de resultados:", error);
+            // Si falla, mostrar los resultados como antes (fallback)
+            mostrarResultadosEnSlideActual(dni, examenes);
+          }
+        } else {
+          // Si la función no está disponible, mostrar los resultados como antes (fallback)
+          mostrarResultadosEnSlideActual(dni, examenes);
+        }
       } else {
         mostrarResultado(`
           <div class="error-message">
@@ -570,6 +653,29 @@
           </div>
         `);
       }
+    }
+    
+    // Función para mostrar resultados en la slide actual (como fallback)
+    function mostrarResultadosEnSlideActual(dni: string, examenes: Array<{materia: string, aula: string, fecha: string, hora: string}>) {
+      let tarjetasHTML = '<div class="examenes-cards">';
+      
+      examenes.forEach(examen => {
+        tarjetasHTML += `
+          <div class="examen-card">
+            <div class="examen-header">
+              <h3>${examen.materia}</h3>
+            </div>
+            <div class="examen-details">
+              <div class="examen-detail"><strong>Aula:</strong> ${examen.aula}</div>
+              <div class="examen-detail"><strong>Fecha:</strong> ${examen.fecha}</div>
+              <div class="examen-detail"><strong>Hora:</strong> ${examen.hora}</div>
+            </div>
+          </div>
+        `;
+      });
+      
+      tarjetasHTML += '</div>';
+      mostrarResultado(tarjetasHTML);
     }
     
     // Función para mostrar el resultado
@@ -611,14 +717,68 @@
       });
     }
     
+    // Configuración del botón de ingresantes para navegar a la slide 4
+    const ingresantesBtn = document.getElementById('ingresantes-btn');
+    if (ingresantesBtn) {
+      ingresantesBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        console.log("Botón INGRESANTES clickeado - intentando navegar a slide 4...");
+        
+        // Método 1: Emitir evento personalizado para navegación
+        const navigationEvent = new CustomEvent('navigateToSlide', { 
+          detail: { slideIndex: 3 },
+          bubbles: true
+        });
+        document.dispatchEvent(navigationEvent);
+        
+        // Método 2: Usar directamente la instancia global de Swiper
+        if (typeof window !== 'undefined' && 'swiperInstance' in window) {
+          try {
+            (window as any).swiperInstance.slideTo(3);
+            console.log("Navegación a slide 4 ejecutada con swiperInstance");
+          } catch (error) {
+            console.error("Error al navegar usando swiperInstance:", error);
+          }
+        }
+      });
+    }
+    
+    // Configuración del botón de exámenes finales para navegar a la slide 3
+    const examenesBtn = document.getElementById('examenes-btn');
+    if (examenesBtn) {
+      examenesBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        console.log("Botón EXÁMENES FINALES clickeado - intentando navegar a slide 3...");
+        
+        // Método 1: Emitir evento personalizado para navegación
+        const navigationEvent = new CustomEvent('navigateToSlide', { 
+          detail: { slideIndex: 2 },
+          bubbles: true
+        });
+        document.dispatchEvent(navigationEvent);
+        
+        // Método 2: Usar directamente la instancia global de Swiper
+        if (typeof window !== 'undefined' && 'swiperInstance' in window) {
+          try {
+            (window as any).swiperInstance.slideTo(2);
+            console.log("Navegación a slide 3 ejecutada con swiperInstance");
+          } catch (error) {
+            console.error("Error al navegar usando swiperInstance:", error);
+          }
+        }
+      });
+    }
+    
     // Agregar stopPropagation a todos los botones de tarjeta
     const cardButtons = document.querySelectorAll('.card-button');
     cardButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevenir que se propague a los botones de navegación
-        // Aquí va la lógica de la tarjeta (si hay alguna)
-        console.log('Tarjeta clickeada:', (e.currentTarget as HTMLElement).textContent?.trim());
-      });
+      if (button.id !== 'ingresantes-btn' && button.id !== 'examenes-btn' && button.id !== 'equivalencias-btn') { // Ignorar botones con manejador propio
+        button.addEventListener('click', (e) => {
+          e.stopPropagation(); // Prevenir que se propague a los botones de navegación
+          // Aquí va la lógica de la tarjeta (si hay alguna)
+          console.log('Tarjeta clickeada:', (e.currentTarget as HTMLElement).textContent?.trim());
+        });
+      }
     });
     
     // Detectar y adaptar a pantallas táctiles

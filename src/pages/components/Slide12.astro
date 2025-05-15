@@ -1,0 +1,157 @@
+<div class="slide12-container">
+  <div class="background-image"></div>
+  <div class="slide12-content">
+    <h2 class="slide12-title">Información Importante</h2>
+    
+    <div class="slide12-text-container">
+      <div class="slide12-text">
+        <h3 class="slide12-subtitle">Proceso de inscripción</h3>
+        <p>Para completar tu proceso de inscripción, asegúrate de haber seguido todos los pasos anteriormente mencionados. Recuerda que es importante mantener toda tu documentación actualizada y correctamente cargada en el sistema.</p>
+        
+        <h3 class="slide12-subtitle">Plazos y fechas importantes</h3>
+        <p>Ten en cuenta las siguientes fechas límite para los distintos trámites:</p>
+        <ul class="list-disc">
+          <li>Inscripción a la carrera: hasta el 28 de febrero</li>
+          <li>Carga de documentación: hasta el 15 de marzo</li>
+          <li>Inicio de clases: 20 de marzo</li>
+          <li>Inscripción tardía: del 1 al 15 de abril (con autorización previa)</li>
+        </ul>
+        
+        <h3 class="slide12-subtitle">Contacto y consultas</h3>
+        <p>Si tienes dudas o consultas adicionales, puedes comunicarte con nosotros a través de los siguientes medios:</p>
+        <ul class="list-disc">
+          <li>Correo electrónico: <b>inscripciones@ucasal.edu.ar</b></li>
+          <li>Teléfono: <b>(0387) 4268800</b></li>
+          <li>WhatsApp: <b>+54 9 387 5048003</b></li>
+          <li>Horario de atención: Lunes a viernes de 8:00 a 20:00 hs.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.slide12-container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  filter: brightness(0.7);
+}
+.slide12-content {
+  position: relative;
+  z-index: 1;
+  width: 92vw;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  overflow-y: auto;
+  max-height: 85vh;
+  padding-right: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.3) transparent;
+}
+.slide12-content::-webkit-scrollbar {
+  width: 8px;
+}
+.slide12-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.slide12-content::-webkit-scrollbar-thumb {
+  background-color: rgba(255,255,255,0.3);
+  border-radius: 20px;
+  border: transparent;
+}
+.slide12-title {
+  color: #e13e3e;
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  letter-spacing: 0.5px;
+}
+.slide12-subtitle {
+  color: #e13e3e;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 20px 0 10px;
+  font-family: 'Montserrat', Arial, sans-serif;
+}
+.slide12-text-container {
+  background: rgba(23, 21, 21, 0.5);
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  width: 100%;
+}
+.slide12-text {
+  color: #fff;
+  font-size: 1.08rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.slide12-text p {
+  margin-bottom: 16px;
+}
+.slide12-text ul {
+  margin: 8px 0 16px 18px;
+  padding: 0;
+}
+.slide12-text li {
+  margin-bottom: 8px;
+}
+@media (max-width: 900px) {
+  .slide12-content {
+    width: 95vw;
+    padding: 12px 10px 12px 0;
+  }
+  .slide12-text-container {
+    padding: 20px 24px;
+  }
+}
+@media (max-width: 600px) {
+  .slide12-content {
+    width: 96vw;
+    padding: 8px 8px 8px 0;
+    max-height: 88vh;
+  }
+  .slide12-title {
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  .slide12-subtitle {
+    font-size: 1.2rem;
+    margin: 16px 0 8px;
+  }
+  .slide12-text-container {
+    padding: 16px;
+  }
+  .slide12-text {
+    font-size: 0.92rem;
+    line-height: 1.5;
+  }
+  .slide12-text p {
+    margin-bottom: 12px;
+  }
+  .slide12-text li {
+    margin-bottom: 6px;
+  }
+}
+</style>

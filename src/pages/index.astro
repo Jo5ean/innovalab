@@ -7,6 +7,11 @@ import Slide4 from "./components/Slide4.astro";
 import Slide5 from "./components/Slide5.astro";
 import Slide6 from "./components/Slide6.astro"; 
 import Slide8 from "./components/Slide8.astro";
+import Slide9 from "./components/Slide9.astro";
+import Slide10 from "./components/Slide10.astro";   
+import Slide11 from "./components/Slide11.astro";
+import Slide12 from "./components/Slide12.astro";
+import SlideResults from "./components/SlideResults.astro";
 ---
 
 <Layout>
@@ -46,6 +51,26 @@ import Slide8 from "./components/Slide8.astro";
             <div class="swiper-slide" data-slide-name="menu">
                 <Slide8 />
             </div>
+
+            <!-- Slide 9: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide9 />
+            </div>
+
+            <!-- Slide 10: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide10 />
+            </div>
+
+            <!-- Slide 11: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide11 />
+            </div>
+
+            <!-- Slide 12: Menú -->
+            <div class="swiper-slide" data-slide-name="menu">
+                <Slide12 />
+            </div>
         </div>
         
         <!-- Paginación -->
@@ -55,6 +80,9 @@ import Slide8 from "./components/Slide8.astro";
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
     </div>
+    
+    <!-- Slide de resultados (fuera del carousel) -->
+    <SlideResults />
 </Layout>
 
 <script>
@@ -94,6 +122,10 @@ import Slide8 from "./components/Slide8.astro";
                 }
             }
         });
+
+        // Exponer Swiper globalmente para que otros componentes puedan acceder a él
+        // @ts-ignore
+        window.swiperInstance = swiper;
         
         // Manejador para el botón "COMENZAR" en VideoSlide
         const startButton = document.querySelector('.start-button');
@@ -118,6 +150,13 @@ import Slide8 from "./components/Slide8.astro";
                     swiper.slideTo(3); // InfoSlide
                 }
             });
+        });
+
+        // Escuchar el evento personalizado para la navegación entre slides
+        document.addEventListener('navigateToSlide', (e: any) => {
+            if (e.detail && typeof e.detail.slideIndex === 'number') {
+                swiper.slideTo(e.detail.slideIndex);
+            }
         });
     });
 </script>
