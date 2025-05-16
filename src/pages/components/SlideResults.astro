@@ -134,7 +134,7 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 24px;
-    padding: clamp(25px, 4vh, 35px);
+    padding: clamp(20px, 4vh, 35px);
     box-shadow: 0 15px 50px -12px rgba(0, 0, 0, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
     width: 100%;
@@ -214,7 +214,7 @@
     margin-bottom: 28px;
     color: white;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 18px;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
   }
@@ -229,6 +229,7 @@
     justify-content: center;
     font-size: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
   }
   
   .student-details {
@@ -266,7 +267,7 @@
   
   .examenes-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 18px;
     width: 100%;
     margin-bottom: 28px;
@@ -539,10 +540,27 @@
   }
   
   /* Media queries para diferentes tamaños de pantalla */
+  @media (max-width: 1024px) {
+    .examenes-cards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .content-overlay {
+      padding: 2vh 15px;
+      align-items: flex-start;
+    }
+    
+    .results-container {
+      margin-top: 2vh;
+      margin-bottom: 2vh;
+    }
+  }
+  
   @media (max-width: 768px) {
     .results-container {
       padding: 20px;
       border-radius: 20px;
+      max-width: 95%;
     }
     
     .examenes-cards {
@@ -567,11 +585,21 @@
       width: 90%;
       padding: 20px;
     }
+    
+    .results-header h2 {
+      font-size: 1.3rem;
+    }
+    
+    .dni-display {
+      font-size: 1.1rem;
+    }
   }
   
   @media (max-width: 480px) {
     .results-container {
       padding: 16px;
+      border-radius: 16px;
+      max-width: 100%;
     }
     
     .header-content {
@@ -585,13 +613,163 @@
     }
     
     .results-header h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+    }
+    
+    .student-avatar {
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+    }
+    
+    .examen-card {
+      transform: none !important;
+    }
+    
+    .examen-card:hover {
+      transform: translateY(-2px) !important;
     }
     
     .qr-container {
       width: 180px;
       height: 180px;
     }
+    
+    .content-overlay {
+      padding: 10px;
+      justify-content: flex-start;
+    }
+  }
+  
+  @media (max-height: 700px) {
+    .content-overlay {
+      justify-content: flex-start;
+      padding-top: 15px;
+    }
+    
+    .results-container {
+      margin-top: 0;
+    }
+    
+    .results-header {
+      margin-bottom: 15px;
+      padding-bottom: 12px;
+    }
+    
+    .student-info {
+      margin-bottom: 15px;
+      padding: 15px;
+    }
+    
+    .examenes-cards {
+      margin-bottom: 15px;
+    }
+  }
+  
+  /* Ajuste para dispositivos con pantalla táctil */
+  @media (pointer: coarse) {
+    .card-button, .back-button, .qr-button {
+      cursor: pointer;
+    }
+    
+    .examen-card {
+      /* Mejora el comportamiento de tap en dispositivos táctiles */
+      -webkit-tap-highlight-color: transparent;
+    }
+  }
+  
+  .info-icon {
+    display: inline-block;
+    margin-right: 6px;
+    opacity: 0.9;
+  }
+  
+  .quick-consult {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    color: white;
+  }
+  
+  .quick-consult h4 {
+    font-size: 1.1rem;
+    margin: 0 0 15px 0;
+    font-weight: 500;
+  }
+  
+  .quick-consult-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .quick-dni-input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-dni-input:focus {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
+  .quick-dni-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+  
+  .quick-dni-button {
+    padding: 10px 20px;
+    background-color: #e13e3e;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .quick-dni-button:hover {
+    background-color: #ee5e58;
+    transform: translateY(-3px);
+  }
+  
+  .quick-examples {
+    margin-top: 10px;
+  }
+  
+  .quick-examples p {
+    margin: 0 0 8px 0;
+    opacity: 0.7;
+    font-size: 0.9rem;
+  }
+  
+  .example-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .example-dni {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .example-dni:hover {
+    background: rgba(255, 255, 255, 0.25);
   }
 </style>
 
@@ -606,35 +784,138 @@
     const backFromQrButton = document.getElementById('back-from-qr') as HTMLButtonElement;
     const qrContainer = document.getElementById('qr-container') as HTMLElement;
     
+    // Definición de tipos
+    interface Examen {
+      materia: string;
+      fecha: string;
+      hora: string;
+      aula: string;
+      edificio?: string;
+      tipo?: string;
+      condicion?: string;
+      carrera?: string;
+    }
+    
+    interface Estudiante {
+      dni: string;
+      nombre?: string;
+      carrera?: string;
+      carreras?: string[];
+      modalidad?: string;
+      sede?: string;
+      examenes: Examen[];
+    }
+    
     // Variables para almacenar datos actuales
     let currentDni = '';
-    let currentExamenes: Array<{materia: string, aula: string, fecha: string, hora: string}> = [];
+    let currentEstudiante: Estudiante | null = null;
     
     // Iconos para los detalles de examen
     const iconos = {
       aula: '🏫',
       fecha: '📅',
-      hora: '⏰'
+      hora: '⏰',
+      carrera: '🎓',
+      condicion: '📋',
+      tipo: '🗣️',
+      edificio: '🏢',
+      modalidad: '📚',
+      sede: '📍'
     };
     
-    // Función para mostrar la slide de resultados
-    window.showResultsSlide = (dni: string, examenes: Array<{materia: string, aula: string, fecha: string, hora: string}>) => {
-      if (!resultsSlide) return;
+    // Función para formatear la fecha (YYYY/MM/DD -> DD/MM/YYYY)
+    function formatearFecha(fecha: string): string {
+      if (!fecha) return '';
+      const partes = fecha.split('/');
+      if (partes.length === 3) {
+        return `${partes[2]}/${partes[1]}/${partes[0]}`;
+      }
+      return fecha;
+    }
+    
+    // Función para buscar un estudiante por DNI
+    async function buscarEstudiantePorDNI(dni: string): Promise<Estudiante | null> {
+      try {
+        const response = await fetch('/data.json');
+        if (!response.ok) {
+          throw new Error('No se pudo cargar el archivo de datos');
+        }
+        
+        const data = await response.json();
+        
+        // Si el JSON es un único objeto con un DNI
+        if (data.dni === dni) {
+          return data;
+        }
+        
+        // Si el JSON es un array de estudiantes
+        if (Array.isArray(data)) {
+          return data.find(estudiante => estudiante.dni === dni) || null;
+        }
+        
+        // Si el JSON tiene una propiedad estudiantes que es un array
+        if (data.estudiantes && Array.isArray(data.estudiantes)) {
+          return data.estudiantes.find((estudiante: Estudiante) => estudiante.dni === dni) || null;
+        }
+        
+        return null;
+      } catch (error) {
+        console.error('Error al buscar estudiante:', error);
+        return null;
+      }
+    }
+    
+    // Función para mostrar la slide de resultados directamente desde el DNI
+    window.consultarPorDNI = async (dni: string) => {
+      const estudiante = await buscarEstudiantePorDNI(dni);
       
-      // Guardar datos para uso posterior
-      currentDni = dni;
-      currentExamenes = examenes;
-      
-      // Mostrar el DNI
-      const dniDisplay = document.getElementById('dni-display');
-      if (dniDisplay) {
-        dniDisplay.textContent = `DNI: ${dni}`;
+      if (!estudiante) {
+        alert('No se encontró información para el DNI proporcionado');
+        return;
       }
       
-      // Mostrar el contador de exámenes
+      mostrarResultadosEstudiante(estudiante);
+    };
+    
+    // Función para mostrar la información del estudiante
+    function mostrarResultadosEstudiante(estudiante: Estudiante) {
+      if (!estudiante || !estudiante.examenes || !resultsSlide) return;
+      
+      currentDni = estudiante.dni;
+      currentEstudiante = estudiante;
+      
+      // Mostrar el DNI y nombre
+      const dniDisplay = document.getElementById('dni-display');
+      if (dniDisplay) {
+        dniDisplay.innerHTML = `<strong>DNI:</strong> ${estudiante.dni}<br><strong>Nombre:</strong> ${estudiante.nombre || ''}`;
+      }
+      
+      // Mostrar información adicional
       const examsCount = document.getElementById('exams-count');
       if (examsCount) {
-        examsCount.textContent = `${examenes.length} ${examenes.length === 1 ? 'examen programado' : 'exámenes programados'}`;
+        let infoAdicional = '';
+        
+        // Mostrar carreras (pueden ser múltiples)
+        if (estudiante.carreras && estudiante.carreras.length > 0) {
+          infoAdicional += `<div class="mb-1"><span class="info-icon">${iconos.carrera}</span> <span class="font-bold">Carreras:</span></div>`;
+          estudiante.carreras.forEach((carrera: string) => {
+            infoAdicional += `<div class="ml-6 mb-1">• ${carrera}</div>`;
+          });
+        } else if (estudiante.carrera) {
+          infoAdicional += `<div><span class="info-icon">${iconos.carrera}</span> ${estudiante.carrera}</div>`;
+        }
+        
+        if (estudiante.modalidad) {
+          infoAdicional += `<div class="mt-1"><span class="info-icon">${iconos.modalidad}</span> ${estudiante.modalidad}</div>`;
+        }
+        
+        if (estudiante.sede) {
+          infoAdicional += `<div class="mt-1"><span class="info-icon">${iconos.sede}</span> ${estudiante.sede}</div>`;
+        }
+        
+        infoAdicional += `<div class="mt-3 font-bold">${estudiante.examenes.length} ${estudiante.examenes.length === 1 ? 'examen programado' : 'exámenes programados'}</div>`;
+        
+        examsCount.innerHTML = infoAdicional;
       }
       
       // Mostrar los exámenes
@@ -642,25 +923,41 @@
       if (examenesContainer) {
         let tarjetasHTML = '';
         
-        examenes.forEach(examen => {
+        estudiante.examenes.forEach((examen: Examen) => {
           tarjetasHTML += `
-            <div class="examen-card">
-              <div class="examen-header">
-                <h3>${examen.materia}</h3>
+            <div class="examen-card bg-white bg-opacity-80 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+              <div class="bg-gradient-to-r from-red-600 to-red-500 p-4 text-white">
+                <h3 class="text-xl font-bold text-center">${examen.materia}</h3>
+                ${examen.carrera ? `<div class="text-sm mt-1 opacity-90 text-center">${iconos.carrera} ${examen.carrera}</div>` : ''}
               </div>
-              <div class="examen-details">
-                <div class="examen-detail">
-                  <span class="detail-icon">${iconos.aula}</span>
-                  <span><strong>Aula:</strong> ${examen.aula}</span>
+              <div class="p-4 space-y-3">
+                <div class="flex items-center gap-2 text-gray-700">
+                  <span class="text-xl text-red-500">${iconos.fecha}</span>
+                  <span><b>Fecha:</b> ${formatearFecha(examen.fecha)}</span>
                 </div>
-                <div class="examen-detail">
-                  <span class="detail-icon">${iconos.fecha}</span>
-                  <span><strong>Fecha:</strong> ${examen.fecha}</span>
+                <div class="flex items-center gap-2 text-gray-700">
+                  <span class="text-xl text-red-500">${iconos.hora}</span>
+                  <span><b>Hora:</b> ${examen.hora}</span>
                 </div>
-                <div class="examen-detail">
-                  <span class="detail-icon">${iconos.hora}</span>
-                  <span><strong>Hora:</strong> ${examen.hora}</span>
+                <div class="flex items-center gap-2 text-gray-700">
+                  <span class="text-xl text-red-500">${iconos.aula}</span>
+                  <span><b>Aula:</b> ${examen.aula}</span>
                 </div>
+                ${examen.edificio ? `
+                <div class="flex items-center gap-2 text-gray-700">
+                  <span class="text-xl text-red-500">${iconos.edificio}</span>
+                  <span><b>Edificio:</b> ${examen.edificio}</span>
+                </div>` : ''}
+                ${examen.tipo ? `
+                <div class="flex items-center gap-2 text-gray-700">
+                  <span class="text-xl text-red-500">${iconos.tipo}</span>
+                  <span><b>Tipo:</b> ${examen.tipo}</span>
+                </div>` : ''}
+                ${examen.condicion ? `
+                <div class="flex items-center gap-2 text-gray-700">
+                  <span class="text-xl text-red-500">${iconos.condicion}</span>
+                  <span><b>Condición:</b> ${examen.condicion}</span>
+                </div>` : ''}
               </div>
             </div>
           `;
@@ -672,6 +969,28 @@
       // Mostrar la slide
       resultsSlide.classList.add('active');
       document.body.style.overflow = 'hidden'; // Prevenir scroll del body
+      
+      // Ajustar la vista en móviles
+      if (window.innerWidth < 768) {
+        // Asegurar que el contenido se vea desde arriba
+        setTimeout(() => {
+          const contentOverlay = document.querySelector('.content-overlay');
+          if (contentOverlay) {
+            contentOverlay.scrollTop = 0;
+          }
+        }, 100);
+      }
+    }
+    
+    // Mantener la función original para compatibilidad
+    window.showResultsSlide = (dni: string, examenes: Array<Examen>) => {
+      // Crear un objeto estudiante temporal con los datos recibidos
+      const estudianteTmp: Estudiante = {
+        dni: dni,
+        examenes: examenes
+      };
+      
+      mostrarResultadosEstudiante(estudianteTmp);
     };
     
     // Función para ocultar la slide de resultados
@@ -689,7 +1008,7 @@
       // Preparar los datos para el QR
       const qrData = {
         dni: currentDni,
-        examenes: currentExamenes,
+        estudiante: currentEstudiante,
         fecha_generacion: new Date().toISOString()
       };
       
@@ -782,11 +1101,22 @@
       });
     }
     
+    // Asegurar que el modal se ajuste en resize
+    window.addEventListener('resize', () => {
+      if (resultsSlide && resultsSlide.classList.contains('active')) {
+        // Ajustar altura en cambios de orientación
+        const contentOverlay = document.querySelector('.content-overlay');
+        if (contentOverlay && window.innerHeight < 700) {
+          contentOverlay.scrollTop = 0;
+        }
+      }
+    });
+    
     // Soporte para tecla ESC para cerrar
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (qrModal && qrModal.classList.contains('active')) {
-          qrModal.classList.remove('active');
+          qrModal?.classList.remove('active');
         } else if (resultsSlide && resultsSlide.classList.contains('active')) {
           window.hideResultsSlide();
         }
@@ -797,7 +1127,17 @@
   // Definir las funciones globales para TypeScript
   declare global {
     interface Window {
-      showResultsSlide: (dni: string, examenes: Array<{materia: string, aula: string, fecha: string, hora: string}>) => void;
+      showResultsSlide: (dni: string, examenes: Array<{
+        materia: string, 
+        aula: string, 
+        fecha: string, 
+        hora: string, 
+        carrera?: string, 
+        condicion?: string, 
+        tipo?: string,
+        edificio?: string
+      }>) => void;
+      consultarPorDNI: (dni: string) => Promise<void>;
       hideResultsSlide: () => void;
       QRCode: any; // Para la biblioteca de QR
     }

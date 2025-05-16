@@ -574,11 +574,36 @@
   }
   
   .error-message {
-    color: #721c24;
-    background-color: #f8d7da;
-    padding: 12px 15px;
-    border-radius: 6px;
-    border-left: 4px solid #f5c6cb;
+    margin-top: 15px;
+    color: #e13e3e;
+    background-color: rgba(225, 62, 62, 0.1);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  .loading-message {
+    margin-top: 15px;
+    color: #3e4e9e;
+    background-color: rgba(62, 78, 158, 0.1);
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+    animation: pulse 1.5s ease infinite;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
   }
   
   @media (max-width: 640px) {
@@ -594,127 +619,61 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // Elementos del formulario de búsqueda
     const dniInput = document.getElementById('dni-input') as HTMLInputElement;
     const searchButton = document.getElementById('search-button') as HTMLButtonElement;
     const searchResult = document.getElementById('search-result') as HTMLDivElement;
     
-    // Datos de ejemplo - en un caso real, estos vendrían de una API o base de datos
-    const examenPorDni: Record<string, Array<{materia: string, aula: string, fecha: string, hora: string}>> = {
-      '12345678': [
-        { materia: 'Matemáticas', aula: 'A101', fecha: '10/12/2023', hora: '10:00' },
-        { materia: 'Física', aula: 'B205', fecha: '11/12/2023', hora: '14:30' },
-        { materia: 'Programación', aula: 'C310', fecha: '12/12/2023', hora: '09:15' }
-      ],
-      '23456789': [
-        { materia: 'Química', aula: 'B201', fecha: '10/12/2023', hora: '12:00' },
-        { materia: 'Historia', aula: 'A305', fecha: '15/12/2023', hora: '16:30' }
-      ],
-      '34567890': [
-        { materia: 'Literatura', aula: 'D105', fecha: '14/12/2023', hora: '08:30' }
-      ]
-    };
-    
-    // Función para manejar la búsqueda
-    function buscarAula() {
-      if (!dniInput || !searchResult) return;
-      
+    // Función para realizar la búsqueda
+    function realizarBusqueda() {
       const dni = dniInput.value.trim();
       
-      if (dni.length < 7) {
-        mostrarResultado(`<div class="error-message">Por favor, ingresa un DNI válido</div>`);
+      if (!dni) {
+        searchResult.innerHTML = '<div class="error-message">Por favor, ingresa un DNI válido</div>';
         return;
       }
       
-      const examenes = examenPorDni[dni];
+      // Verificar que solo contenga números
+      if (!/^\d+$/.test(dni)) {
+        searchResult.innerHTML = '<div class="error-message">El DNI debe contener solo números</div>';
+        return;
+      }
       
-      if (examenes && examenes.length > 0) {
-        // En lugar de mostrar los resultados en esta slide, mostrarlos en SlideResults
-        if (typeof window !== 'undefined' && 'showResultsSlide' in window) {
-          try {
-            // Limpiar el campo de búsqueda y ocultar los resultados
-            searchResult.innerHTML = '';
-            searchResult.classList.remove('active');
-            
-            // Mostrar la slide de resultados
-            (window as any).showResultsSlide(dni, examenes);
-          } catch (error) {
-            console.error("Error al mostrar la slide de resultados:", error);
-            // Si falla, mostrar los resultados como antes (fallback)
-            mostrarResultadosEnSlideActual(dni, examenes);
-          }
-        } else {
-          // Si la función no está disponible, mostrar los resultados como antes (fallback)
-          mostrarResultadosEnSlideActual(dni, examenes);
-        }
+      // Verificar longitud mínima
+      if (dni.length < 7 || dni.length > 10) {
+        searchResult.innerHTML = '<div class="error-message">El DNI debe tener entre 7 y 10 dígitos</div>';
+        return;
+      }
+      
+      // Mostrar mensaje de carga
+      searchResult.innerHTML = '<div class="loading-message">Buscando información...</div>';
+      
+      // Usar la función global consultarPorDNI del componente SlideResults
+      if (typeof window.consultarPorDNI === 'function') {
+        // Limpiar el mensaje de carga y el input
+        searchResult.innerHTML = '';
+        window.consultarPorDNI(dni);
+        dniInput.value = '';
       } else {
-        mostrarResultado(`
-          <div class="error-message">
-            No se encontraron exámenes programados para el DNI: ${dni}
-          </div>
-        `);
+        searchResult.innerHTML = '<div class="error-message">Error al consultar. Por favor, intenta más tarde.</div>';
       }
     }
     
-    // Función para mostrar resultados en la slide actual (como fallback)
-    function mostrarResultadosEnSlideActual(dni: string, examenes: Array<{materia: string, aula: string, fecha: string, hora: string}>) {
-      let tarjetasHTML = '<div class="examenes-cards">';
-      
-      examenes.forEach(examen => {
-        tarjetasHTML += `
-          <div class="examen-card">
-            <div class="examen-header">
-              <h3>${examen.materia}</h3>
-            </div>
-            <div class="examen-details">
-              <div class="examen-detail"><strong>Aula:</strong> ${examen.aula}</div>
-              <div class="examen-detail"><strong>Fecha:</strong> ${examen.fecha}</div>
-              <div class="examen-detail"><strong>Hora:</strong> ${examen.hora}</div>
-            </div>
-          </div>
-        `;
-      });
-      
-      tarjetasHTML += '</div>';
-      mostrarResultado(tarjetasHTML);
-    }
-    
-    // Función para mostrar el resultado
-    function mostrarResultado(html: string) {
-      if (!searchResult) return;
-      
-      searchResult.innerHTML = html;
-      searchResult.classList.add('active');
-      
-      // Aplicar estilos adicionales según el contenido
-      if (html.includes('error-message')) {
-        searchResult.style.backgroundColor = 'rgba(255, 220, 220, 0.9)';
-      } else {
-        searchResult.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
-      }
-    }
-    
-    // Event listeners
+    // Agregar event listener al botón de búsqueda
     if (searchButton) {
-      searchButton.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevenir que se propague a los botones de navegación
-        buscarAula();
-      });
+      searchButton.addEventListener('click', realizarBusqueda);
     }
     
+    // También permitir presionar Enter para buscar
     if (dniInput) {
       dniInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
-          e.stopPropagation(); // Prevenir propagación
-          buscarAula();
+          realizarBusqueda();
         }
       });
       
-      // Solo permitir números en el input
-      dniInput.addEventListener('input', (e) => {
-        e.stopPropagation(); // Prevenir propagación
-        const input = e.target as HTMLInputElement;
-        input.value = input.value.replace(/[^0-9]/g, '');
-      });
+      // Enfocar automáticamente el input
+      dniInput.focus();
     }
     
     // Configuración del botón de ingresantes para navegar a la slide 4

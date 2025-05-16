@@ -1,0 +1,147 @@
+{
+  "estudiantes": [
+    {
+      "dni": "12345678",
+      "nombre": "María González",
+      "carrera": "Lic. en Comercialización",
+      "modalidad": "Presencial Cursado Intensivo",
+      "sede": "Salta",
+      "examenes": [
+        {
+          "materia": "Microeconomía",
+          "fecha": "2025/02/28",
+          "hora": "14:00",
+          "aula": "AULA 4",
+          "edificio": "UCASAL Central",
+          "tipo": "Parcial",
+          "condicion": "Regular"
+        },
+        {
+          "materia": "Ética Profesional",
+          "fecha": "2025/03/05",
+          "hora": "18:00",
+          "aula": "AULA 12",
+          "edificio": "UCASAL Central",
+          "tipo": "Final",
+          "condicion": "Regular"
+        },
+        {
+          "materia": "Economía de la Educación",
+          "fecha": "2025/03/10",
+          "hora": "09:00",
+          "aula": "AULA 8",
+          "edificio": "UCASAL Central",
+          "tipo": "Final",
+          "condicion": "Libre"
+        }
+      ]
+    },
+    {
+      "dni": "87654321",
+      "nombre": "Carlos Rodríguez",
+      "carrera": "Ingeniería en Informática",
+      "modalidad": "Presencial",
+      "sede": "Buenos Aires",
+      "examenes": [
+        {
+          "materia": "Programación Avanzada",
+          "fecha": "2025/03/15",
+          "hora": "10:00",
+          "aula": "LAB 2",
+          "edificio": "Informática",
+          "tipo": "Final",
+          "condicion": "Regular"
+        },
+        {
+          "materia": "Matemática Discreta",
+          "fecha": "2025/03/18",
+          "hora": "14:30",
+          "aula": "AULA 201",
+          "edificio": "Ciencias Exactas",
+          "tipo": "Final",
+          "condicion": "Regular"
+        },
+        {
+          "materia": "Inteligencia Artificial",
+          "fecha": "2025/03/20",
+          "hora": "16:00",
+          "aula": "LAB 5",
+          "edificio": "Informática",
+          "tipo": "Parcial",
+          "condicion": "Libre"
+        }
+      ]
+    },
+    {
+      "dni": "23456789",
+      "nombre": "Ana Martínez",
+      "carrera": "Lic. en Psicología",
+      "modalidad": "Virtual",
+      "sede": "Mendoza",
+      "examenes": [
+        {
+          "materia": "Psicología Social",
+          "fecha": "2025/02/25",
+          "hora": "09:00",
+          "aula": "Virtual 1",
+          "edificio": "Campus Virtual",
+          "tipo": "Final Oral",
+          "condicion": "Regular"
+        },
+        {
+          "materia": "Neuropsicología",
+          "fecha": "2025/03/12",
+          "hora": "11:00",
+          "aula": "Virtual 3",
+          "edificio": "Campus Virtual",
+          "tipo": "Final Escrito",
+          "condicion": "Regular"
+        }
+      ]
+    },
+    {
+      "dni": "34567890",
+      "nombre": "Pablo López",
+      "carrera": "Lic. en Administración de Empresas / Contador Público",
+      "modalidad": "Presencial",
+      "sede": "Córdoba",
+      "carreras": [
+        "Lic. en Administración de Empresas",
+        "Contador Público"
+      ],
+      "examenes": [
+        {
+          "materia": "Contabilidad I",
+          "fecha": "2025/03/02",
+          "hora": "08:00",
+          "aula": "AULA 45",
+          "edificio": "Económicas",
+          "tipo": "Final",
+          "condicion": "Regular",
+          "carrera": "Contador Público"
+        },
+        {
+          "materia": "Administración General",
+          "fecha": "2025/03/07",
+          "hora": "16:00",
+          "aula": "AULA 32",
+          "edificio": "Económicas",
+          "tipo": "Final",
+          "condicion": "Regular",
+          "carrera": "Lic. en Administración de Empresas"
+        },
+        {
+          "materia": "Finanzas Corporativas",
+          "fecha": "2025/03/14",
+          "hora": "14:00",
+          "aula": "AULA 28",
+          "edificio": "Económicas",
+          "tipo": "Parcial",
+          "condicion": "Regular",
+          "carrera": "Ambas carreras"
+        }
+      ]
+    }
+  ]
+}
+  
