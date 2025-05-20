@@ -1,86 +1,80 @@
-<div class="buttons-slide">
-  <div class="background-image"></div>
-  <div class="content-overlay">
-    <!-- Consulta de aula por DNI -->
-    <div class="search-section">
-      <div class="search-container">
-        <h2 class="search-title">Consulta tu aula de examen</h2>
-        <div class="search-box">
-          <input type="text" id="dni-input" placeholder="Ingresa tu DNI" inputmode="numeric" maxlength="10" />
-          <button id="search-button">
-            <span class="search-icon">🔍</span>
-          </button>
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <div class="buttons-slide">
+    <div class="background-image"></div>
+    <div class="content-overlay">
+      <!-- Consulta de aula por DNI -->
+      <div class="search-section">
+        <div class="search-container">
+          <h2 class="search-title">Consulta tu aula de examen</h2>
+          <div class="search-box">
+            <input type="text" id="dni-input" placeholder="Ingresa tu DNI" inputmode="numeric" maxlength="10" />
+            <button id="search-button">
+              <span class="search-icon">🔍</span>
+            </button>
+          </div>
+          <div class="search-result" id="search-result">
+            <!-- Aquí se mostrarán los resultados -->
+          </div>
         </div>
-        <div class="search-result" id="search-result">
-          <!-- Aquí se mostrarán los resultados -->
-        </div>
+      </div>
+      
+      <div class="cards-container">
+        <a href="/ingresantes" class="card-button" id="ingresantes-btn">
+          <div class="card-icon">👨‍🎓</div>
+          <div class="card-content">
+            <h3 class="text-sm">INGRESANTES</h3>
+            <p>Información para alumnos de primer año</p>
+          </div>
+        </a>
+        <a href="/alumnos" class="card-button">
+          <div class="card-icon">📚</div>
+          <div class="card-content">
+            <h3 class="text-sm">ALUMNOS</h3>
+            <p>Recursos y servicios para estudiantes</p>
+          </div>
+        </a>
+        <a href="/fq" class="card-button" id="examenes-btn">
+          <div class="card-icon">📝</div>
+          <div class="card-content">
+            <h3 class="text-sm">EXÁMENES FINALES</h3>
+            <p>Fechas y requisitos para exámenes</p>
+          </div>
+        </a>
+        <button class="card-button" id="equivalencias-btn">
+          <div class="card-icon">🔄</div>
+          <div class="card-content">
+            <h3 class="text-sm">EQUIVALENCIAS</h3>
+            <p>Trámites y procedimientos</p>
+          </div>
+        </button>
+        <a href="/mapa" class="card-button">
+          <div class="card-icon">🗺️</div>
+          <div class="card-content">
+            <h3 class="text-sm">MAPA UCASAL</h3>
+            <p>Ubicaciones y puntos de interés</p>
+          </div>
+        </a>
+        <a href="/preguntas-frecuentes" class="card-button faq-card">
+          <div class="card-icon">❓</div>
+          <div class="card-content">
+            <h3 class="text-sm">PREGUNTAS FRECUENTES</h3>
+            <p>Consultas y soluciones comunes</p>
+          </div>
+        </a>
       </div>
     </div>
     
-    <div class="cards-container">
-      <button class="card-button" id="ingresantes-btn">
-        <div class="card-icon">👨‍🎓</div>
-        <div class="card-content">
-          <h3>INGRESANTES</h3>
-          <p>Información para alumnos de primer año</p>
-        </div>
-      </button>
-      <button class="card-button">
-        <div class="card-icon">📚</div>
-        <div class="card-content">
-          <h3>ALUMNOS</h3>
-          <p>Recursos y servicios para estudiantes</p>
-        </div>
-      </button>
-      <button class="card-button" id="examenes-btn">
-        <div class="card-icon">📝</div>
-        <div class="card-content">
-          <h3>EXÁMENES FINALES</h3>
-          <p>Fechas y requisitos para exámenes</p>
-        </div>
-      </button>
-      <button class="card-button" id="equivalencias-btn">
-        <div class="card-icon">🔄</div>
-        <div class="card-content">
-          <h3>EQUIVALENCIAS</h3>
-          <p>Trámites y procedimientos</p>
-        </div>
-      </button>
-      <button class="card-button">
-        <div class="card-icon">🗺️</div>
-        <div class="card-content">
-          <h3>MAPA UCASAL</h3>
-          <p>Ubicaciones y puntos de interés</p>
-        </div>
-      </button>
-      <button class="card-button faq-card" id="frequent-questions-btn">
-        <div class="card-icon">❓</div>
-        <div class="card-content">
-          <h3>PREGUNTAS FRECUENTES</h3>
-          <p>Consultas y soluciones comunes</p>
-        </div>
-      </button>
+    <div class="bottom-area z-0">
+      <div class="ucasal-logo">
+        <img src="/logos/ucasalx.svg" alt="Logo UCASAL" />
+      </div>
     </div>
   </div>
-  
-  <div class="bottom-area z-0">
-    <div class="ucasal-logo">
-      <img src="/logos/ucasalx.svg" alt="Logo UCASAL" />
-    </div>
-  </div>
-</div>
-
-<!-- Modal de equivalencias -->
-<div id="equivalencias-modal" class="equivalencias-modal">
-  <div class="modal-content">
-    <h2>Selecciona el tipo de equivalencia</h2>
-    <div class="modal-buttons">
-      <button class="modal-btn">Equivalencias Internas</button>
-      <button class="modal-btn">Equivalencias Externas</button>
-    </div>
-    <button class="close-modal" id="close-modal">✕</button>
-  </div>
-</div>
+</Layout>
 
 <style>
   .buttons-slide {
@@ -255,6 +249,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     -webkit-tap-highlight-color: transparent;
     width: 100%;
+    text-decoration: none;
   }
   
   .card-content {
@@ -570,6 +565,8 @@
     transition: background 0.2s, transform 0.2s;
     box-shadow: 0 2px 8px rgba(0,0,0,0.13);
     text-transform: uppercase;
+    display: block;
+    text-decoration: none;
   }
   .modal-btn:hover {
     background: #ee5e58;
@@ -711,33 +708,39 @@
       
       if (!dni) {
         searchResult.innerHTML = '<div class="error-message">Por favor, ingresa un DNI válido</div>';
+        searchResult.style.display = 'block';
         return;
       }
       
       // Verificar que solo contenga números
       if (!/^\d+$/.test(dni)) {
         searchResult.innerHTML = '<div class="error-message">El DNI debe contener solo números</div>';
+        searchResult.style.display = 'block';
         return;
       }
       
       // Verificar longitud mínima
       if (dni.length < 7 || dni.length > 10) {
         searchResult.innerHTML = '<div class="error-message">El DNI debe tener entre 7 y 10 dígitos</div>';
+        searchResult.style.display = 'block';
         return;
       }
       
       // Mostrar mensaje de carga
       searchResult.innerHTML = '<div class="loading-message">Buscando información...</div>';
+      searchResult.style.display = 'block';
       
-      // Usar la función global consultarPorDNI del componente SlideResults
-      if (typeof window.consultarPorDNI === 'function') {
-        // Limpiar el mensaje de carga y el input
-        searchResult.innerHTML = '';
-        window.consultarPorDNI(dni);
-        dniInput.value = '';
-      } else {
-        searchResult.innerHTML = '<div class="error-message">Error al consultar. Por favor, intenta más tarde.</div>';
-      }
+      // Aquí se implementaría la búsqueda real (por ahora solo mostramos un resultado ficticio)
+      setTimeout(() => {
+        searchResult.innerHTML = `
+          <div class="success-message">
+            <h3>Información encontrada</h3>
+            <p>DNI: ${dni}</p>
+            <p>Aula: 305</p>
+            <p>Edificio: Central</p>
+          </div>
+        `;
+      }, 1000);
     }
     
     // Agregar event listener al botón de búsqueda
@@ -755,72 +758,8 @@
       
       dniInput.focus();
     }
-    
-    const ingresantesBtn = document.getElementById('ingresantes-btn');
-    if (ingresantesBtn) {
-      ingresantesBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navigateToSlide(3);
-      });
-    }
-    
-    const examenesBtn = document.getElementById('examenes-btn');
-    if (examenesBtn) {
-      examenesBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        navigateToSlide(2);
-      });
-    }
 
-    // Configuración del botón de preguntas frecuentes
-    const faqBtn = document.getElementById('frequent-questions-btn');
-    if (faqBtn) {
-      faqBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        console.log("Navegando al slide de preguntas frecuentes (índice 11)");
-        navigateToSlide(11);
-      });
-    }
-    
-    // Función centralizada para la navegación
-    function navigateToSlide(slideIndex: number) {
-      console.log(`Intentando navegar a slide ${slideIndex + 1}...`);
-      
-      // Método 1: Emitir evento personalizado para navegación
-      const navigationEvent = new CustomEvent('navigateToSlide', { 
-        detail: { slideIndex },
-        bubbles: true
-      });
-      document.dispatchEvent(navigationEvent);
-      
-      // Método 2: Usar directamente la instancia global de Swiper
-      if (typeof window !== 'undefined' && 'swiperInstance' in window) {
-        try {
-          (window as any).swiperInstance.slideTo(slideIndex);
-          console.log(`Navegación a slide ${slideIndex + 1} ejecutada con swiperInstance`);
-        } catch (error) {
-          console.error("Error al navegar usando swiperInstance:", error);
-        }
-      }
-    }
-    
-    // Agregar stopPropagation a todos los botones de tarjeta
-    const cardButtons = document.querySelectorAll('.card-button');
-    cardButtons.forEach(button => {
-      if (!['ingresantes-btn', 'examenes-btn', 'equivalencias-btn', 'frequent-questions-btn'].includes(button.id)) {
-        button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          console.log('Tarjeta clickeada:', (e.currentTarget as HTMLElement).textContent?.trim());
-        });
-      }
-    });
-    
-    // Detectar y adaptar a pantallas táctiles
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) {
-      document.body.classList.add('touch-device');
-    }
-    
+    // Modal de equivalencias
     const equivalenciasBtn = document.getElementById('equivalencias-btn');
     const equivalenciasModal = document.getElementById('equivalencias-modal');
     const closeModal = document.getElementById('close-modal');
@@ -831,11 +770,13 @@
         equivalenciasModal.classList.add('active');
         document.body.classList.add('modal-open');
       });
+      
       closeModal.addEventListener('click', (e) => {
         e.stopPropagation();
         equivalenciasModal.classList.remove('active');
         document.body.classList.remove('modal-open');
       });
+      
       equivalenciasModal.addEventListener('click', (e) => {
         if (e.target === equivalenciasModal) {
           equivalenciasModal.classList.remove('active');
@@ -844,5 +785,4 @@
       });
     }
   });
-
-</script>
+</script> 

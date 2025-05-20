@@ -1,0 +1,129 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Slide1 from "./components/slide1.astro";
+import Slide2 from "./components/slide2.astro";
+---
+
+<Layout>
+    <div class="carousel-container">
+        <div class="swiper inscripcion-swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <Slide1 />
+                </div>
+                <div class="swiper-slide">
+                    <Slide2 />
+                </div>
+            </div>
+            
+            <!-- Navegación -->
+            <div class="swiper-button-next custom-button"></div>
+            <div class="swiper-button-prev custom-button"></div>
+            
+            <!-- Paginación -->
+            <div class="swiper-pagination"></div>
+            
+            <!-- Barra de progreso -->
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .carousel-container {
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .swiper {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .custom-button {
+        color: #E53935;
+    }
+    
+    .custom-button:hover {
+        color: #7B0000;
+    }
+    
+    .swiper-pagination-bullet-active {
+        background-color: #E53935;
+    }
+    
+    .progress-bar-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background-color: rgba(0, 0, 0, 0.1);
+        z-index: 10;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background-color: #E53935;
+        transition: width 0.3s ease;
+    }
+</style>
+
+<script>
+    import Swiper from 'swiper';
+    import { Navigation, Pagination, EffectFade } from 'swiper/modules';
+    import 'swiper/css';
+    import 'swiper/css/navigation';
+    import 'swiper/css/pagination';
+    import 'swiper/css/effect-fade';
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.inscripcion-swiper', {
+            modules: [Navigation, Pagination, EffectFade],
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            speed: 700,
+            slidesPerView: 1,
+            spaceBetween: 0,
+            loop: false,
+            autoHeight: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            on: {
+                init: function () {
+                    updateProgressBar(this);
+                },
+                slideChange: function () {
+                    updateProgressBar(this);
+                }
+            }
+        });
+
+        function updateProgressBar(swiper: any) {
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                const progress = ((swiper.activeIndex + 1) / swiper.slides.length) * 100;
+                (progressBar as HTMLElement).style.width = `${progress}%`;
+            }
+        }
+    });
+</script>

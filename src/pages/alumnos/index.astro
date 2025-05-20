@@ -1,0 +1,121 @@
+<div class="slide5-container">
+    <div class="background-image"></div>
+    <div class="slide5-content">
+      <div class="slide5-buttons-row">
+        <button class="slide5-btn">CURSADO</button>
+        <button class="slide5-btn">ELEARNING</button>
+        <button class="slide5-btn">SAG</button>
+      </div>
+      <div class="slide5-buttons-row slide5-buttons-row-bottom">
+        <button class="slide5-btn">REGULARIDAD</button>
+        <button class="slide5-btn">REGLAMENTO</button>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+  .slide5-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    filter: brightness(0.6);
+  }
+  .slide5-content {
+    position: relative;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide5-buttons-row {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 32px;
+    justify-content: center;
+  }
+  .slide5-buttons-row-bottom {
+    margin-top: 0;
+  }
+  .slide5-btn {
+    background-color: #e13e3e;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 18px 38px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transition: background 0.2s, transform 0.2s;
+    text-transform: uppercase;
+  }
+  .slide5-btn:hover, .slide5-btn:active {
+    background-color: #ee5e58;
+    transform: translateY(-3px);
+  }
+  .slide5-home-btn {
+    position: absolute;
+    top: 32px;
+    right: 40px;
+    z-index: 2;
+  }
+  .home-circle {
+    width: 48px;
+    height: 48px;
+    background: rgba(30,40,60,0.7);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    border: 2px solid #fff;
+  }
+  @media (max-width: 900px) {
+    .slide5-buttons-row {
+      gap: 18px;
+    }
+    .slide5-btn {
+      padding: 12px 18px;
+      font-size: 1rem;
+    }
+    .slide5-home-btn {
+      top: 18px;
+      right: 18px;
+    }
+  }
+  @media (max-width: 600px) {
+    .slide5-content {
+      justify-content: flex-start;
+      padding-top: 80px;
+    }
+    .slide5-buttons-row {
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 0;
+    }
+    .slide5-buttons-row-bottom {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+  </style>
+  

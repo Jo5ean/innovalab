@@ -1,313 +1,254 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import Slide1 from "./components/Slide1.astro";
-import Slide2 from "./components/Slide2.astro";
-import Slide3 from "./components/Slide3.astro";
-import Slide4 from "./components/Slide4.astro";
-import Slide5 from "./components/Slide5.astro";
-import Slide6 from "./components/Slide6.astro"; 
-import Slide8 from "./components/Slide8.astro";
-import Slide9 from "./components/Slide9.astro";
-import Slide10 from "./components/Slide10.astro";   
-import Slide11 from "./components/Slide11.astro";
-import Slide12 from "./components/Slide12.astro";
-import SlideResults from "./components/SlideResults.astro";
-import FrequentQuestionSlide from "./components/FrequentQuestionSlide.astro";
 ---
 
 <Layout>
-    <div class="swiper-container main-swiper">
-        <div class="swiper-wrapper">
-            <!-- Slide 1: Video Introductorio -->
-            <div class="swiper-slide" data-slide-name="video">
-                <Slide1 />
-            </div>
-            
-            <!-- Slide 2: Botones con consulta de DNI -->
-            <div class="swiper-slide" data-slide-name="buttons">
-                <Slide2 />
-            </div>
-            
-            <!-- Slide 3: Información -->
-            <div class="swiper-slide" data-slide-name="info">
-                <Slide3 />
-            </div>
-
-            <!-- Slide 4: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide4 />
-            </div>
-
-            <!-- Slide 5: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide5 />
-            </div>
-
-            <!-- Slide 6: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide6 />
-            </div>
-            
-            <!-- Slide 7: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide8 />
-            </div>
-
-            <!-- Slide 8: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide9 />
-            </div>
-
-            <!-- Slide 9: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide10 />
-            </div>
-
-            <!-- Slide 10: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide11 />
-            </div>
-
-            <!-- Slide 11: Menú -->
-            <div class="swiper-slide" data-slide-name="menu">
-                <Slide12 />
-            </div>
-
-            <!-- Slide 12: Preguntas Frecuentes -->
-            <div class="swiper-slide" data-slide-name="faq">
-                <FrequentQuestionSlide />
-            </div>
+  <div class="slide-container">
+    <div class="slide-background">
+      <div class="background-image"></div>
+      <div class="content-overlay">
+        <div class="welcome-container">
+          <button class="start-button pulse" id="start-button">COMENZAR</button>
         </div>
-        
-        <!-- Paginación -->
-        <div class="swiper-pagination"></div>
-        
-        <!-- Botones de navegación -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+      </div>
+      <div class="decorative-elements">
+        <div class="circle circle-1"></div>
+        <div class="circle circle-2"></div>
+        <div class="circle circle-3"></div>
+      </div>
     </div>
-    
-    <!-- Slide de resultados (fuera del carousel) -->
-    <SlideResults />
+  </div>
 </Layout>
 
 <script>
-    // Inicializar Swiper cuando se cargue el DOM
-    document.addEventListener('DOMContentLoaded', function() {
-        // @ts-ignore - Importamos Swiper desde la ventana global
-        const swiper = new window.Swiper('.main-swiper', {
-            direction: 'horizontal',
-            loop: false,
-            slidesPerView: 1,
-            spaceBetween: 0,
-            speed: 800,
-            allowTouchMove: true, // Permitir navegación táctil
-            mousewheel: false, // Deshabilitar navegación con rueda del mouse para permitir scroll natural
-            simulateTouch: false, // Deshabilitar el comportamiento de arrastrar para evitar conflictos con scroll
-            
-            // Efecto de transición
-            effect: 'fade',
-            fadeEffect: {
-                crossFade: true
-            },
-            
-            // Paginación
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true
-            },
-            
-            // Botones de navegación
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-            },
-            
-            // Eventos
-            on: {
-                init: function() {
-                    console.log('Swiper inicializado');
-                    
-                    // Ocultar botones de navegación en la primera slide
-                    updateNavigationVisibility(0);
-                },
-                slideChange: function(this: any) {
-                    // Actualizar visibilidad de los botones según la slide actual
-                    updateNavigationVisibility(this.activeIndex);
-                }
-            }
-        });
-
-        // Función para controlar la visibilidad de los botones de navegación
-        function updateNavigationVisibility(slideIndex: number) {
-            const prevButton = document.querySelector('.swiper-button-prev');
-            const nextButton = document.querySelector('.swiper-button-next');
-            
-            if (slideIndex === 0) {
-                // Ocultar botones en la primera slide
-                if (prevButton) prevButton.classList.add('hidden-nav');
-                if (nextButton) nextButton.classList.add('hidden-nav');
-            } else {
-                // Mostrar botones en las demás slides
-                if (prevButton) prevButton.classList.remove('hidden-nav');
-                if (nextButton) nextButton.classList.remove('hidden-nav');
-            }
-        }
-
-        // Exponer Swiper globalmente para que otros componentes puedan acceder a él
-        // @ts-ignore
-        window.swiperInstance = swiper;
-        
-        // Manejador para el botón "COMENZAR" en VideoSlide
-        const startButton = document.querySelector('.start-button');
-        if (startButton) {
-            startButton.addEventListener('click', () => {
-                swiper.slideTo(1);
-                
-                // Pequeña pausa para permitir que la animación se complete antes de habilitar el scroll
-                setTimeout(() => {
-                    document.body.style.overflow = 'auto';
-                }, 600);
-            });
-        }
-        
-        // Controlar el scroll basado en la slide actual
-        swiper.on('slideChange', function(this: any) {
-            if (this.activeIndex === 0) {
-                // En la primera slide (video), bloquear el scroll
-                document.body.style.overflow = 'hidden';
-            } else {
-                // En las demás slides, permitir scroll
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // Configuración inicial
-        if (swiper.activeIndex === 0) {
-            document.body.style.overflow = 'hidden';
-        }
-        
-        // Manejadores para los botones del menú
-        const menuButtons = document.querySelectorAll('.menu-button[data-action]');
-        menuButtons.forEach(button => {
-            button.addEventListener('click', function(this: HTMLButtonElement) {
-                const action = this.getAttribute('data-action');
-                
-                // Navegar según la acción seleccionada
-                if (action === 'inscripcion') {
-                    swiper.slideTo(1); // ButtonsSlide con consulta de DNI
-                } else if (action === 'legajo-digital') {
-                    swiper.slideTo(2); // ButtonsSlide con consulta de DNI
-                } else if (action === 'ingreso-art7') {
-                    swiper.slideTo(3); // InfoSlide
-                }
-            });
-        });
-
-        // Escuchar el evento personalizado para la navegación entre slides
-        document.addEventListener('navigateToSlide', (e: any) => {
-            if (e.detail && typeof e.detail.slideIndex === 'number') {
-                swiper.slideTo(e.detail.slideIndex);
-            }
-        });
-    });
+  // Script para navegar a la página principal cuando se hace clic en "COMENZAR"
+  document.addEventListener('DOMContentLoaded', () => {
+    const startButton = document.getElementById('start-button');
+    if (startButton) {
+      startButton.addEventListener('click', () => {
+        // Redirigir a la página principal
+        window.location.href = '/home';
+      });
+    }
+  });
 </script>
 
 <style>
-    /* Estilos adicionales para la navegación del Swiper */
-    .swiper-button-next,
-    .swiper-button-prev {
-        color: #fff;
-        background-color: rgba(0, 0, 0, 0.3);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: opacity 0.3s ease, visibility 0.3s ease;
+  .slide-container {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .slide-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    filter: brightness(0.7);
+  }
+  
+  .content-overlay {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .welcome-container {
+    text-align: center;
+    max-width: 600px;
+    animation: fadeInUp 1s ease-out;
+    padding: 0 20px;
+  }
+  
+  .start-button {
+    padding: 12px 25px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .start-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    background-color: #c0392b;
+  }
+  
+  /* Efecto de pulso para llamar la atención */
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
     }
     
-    /* Clase para ocultar los botones de navegación */
-    .hidden-nav {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
+    70% {
+      transform: scale(1.05);
+      box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
     }
     
-    .swiper-button-next:after,
-    .swiper-button-prev:after {
-        font-size: 18px;
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+  }
+  
+  /* Elementos decorativos */
+  .decorative-elements {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  
+  .circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.15;
+    background: linear-gradient(45deg, #e74c3c, #c0392b);
+  }
+  
+  .circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    right: -100px;
+    animation: float 15s infinite ease-in-out;
+  }
+  
+  .circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 10%;
+    left: -50px;
+    animation: float 20s infinite ease-in-out reverse;
+  }
+  
+  .circle-3 {
+    width: 150px;
+    height: 150px;
+    top: 30%;
+    right: 10%;
+    animation: float 25s infinite ease-in-out;
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) translateX(0);
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px);
+    }
+    50% {
+      transform: translateY(10px) translateX(-15px);
+    }
+    75% {
+      transform: translateY(15px) translateX(20px);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .slide-background {
+      padding-top: 60px; /* Menor padding en dispositivos móviles */
     }
     
-    .swiper-button-next {
-        right: 20px;
+    .start-button {
+      padding: 10px 20px;
+      font-size: 1.2rem;
     }
     
-    .swiper-button-prev {
-        left: 20px;
+    .circle-1 {
+      width: 200px;
+      height: 200px;
     }
     
-    /* Posicionamiento de la paginación */
-    .swiper-pagination {
-        bottom: 30px !important;
+    .circle-2 {
+      width: 150px;
+      height: 150px;
     }
     
-    /* Hacer responsive la navegación */
-    @media (max-width: 768px) {
-        .swiper-button-next,
-        .swiper-button-prev {
-            width: 35px;
-            height: 35px;
-        }
-        
-        .swiper-button-next:after,
-        .swiper-button-prev:after {
-            font-size: 16px;
-        }
-        
-        .swiper-button-next {
-            right: 10px;
-        }
-        
-        .swiper-button-prev {
-            left: 10px;
-        }
-        
-        .swiper-pagination {
-            bottom: 15px !important;
-        }
+    .circle-3 {
+      width: 100px;
+      height: 100px;
+    }
+  }
+  
+  /* Para dispositivos con poca altura */
+  @media (max-height: 600px) {
+    .slide-background {
+      height: 100vh;
+      min-height: 100%;
+      position: fixed;
     }
     
-    /* Estilos adicionales para dispositivos muy pequeños */
-    @media (max-width: 480px) {
-        .swiper-button-next,
-        .swiper-button-prev {
-            width: 30px;
-            height: 30px;
-            transform: translateY(-50%);
-        }
-        
-        .swiper-button-next:after,
-        .swiper-button-prev:after {
-            font-size: 14px;
-        }
-        
-        .swiper-pagination {
-            bottom: 10px !important;
-        }
+    .background-image {
+      position: fixed;
+      height: 100%;
     }
     
-    /* Mejora para el contenedor de Swiper en dispositivos móviles */
-    @media (max-width: 640px) {
-        .swiper-container {
-            height: auto;
-            min-height: 100vh;
-        }
-        
-        .swiper-slide {
-            height: auto;
-            min-height: 100vh;
-        }
+    .start-button {
+      padding: 8px 18px;
+      font-size: 1rem;
     }
+  }
+  
+  /* Mejoras de responsividad para tablets */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .slide-container {
+      overflow: hidden;
+    }
+    
+    .start-button {
+      padding: 10px 22px;
+      font-size: 1.2rem;
+    }
+  }
 </style>
