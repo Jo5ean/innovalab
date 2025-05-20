@@ -12,6 +12,7 @@ import Slide10 from "./components/Slide10.astro";
 import Slide11 from "./components/Slide11.astro";
 import Slide12 from "./components/Slide12.astro";
 import SlideResults from "./components/SlideResults.astro";
+import FrequentQuestionSlide from "./components/FrequentQuestionSlide.astro";
 ---
 
 <Layout>
@@ -52,24 +53,29 @@ import SlideResults from "./components/SlideResults.astro";
                 <Slide8 />
             </div>
 
-            <!-- Slide 9: Menú -->
+            <!-- Slide 8: Menú -->
             <div class="swiper-slide" data-slide-name="menu">
                 <Slide9 />
             </div>
 
-            <!-- Slide 10: Menú -->
+            <!-- Slide 9: Menú -->
             <div class="swiper-slide" data-slide-name="menu">
                 <Slide10 />
             </div>
 
-            <!-- Slide 11: Menú -->
+            <!-- Slide 10: Menú -->
             <div class="swiper-slide" data-slide-name="menu">
                 <Slide11 />
             </div>
 
-            <!-- Slide 12: Menú -->
+            <!-- Slide 11: Menú -->
             <div class="swiper-slide" data-slide-name="menu">
                 <Slide12 />
+            </div>
+
+            <!-- Slide 12: Preguntas Frecuentes -->
+            <div class="swiper-slide" data-slide-name="faq">
+                <FrequentQuestionSlide />
             </div>
         </div>
         
@@ -96,6 +102,8 @@ import SlideResults from "./components/SlideResults.astro";
             spaceBetween: 0,
             speed: 800,
             allowTouchMove: true, // Permitir navegación táctil
+            mousewheel: false, // Deshabilitar navegación con rueda del mouse para permitir scroll natural
+            simulateTouch: false, // Deshabilitar el comportamiento de arrastrar para evitar conflictos con scroll
             
             // Efecto de transición
             effect: 'fade',
@@ -119,9 +127,32 @@ import SlideResults from "./components/SlideResults.astro";
             on: {
                 init: function() {
                     console.log('Swiper inicializado');
+                    
+                    // Ocultar botones de navegación en la primera slide
+                    updateNavigationVisibility(0);
+                },
+                slideChange: function(this: any) {
+                    // Actualizar visibilidad de los botones según la slide actual
+                    updateNavigationVisibility(this.activeIndex);
                 }
             }
         });
+
+        // Función para controlar la visibilidad de los botones de navegación
+        function updateNavigationVisibility(slideIndex: number) {
+            const prevButton = document.querySelector('.swiper-button-prev');
+            const nextButton = document.querySelector('.swiper-button-next');
+            
+            if (slideIndex === 0) {
+                // Ocultar botones en la primera slide
+                if (prevButton) prevButton.classList.add('hidden-nav');
+                if (nextButton) nextButton.classList.add('hidden-nav');
+            } else {
+                // Mostrar botones en las demás slides
+                if (prevButton) prevButton.classList.remove('hidden-nav');
+                if (nextButton) nextButton.classList.remove('hidden-nav');
+            }
+        }
 
         // Exponer Swiper globalmente para que otros componentes puedan acceder a él
         // @ts-ignore
@@ -131,8 +162,29 @@ import SlideResults from "./components/SlideResults.astro";
         const startButton = document.querySelector('.start-button');
         if (startButton) {
             startButton.addEventListener('click', () => {
-                swiper.slideNext();
+                swiper.slideTo(1);
+                
+                // Pequeña pausa para permitir que la animación se complete antes de habilitar el scroll
+                setTimeout(() => {
+                    document.body.style.overflow = 'auto';
+                }, 600);
             });
+        }
+        
+        // Controlar el scroll basado en la slide actual
+        swiper.on('slideChange', function(this: any) {
+            if (this.activeIndex === 0) {
+                // En la primera slide (video), bloquear el scroll
+                document.body.style.overflow = 'hidden';
+            } else {
+                // En las demás slides, permitir scroll
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Configuración inicial
+        if (swiper.activeIndex === 0) {
+            document.body.style.overflow = 'hidden';
         }
         
         // Manejadores para los botones del menú
@@ -173,6 +225,14 @@ import SlideResults from "./components/SlideResults.astro";
         display: flex;
         justify-content: center;
         align-items: center;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    
+    /* Clase para ocultar los botones de navegación */
+    .hidden-nav {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
     
     .swiper-button-next:after,
@@ -191,5 +251,63 @@ import SlideResults from "./components/SlideResults.astro";
     /* Posicionamiento de la paginación */
     .swiper-pagination {
         bottom: 30px !important;
+    }
+    
+    /* Hacer responsive la navegación */
+    @media (max-width: 768px) {
+        .swiper-button-next,
+        .swiper-button-prev {
+            width: 35px;
+            height: 35px;
+        }
+        
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 16px;
+        }
+        
+        .swiper-button-next {
+            right: 10px;
+        }
+        
+        .swiper-button-prev {
+            left: 10px;
+        }
+        
+        .swiper-pagination {
+            bottom: 15px !important;
+        }
+    }
+    
+    /* Estilos adicionales para dispositivos muy pequeños */
+    @media (max-width: 480px) {
+        .swiper-button-next,
+        .swiper-button-prev {
+            width: 30px;
+            height: 30px;
+            transform: translateY(-50%);
+        }
+        
+        .swiper-button-next:after,
+        .swiper-button-prev:after {
+            font-size: 14px;
+        }
+        
+        .swiper-pagination {
+            bottom: 10px !important;
+        }
+    }
+    
+    /* Mejora para el contenedor de Swiper en dispositivos móviles */
+    @media (max-width: 640px) {
+        .swiper-container {
+            height: auto;
+            min-height: 100vh;
+        }
+        
+        .swiper-slide {
+            height: auto;
+            min-height: 100vh;
+        }
     }
 </style>

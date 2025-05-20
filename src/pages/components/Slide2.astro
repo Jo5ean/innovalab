@@ -53,7 +53,7 @@
           <p>Ubicaciones y puntos de interés</p>
         </div>
       </button>
-      <button class="card-button faq-card">
+      <button class="card-button faq-card" id="frequent-questions-btn">
         <div class="card-icon">❓</div>
         <div class="card-content">
           <h3>PREGUNTAS FRECUENTES</h3>
@@ -63,7 +63,7 @@
     </div>
   </div>
   
-  <div class="bottom-area">
+  <div class="bottom-area z-0">
     <div class="ucasal-logo">
       <img src="/logos/ucasalx.svg" alt="Logo UCASAL" />
     </div>
@@ -85,22 +85,25 @@
 <style>
   .buttons-slide {
     width: 100%;
-    height: 100vh; /* Usar viewport height para ocupar toda la altura */
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Cambiado de space-between a center */
+    justify-content: flex-start;
     position: relative;
-    overflow: hidden;
-    touch-action: manipulation; /* Mejorar comportamiento táctil */
+    overflow-y: auto;
+    touch-action: manipulation;
+    padding-top: 70px;
+    min-height: 100vh;
+    overflow-x: hidden;
   }
   
   .background-image {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-image: url('/images/fondo.jpg');
     background-size: cover;
     background-position: center;
@@ -111,35 +114,24 @@
   .content-overlay {
     position: relative;
     width: 100%;
-    z-index: 1;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center; /* Añadir centrado vertical */
-    padding: 3vh 20px;
+    padding: 3vh 20px 10vh;
     flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    gap: 3vh; /* Espaciado entre sección de búsqueda y tarjetas */
-  }
-  
-  /* Ocultar scrollbar pero mantener funcionalidad */
-  .content-overlay::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .content-overlay::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    gap: 5vh;
+    max-width: 1200px;
+    margin: 0 auto;
   }
   
   /* Estilos para la sección de búsqueda */
   .search-section {
     width: 100%;
     max-width: 800px;
-    margin-bottom: 0; /* Quitamos margen porque ya tenemos gap en content-overlay */
+    margin-bottom: 2vh;
     animation: fadeInDown 0.8s ease-out;
+    margin-top: 2vh; /* Añadir margen superior */
   }
   
   .search-container {
@@ -151,12 +143,13 @@
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
+    width: 100%;
   }
   
   .search-title {
     color: white;
     font-size: clamp(1.3rem, 4vw, 1.8rem);
-    margin: 0 0 clamp(15px, 2vh, 20px) 0;
+    margin: 0 0 clamp(15px, 2vh, 25px) 0;
     font-weight: 600;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   }
@@ -178,7 +171,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
     font-family: 'Roboto', sans-serif;
-    -webkit-appearance: none; /* Eliminar estilos del navegador */
+    -webkit-appearance: none;
   }
   
   #dni-input:focus {
@@ -203,7 +196,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    -webkit-tap-highlight-color: transparent; /* Eliminar highlight al tocar */
+    -webkit-tap-highlight-color: transparent;
   }
   
   #search-button:hover, #search-button:active {
@@ -232,15 +225,12 @@
   
   .cards-container {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Siempre 2 columnas */
-    gap: clamp(15px, 2vh, 25px);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Aumentar tamaño mínimo */
+    gap: clamp(20px, 3vh, 30px); /* Aumentar espaciado entre tarjetas */
     width: 100%;
-    max-width: 800px; /* Mismo ancho que el cuadro de consulta */
+    max-width: 900px; /* Aumentar ancho máximo */
     margin: 0 auto;
     padding: 0;
-    /* Asegurar que siempre haya 3 filas */
-    grid-template-rows: repeat(3, auto);
-    grid-auto-flow: row;
   }
   
   .card-button {
@@ -249,7 +239,7 @@
     -webkit-backdrop-filter: blur(8px);
     border: none;
     border-radius: 15px;
-    padding: clamp(15px, 2vh, 25px) clamp(15px, 2vw, 20px);
+    padding: clamp(18px, 3vh, 28px) clamp(18px, 3vw, 25px);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -257,13 +247,14 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    height: clamp(80px, 10vh, 100px); /* Altura fija para todas las tarjetas */
+    height: clamp(90px, 12vh, 120px);
     color: white;
     transform-origin: center;
     overflow: hidden;
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    -webkit-tap-highlight-color: transparent; /* Eliminar highlight al tocar */
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
   }
   
   .card-content {
@@ -296,19 +287,22 @@
   }
   
   .card-icon {
-    font-size: clamp(30px, 4vh, 40px);
-    margin-right: 15px;
+    font-size: clamp(28px, 4vh, 40px);
+    margin-right: 18px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     flex-shrink: 0;
   }
   
   .card-button h3 {
-    margin: 0 0 5px 0;
-    font-size: clamp(14px, 2vw, 18px);
+    margin: 0 0 8px 0;
     font-weight: 700;
     color: white;
     transition: all 0.3s ease;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
   
   .card-button p {
@@ -316,6 +310,7 @@
     font-size: clamp(12px, 1.5vw, 14px);
     opacity: 0.9;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    line-height: 1.4;
   }
   
   .faq-card {
@@ -333,9 +328,18 @@
     align-items: center;
     width: 100%;
     padding: clamp(10px, 2vh, 20px);
-    z-index: 2;
-    position: absolute; /* Cambiado de relative a absolute */
-    bottom: 0; /* Posicionarlo en la parte inferior */
+    z-index: 20;
+    position: fixed;
+    bottom: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+    height: 80px;
+  }
+  
+  .ucasal-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
   }
   
   .ucasal-logo img {
@@ -369,32 +373,91 @@
   /* Media queries para diferentes tamaños de pantalla */
   @media (max-width: 1200px) {
     .cards-container {
-      gap: clamp(15px, 2vw, 20px);
+      grid-template-columns: repeat(2, 1fr);
+      gap: clamp(15px, 2vw, 25px);
     }
   }
   
   /* Tablet y dispositivos pequeños */
   @media (max-width: 900px) {
     .content-overlay {
-      padding: 2vh 15px;
+      padding: 2vh 15px 8vh;
+    }
+    
+    .cards-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .card-button h3 {
+      font-size: clamp(12px, 1.8vw, 16px);
+      margin-bottom: 6px;
+    }
+
+    .card-button p {
+      font-size: clamp(11px, 1.4vw, 13px);
+    }
+
+    .card-icon {
+      font-size: clamp(22px, 3vh, 32px);
+      margin-right: 14px;
     }
   }
   
   /* Móvil */
   @media (max-width: 640px) {
+    .buttons-slide {
+      height: auto;
+      min-height: 100vh;
+      padding-top: 60px;
+      padding-bottom: 80px;
+    }
+    
+    .background-image {
+      height: 100%;
+      position: fixed;
+    }
+    
     .cards-container {
-      grid-template-columns: 1fr; /* 1 columna en móvil - formato de lista */
-      gap: 12px;
-      /* No necesitamos filas fijas en móvil */
-      grid-template-rows: unset;
+      grid-template-columns: 1fr;
+      gap: 20px;
     }
     
     .card-button {
+      height: auto;
+      min-height: 85px;
+      padding: 16px;
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    /* Estilos específicos para botones con textos largos */
+    #examenes-btn, .faq-card {
+      min-height: 110px;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       width: 100%;
-      text-align: left;
-      height: auto; /* Altura automática en móvil */
-      min-height: 60px; /* Pero con un mínimo */
-      padding: 12px 15px;
+      padding: 10px;
+    }
+    
+    .card-button h3 {
+      white-space: normal;
+      word-break: break-word;
+      line-height: 1.2;
+      margin-bottom: 6px;
+      overflow-wrap: break-word;
+      hyphens: auto;
+    }
+    
+    .card-button p {
+      font-size: clamp(12px, 3.5vw, 14px);
+      line-height: 1.3;
     }
     
     .search-container {
@@ -402,45 +465,51 @@
     }
     
     .content-overlay {
-      padding: 2vh 10px;
-      gap: 2vh; /* Menor espaciado en móvil */
-    }
-  }
-  
-  /* Asegurarse de manejar orientaciones de dispositivo */
-  @media (max-height: 700px) and (orientation: landscape) {
-    .search-section {
-      margin-bottom: 2vh;
-    }
-    
-    .cards-container {
-      gap: 10px;
-    }
-    
-    .card-button {
-      min-height: 60px;
-      padding: 10px 15px;
+      padding: 1vh 10px 6vh;
+      gap: 2vh;
+      max-height: none;
     }
     
     .card-icon {
       font-size: 24px;
+      margin-right: 12px;
+      min-width: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   }
   
-  /* Pantallas táctiles grandes */
-  @media (pointer: coarse) and (min-width: 768px) {
-    .card-button, #search-button {
-      /* Targets especially touch devices like iPads */
-      cursor: pointer;
-      transition: all 0.2s ease; /* Faster transition for touch devices */
+  /* Para dispositivos muy pequeños */
+  @media (max-width: 320px) {
+    .search-title {
+      font-size: 1rem;
     }
     
-    .card-button:active {
-      transform: scale(0.98);
+    .card-button {
+      min-height: 90px;
+      padding: 14px 12px;
     }
     
-    #dni-input {
-      font-size: 16px; /* Evitar zoom en iOS */
+    /* Aumentar altura para botones con textos largos en pantallas muy pequeñas */
+    #examenes-btn, .faq-card {
+      min-height: 120px;
+    }
+    
+    .card-button h3 {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+    
+    .card-button p {
+      font-size: 11px;
+      line-height: 1.2;
+    }
+    
+    .card-icon {
+      font-size: 20px;
+      margin-right: 10px;
+      min-width: 20px;
     }
   }
   
@@ -467,7 +536,7 @@
     border-radius: 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.25);
     padding: 38px 32px 28px 32px;
-    min-width: 320px;
+    min-width: 280px;
     max-width: 90vw;
     text-align: center;
     position: relative;
@@ -528,91 +597,103 @@
     user-select: none;
   }
   
-  /* Estilos para las tarjetas de exámenes */
-  .examenes-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-  }
-  
-  .examen-card {
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .examen-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  }
-  
-  .examen-header {
-    background-color: #e13e3e;
-    color: white;
-    padding: 12px 15px;
-  }
-  
-  .examen-header h3 {
-    margin: 0;
-    font-size: 1.1rem;
-  }
-  
-  .examen-details {
-    padding: 15px;
-  }
-  
-  .examen-detail {
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-  }
-  
-  .examen-detail:last-child {
-    margin-bottom: 0;
-  }
-  
-  .error-message {
-    margin-top: 15px;
-    color: #e13e3e;
-    background-color: rgba(225, 62, 62, 0.1);
-    padding: 10px 15px;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 0.9rem;
-    animation: fadeIn 0.3s ease;
-  }
-  
-  .loading-message {
-    margin-top: 15px;
-    color: #3e4e9e;
-    background-color: rgba(62, 78, 158, 0.1);
-    padding: 10px 15px;
-    border-radius: 10px;
-    text-align: center;
-    font-size: 0.9rem;
-    animation: pulse 1.5s ease infinite;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  @keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
-  }
-  
-  @media (max-width: 640px) {
-    .examen-header h3 {
-      font-size: 1rem;
+  @media (max-width: 480px) {
+    .modal-content {
+      padding: 25px 20px 20px;
     }
     
-    .examen-detail {
-      font-size: 0.9rem;
+    .modal-content h2 {
+      font-size: 1.2rem;
+    }
+    
+    .modal-btn {
+      padding: 12px 0;
+      font-size: 1rem;
+    }
+  }
+  
+  /* Responsiveness con enfoque adicional en altura completa */
+  @media (min-height: 800px) {
+    .cards-container {
+      gap: clamp(25px, 4vh, 35px);
+    }
+    
+    .card-button {
+      height: clamp(100px, 14vh, 130px);
+    }
+    
+    .card-icon {
+      font-size: clamp(30px, 5vh, 44px);
+    }
+  }
+  
+  /* Para pantallas muy altas */
+  @media (min-height: 1000px) {
+    .buttons-slide {
+      padding-top: 80px;
+    }
+    
+    .content-overlay {
+      gap: 6vh;
+    }
+  }
+  
+  /* Asegurarse de manejar orientaciones de dispositivo */
+  @media (max-height: 700px) {
+    .buttons-slide {
+      height: auto;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+    
+    .background-image {
+      position: fixed;
+      height: 100%;
+    }
+    
+    .search-section {
+      margin-bottom: 2vh;
+    }
+    
+    .cards-container {
+      gap: 15px;
+    }
+    
+    .card-button {
+      min-height: 70px;
+      padding: 12px 15px;
+    }
+    
+    /* Ajustes adicionales para botones con textos largos */
+    #examenes-btn, .faq-card {
+      min-height: 90px;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    
+    .card-icon {
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  /* Pantallas táctiles grandes */
+  @media (pointer: coarse) and (min-width: 768px) {
+    .card-button, #search-button {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .card-button:active {
+      transform: scale(0.98);
+    }
+    
+    #dni-input {
+      font-size: 16px;
     }
   }
 </style>
@@ -672,69 +753,63 @@
         }
       });
       
-      // Enfocar automáticamente el input
       dniInput.focus();
     }
     
-    // Configuración del botón de ingresantes para navegar a la slide 4
     const ingresantesBtn = document.getElementById('ingresantes-btn');
     if (ingresantesBtn) {
       ingresantesBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log("Botón INGRESANTES clickeado - intentando navegar a slide 4...");
-        
-        // Método 1: Emitir evento personalizado para navegación
-        const navigationEvent = new CustomEvent('navigateToSlide', { 
-          detail: { slideIndex: 3 },
-          bubbles: true
-        });
-        document.dispatchEvent(navigationEvent);
-        
-        // Método 2: Usar directamente la instancia global de Swiper
-        if (typeof window !== 'undefined' && 'swiperInstance' in window) {
-          try {
-            (window as any).swiperInstance.slideTo(3);
-            console.log("Navegación a slide 4 ejecutada con swiperInstance");
-          } catch (error) {
-            console.error("Error al navegar usando swiperInstance:", error);
-          }
-        }
+        navigateToSlide(3);
       });
     }
     
-    // Configuración del botón de exámenes finales para navegar a la slide 3
     const examenesBtn = document.getElementById('examenes-btn');
     if (examenesBtn) {
       examenesBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        console.log("Botón EXÁMENES FINALES clickeado - intentando navegar a slide 3...");
-        
-        // Método 1: Emitir evento personalizado para navegación
-        const navigationEvent = new CustomEvent('navigateToSlide', { 
-          detail: { slideIndex: 2 },
-          bubbles: true
-        });
-        document.dispatchEvent(navigationEvent);
-        
-        // Método 2: Usar directamente la instancia global de Swiper
-        if (typeof window !== 'undefined' && 'swiperInstance' in window) {
-          try {
-            (window as any).swiperInstance.slideTo(2);
-            console.log("Navegación a slide 3 ejecutada con swiperInstance");
-          } catch (error) {
-            console.error("Error al navegar usando swiperInstance:", error);
-          }
-        }
+        navigateToSlide(2);
       });
+    }
+
+    // Configuración del botón de preguntas frecuentes
+    const faqBtn = document.getElementById('frequent-questions-btn');
+    if (faqBtn) {
+      faqBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        console.log("Navegando al slide de preguntas frecuentes (índice 11)");
+        navigateToSlide(11);
+      });
+    }
+    
+    // Función centralizada para la navegación
+    function navigateToSlide(slideIndex: number) {
+      console.log(`Intentando navegar a slide ${slideIndex + 1}...`);
+      
+      // Método 1: Emitir evento personalizado para navegación
+      const navigationEvent = new CustomEvent('navigateToSlide', { 
+        detail: { slideIndex },
+        bubbles: true
+      });
+      document.dispatchEvent(navigationEvent);
+      
+      // Método 2: Usar directamente la instancia global de Swiper
+      if (typeof window !== 'undefined' && 'swiperInstance' in window) {
+        try {
+          (window as any).swiperInstance.slideTo(slideIndex);
+          console.log(`Navegación a slide ${slideIndex + 1} ejecutada con swiperInstance`);
+        } catch (error) {
+          console.error("Error al navegar usando swiperInstance:", error);
+        }
+      }
     }
     
     // Agregar stopPropagation a todos los botones de tarjeta
     const cardButtons = document.querySelectorAll('.card-button');
     cardButtons.forEach(button => {
-      if (button.id !== 'ingresantes-btn' && button.id !== 'examenes-btn' && button.id !== 'equivalencias-btn') { // Ignorar botones con manejador propio
+      if (!['ingresantes-btn', 'examenes-btn', 'equivalencias-btn', 'frequent-questions-btn'].includes(button.id)) {
         button.addEventListener('click', (e) => {
-          e.stopPropagation(); // Prevenir que se propague a los botones de navegación
-          // Aquí va la lógica de la tarjeta (si hay alguna)
+          e.stopPropagation();
           console.log('Tarjeta clickeada:', (e.currentTarget as HTMLElement).textContent?.trim());
         });
       }
@@ -745,7 +820,7 @@
     if (isTouchDevice) {
       document.body.classList.add('touch-device');
     }
-
+    
     const equivalenciasBtn = document.getElementById('equivalencias-btn');
     const equivalenciasModal = document.getElementById('equivalencias-modal');
     const closeModal = document.getElementById('close-modal');
@@ -769,4 +844,5 @@
       });
     }
   });
+
 </script>

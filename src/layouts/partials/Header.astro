@@ -316,7 +316,7 @@ const subTitleName = titleNameArr[1];
         }
         
         // Establecer la miniatura activa según la diapositiva actual
-        function updateActiveThumbnail(slideIndex) {
+        function updateActiveThumbnail(slideIndex: number) {
             thumbnailButtons.forEach((button, index) => {
                 if (index === slideIndex) {
                     button.classList.add('active');
@@ -354,6 +354,7 @@ const subTitleName = titleNameArr[1];
                 // Botones de miniaturas
                 thumbnailButtons.forEach(button => {
                     button.addEventListener('click', function() {
+                        // @ts-ignore
                         const slideIndex = parseInt(this.getAttribute('data-slide') || '0');
                         swiper.slideTo(slideIndex);
                         closePanel();

@@ -143,7 +143,7 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 			.swiper-container {
 				width: 100%;
 				height: 100vh;
-				overflow: hidden;
+				overflow: visible;
 			}
 
 			.swiper-slide {
@@ -151,8 +151,39 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 				height: 100%;
 				display: flex;
 				justify-content: center;
-				align-items: center;
+				align-items: flex-start;
+				overflow: visible;
+				position: relative;
+			}
+			
+			/* Estilo especial para la primera slide (video) */
+			.swiper-slide[data-slide-name="video"] {
 				overflow: hidden;
+				height: 100vh;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			.swiper-slide[data-slide-name="video"] > div {
+				height: 100%;
+				width: 100%;
+				overflow: hidden;
+			}
+			
+			@media (max-height: 600px) {
+				.swiper-container {
+					height: auto;
+					min-height: 100vh;
+				}
+				
+				.swiper-slide {
+					height: auto;
+					min-height: 100vh;
+				}
+				
+				.swiper-slide[data-slide-name="video"] {
+					height: 100vh;
+				}
 			}
 
 			/* Navegación personalizada */
@@ -161,17 +192,26 @@ const isContactPage = pathname === "/contact" || pathname === "/contact/";
 				height: 12px;
 				background: #fff;
 				opacity: 0.6;
+				display: none;
 			}
 
 			.swiper-pagination-bullet-active {
 				opacity: 1;
 				background: #E53935;
 			}
+			
+			/* Mejorar la visibilidad en dispositivos móviles */
+			@media (max-width: 480px) {
+				.swiper-pagination-bullet {
+					width: 8px;
+					height: 8px;
+				}
+			}
 		</style>
 	</head>
 	<body class="max-w-full overflow-x-hidden font-['Montserrat']">
 		<Header />
-		<main class="flex flex-col items-stretch justify-between h-screen">
+		<main class="flex flex-col items-stretch justify-between w-full">
 			<slot />
 		</main>
 		<script define:vars={{ isContactPage }}>
